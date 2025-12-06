@@ -106,6 +106,18 @@ def get_chart_data(limit: int = 100):
         })
     return data
 
+@app.get("/logs")
+def get_logs(limit: int = 20):
+    log_path = config['paths']['logs']
+    try:
+        with open(log_path, "r") as f:
+            lines = f.readlines()
+            # Return last N lines, reversed so newest is top (or keep chronological)
+            # Let's keep chronological for logs
+            return {"logs": [line.strip() for line in lines[-limit:]]}
+    except Exception as e:
+        return {"logs": [f"Error reading logs: {str(e)}"]}
+
 class ControlRequest(BaseModel):
     action: str # 'pause', 'resume'
 

@@ -5,8 +5,8 @@
     "sell_threshold": 0.40,
     "commission_rate": 0.0005,
     "slippage": 0.0003,
-    "volatility_threshold": 0.01,
-    "symbol": "BTC-USD",
+    "volatility_threshold": 0.002,
+    "symbol": "ADA-USD",
     "timeframe": "1h",
     "model_params": {
         "n_estimators": 100,

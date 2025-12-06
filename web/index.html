@@ -27,7 +27,9 @@
             <div class="card">
                 <h3>Latest Signal</h3>
                 <p id="signal-display">Waiting...</p>
-                <small id="signal-prob">Prob: ...</small>
+                <div id="signal-prob" style="font-size: 0.5em; color: #888;">Prob: ...</div>
+                <div id="signal-reason" style="font-size: 0.5em; color: #aaa; margin-top: 5px; font-style: italic;">
+                    Reason: ...</div>
             </div>
             <div class="card">
                 <h3>Performance</h3>
@@ -56,6 +58,35 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+            <h3>Live System Logs</h3>
+            <div id="logs-container" class="logs-container">
+                Waiting for logs...
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2>Sobre este Proyecto</h2>
+            <p>Este es un simulador de trading algorítmico diseñado para cuentas de capital reducido (ej. 80€). Utiliza
+                Inteligencia Artificial para predecir movimientos del mercado y ejecutar operaciones simuladas.</p>
+            <div class="features-list">
+                <div class="feature">
+                    <strong>🧠 IA Random Forest</strong>
+                    <span>Predice la dirección del precio basándose en RSI, Medias Móviles y Volatilidad.</span>
+                </div>
+                <div class="feature">
+                    <strong>🛡️ Gestión de Riesgo</strong>
+                    <span>Protege el capital con Stop Loss del 2% y evita operar en baja volatilidad.</span>
+                </div>
+                <div class="feature">
+                    <strong>📉 Paper Trading</strong>
+                    <span>Simulación realista conectada a datos de mercado en vivo (Yahoo Finance).</span>
+                </div>
+            </div>
+            <p class="disclaimer">⚠️ Este software es una herramienta educativa. El trading de criptomonedas conlleva
+                alto riesgo.</p>
         </div>
     </div>
     <script src="dashboard.js"></script>

@@ -65,8 +65,16 @@ async function fetchData() {
             el.innerText = signalData.signal_type;
             el.className = signalData.signal_type.toLowerCase();
             document.getElementById('signal-prob').innerText = `Prob: ${(signalData.probability * 100).toFixed(1)}%`;
+
+            // Show reason if available, or construct it
+            let reason = signalData.reason || "AI Model Decision";
+            if (signalData.volatility && signalData.volatility < 0.002) {
+                reason = `Low Volatility (${signalData.volatility.toFixed(4)})`;
+            }
+            document.getElementById('signal-reason').innerText = `Reason: ${reason}`;
         } else {
             document.getElementById('signal-display').innerText = "Waiting...";
+            document.getElementById('signal-reason').innerText = "Reason: Analyzing market...";
         }
 
         // 3. Stats
@@ -117,6 +125,15 @@ async function fetchData() {
             // Note: Markers need to be sorted by time and match existing bars. 
             // This is a simplified implementation.
             // candleSeries.setMarkers(markers); 
+        }
+
+        // 6. Logs
+        const logsRes = await fetch(`${API_URL}/logs`);
+        const logsData = await logsRes.json();
+        const logsContainer = document.getElementById('logs-container');
+        if (logsContainer && logsData.logs) {
+            logsContainer.innerHTML = logsData.logs.join('<br>');
+            logsContainer.scrollTop = logsContainer.scrollHeight; // Auto scroll to bottom
         }
 
     } catch (e) {
