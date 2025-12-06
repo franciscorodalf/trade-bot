@@ -1,12 +1,15 @@
 # Simulación de Bot de Trading con IA
 
-Este proyecto es un sistema completo de simulación de trading algorítmico diseñado para cuentas de capital pequeño. Integra Inteligencia Artificial (Random Forest), gestión de riesgo profesional y un dashboard de visualización en tiempo real.
+Este proyecto es un sistema completo de simulación de trading algorítmico diseñado para cuentas de capital pequeño. Integra Inteligencia Artificial (Random Forest), gestión de riesgo profesional y un dashboard de visualización en tiempo real con logs del sistema.
 
 ## Características Principales
 - **Motor de IA**: Predicción de dirección del mercado basada en indicadores técnicos (RSI, SMA, EMA, Volatilidad).
 - **Gestión de Riesgo**: Sistema estricto con Stop Loss, Take Profit y filtro de volatilidad para proteger el capital.
-- **Paper Trading Realista**: Simulación en tiempo real conectada a datos de mercado en vivo (Yahoo Finance / Binance).
-- **Dashboard Profesional**: Interfaz web con gráficos de TradingView y métricas de rendimiento en vivo.
+- **Paper Trading Realista**: Simulación en tiempo real conectada a datos de mercado en vivo (Yahoo Finance).
+- **Dashboard Profesional**: 
+    - Gráficos de TradingView en tiempo real.
+    - **Visor de Logs en Vivo**: Visualiza el "pensamiento" y decisiones de la IA minuto a minuto.
+    - Panel de estadísticas y estado de la cuenta.
 - **Arquitectura Modular**: Separación clara entre Cerebro (IA), Ejecución (Bot) y Visualización (Web/API).
 
 ## Estructura del Proyecto
@@ -94,13 +97,14 @@ python3 -m http.server 5500
 
 ## Configuración (`config.json`)
 Puedes ajustar el comportamiento del bot editando este archivo:
-- `symbol`: Par a operar (Nota: Usar formato `BTC-USD` para Yahoo Finance).
+- `symbol`: Par a operar (Recomendado: `ADA-USD` para cuentas pequeñas).
 - `risk_per_trade`: % de capital a arriesgar por operación (ej: 0.02 = 2%).
+- `volatility_threshold`: Filtro de actividad (ej: 0.002 para permitir más operaciones en criptos estables).
 - `initial_capital`: Tu capital simulado inicial.
 
 ## Notas Importantes
 - **Datos**: Por defecto usa Yahoo Finance (gratis). Puede tener un ligero retraso respecto a Binance real.
-- **Gráficos**: Si el gráfico sale en blanco, asegúrate de tener conexión a internet para cargar la librería de TradingView.
+- **Logs en Vivo**: Si ves "HOLD" y "Waiting for next cycle", es el comportamiento normal. El bot está esperando la oportunidad perfecta según su entrenamiento.
 
 ---
 *Descargo de responsabilidad: Este software es una herramienta educativa de simulación. El trading de criptomonedas conlleva un alto riesgo de pérdida de capital.*
