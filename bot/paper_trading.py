@@ -68,13 +68,16 @@ class PaperTrader:
         conn.commit()
         conn.close()
 
-    def log_trade(self, side, price, amount, pnl, reason):
+    def log_trade(self, side, price, amount, pnl, reason, status=None):
+        if status is None:
+            status = 'OPEN' if side == 'BUY' else 'CLOSED'
+            
         conn = sqlite3.connect(self.db_path)
         c = conn.cursor()
         c.execute("""
             INSERT INTO trades (symbol, side, price, amount, cost, fee, pnl, status, reason)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (self.symbol, side, price, amount, price*amount, 0, pnl, 'CLOSED', reason))
+        """, (self.symbol, side, price, amount, price*amount, 0, pnl, status, reason))
         conn.commit()
         conn.close()
         

@@ -90,13 +90,20 @@ async function fetchData() {
         const tradesData = await tradesRes.json();
         const tbody = document.querySelector('#trades-table tbody');
         tbody.innerHTML = '';
-        tradesData.forEach(trade => {
+        tradesData.forEach((trade, index) => {
+            // Calculate unrealized PnL for open trades
+            // We check if it's explicitly OPEN, OR if it's the latest trade and it's a BUY (implying open)
+            let pnl = trade.pnl;
+            if ((trade.status === 'OPEN' || (index === 0 && trade.side === 'BUY')) && signalData.close_price) {
+                pnl = (signalData.close_price - trade.price) * trade.amount;
+            }
+
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${new Date(trade.timestamp).toLocaleTimeString()}</td>
                 <td class="${trade.side.toLowerCase()}">${trade.side}</td>
                 <td>${trade.price.toFixed(2)}</td>
-                <td style="color: ${trade.pnl >= 0 ? '#4caf50' : '#f44336'}">${trade.pnl ? trade.pnl.toFixed(2) : '-'}</td>
+                <td style="color: ${pnl >= 0 ? '#4caf50' : '#f44336'}">${pnl !== null && pnl !== undefined ? pnl.toFixed(2) : '-'}</td>
                 <td>${trade.reason || '-'}</td>
             `;
             tbody.appendChild(row);
