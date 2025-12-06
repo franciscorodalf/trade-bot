@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Trading Bot Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/lightweight-charts@4.0.1/dist/lightweight-charts.standalone.production.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Trading Bot <span id="bot-status" class="status-badge running">RUNNING</span></h1>
+            <div class="controls">
+                <button id="btn-pause" onclick="toggleBot()">PAUSE</button>
+            </div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="card">
+                <h3>Balance</h3>
+                <p id="balance-display">Loading...</p>
+                <small id="equity-display">Equity: ...</small>
+            </div>
+            <div class="card">
+                <h3>Latest Signal</h3>
+                <p id="signal-display">Waiting...</p>
+                <small id="signal-prob">Prob: ...</small>
+            </div>
+            <div class="card">
+                <h3>Performance</h3>
+                <p id="pnl-display">PnL: ...</p>
+                <small id="winrate-display">Winrate: ...</small>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="chart-container" id="chart"></div>
+
+            <div class="trades-container">
+                <h3>Recent Trades</h3>
+                <table id="trades-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                            <th>PnL</th>
+                            <th>Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Trades will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="dashboard.js"></script>
+</body>
+
+</html>

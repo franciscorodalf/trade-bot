@@ -1,0 +1,36 @@
+CREATE TABLE IF NOT EXISTS balance_history (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    balance REAL NOT NULL,
+    equity REAL NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS trades (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    symbol TEXT NOT NULL,
+    side TEXT NOT NULL, -- 'BUY' or 'SELL'
+    price REAL NOT NULL,
+    amount REAL NOT NULL,
+    cost REAL NOT NULL,
+    fee REAL NOT NULL,
+    pnl REAL,
+    status TEXT NOT NULL, -- 'OPEN', 'CLOSED'
+    reason TEXT -- 'SIGNAL', 'SL', 'TP'
+);
+
+CREATE TABLE IF NOT EXISTS signals (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    symbol TEXT NOT NULL,
+    signal_type TEXT NOT NULL, -- 'BUY', 'SELL', 'HOLD'
+    probability REAL NOT NULL,
+    close_price REAL NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS logs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    level TEXT NOT NULL,
+    message TEXT NOT NULL
+);

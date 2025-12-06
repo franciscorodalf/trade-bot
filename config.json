@@ -1,0 +1,22 @@
+{
+    "initial_capital": 80.0,
+    "risk_per_trade": 0.02,
+    "buy_threshold": 0.60,
+    "sell_threshold": 0.40,
+    "commission_rate": 0.0005,
+    "slippage": 0.0003,
+    "volatility_threshold": 0.01,
+    "symbol": "BTC-USD",
+    "timeframe": "1h",
+    "model_params": {
+        "n_estimators": 100,
+        "max_depth": 10,
+        "min_samples_leaf": 5,
+        "random_state": 42
+    },
+    "paths": {
+        "model": "bot/models/model.pkl",
+        "database": "database/bot.db",
+        "logs": "logs/bot.log"
+    }
+}
