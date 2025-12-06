@@ -126,10 +126,41 @@ th {
 
 .buy {
     color: var(--success-color);
+    font-weight: bold;
 }
 
 .sell {
     color: var(--danger-color);
+    font-weight: bold;
+}
+
+.hold {
+    color: #ffd700;
+    /* Gold */
+    font-weight: bold;
+}
+
+/* Scanner specific */
+#scanner-table tbody tr {
+    transition: background-color 0.2s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+#scanner-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+#scanner-table button {
+    padding: 5px 12px;
+    font-size: 0.8em;
+    background-color: transparent;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+}
+
+#scanner-table button:hover {
+    background-color: var(--accent-color);
+    color: white;
 }
 
 /* About Section */

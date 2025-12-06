@@ -32,7 +32,7 @@ def run_backtest():
     
     # Prepare features
     features = [
-        'return', 'sma_20', 'sma_50', 'ema_12', 'rsi', 'volatility',
+        'return', 'sma_20', 'sma_50', 'ema_12', 'rsi', 'volatility', 'atr',
         'return_lag_1', 'return_lag_2', 'return_lag_3',
         'rsi_lag_1', 'rsi_lag_2', 'rsi_lag_3',
         'volatility_lag_1', 'volatility_lag_2', 'volatility_lag_3'
@@ -72,15 +72,28 @@ def run_backtest():
         
         # Execute Decision (Simulation)
         if decision['action'] == "BUY":
-            # Calculate quantity
-            # Simple: use all balance (minus commission)
-            cost = balance * (1 - config['commission_rate'])
-            amount = cost / current_price
+            # Risk Management
+            risk_amt = balance * config['risk_per_trade']
+            sl_price = decision.get('sl', 0)
             
+            if sl_price > 0 and sl_price < current_price:
+                loss_per_unit = current_price - sl_price
+                amount = risk_amt / loss_per_unit
+            else:
+                amount = (balance * 0.1) / current_price
+                
+            # Cap at balance
+            cost = amount * current_price
+            if cost > balance:
+                amount = balance / current_price
+                
             # Apply slippage
             exec_price = current_price * (1 + config['slippage'])
             
             strategy.update_position("BUY", exec_price, decision['sl'], decision['tp'])
+            
+            held_amount = amount
+            balance -= amount * exec_price * (1 + config['commission_rate'])
             
             trades.append({
                 "type": "BUY",
@@ -90,16 +103,6 @@ def run_backtest():
                 "balance": balance
             })
             
-            # Update balance (converted to asset)
-            # In this simple simulation, we track 'balance' as Quote currency (USDT/EUR)
-            # When we buy, balance goes to 0, but we hold asset.
-            # To simplify PnL tracking, we'll keep balance as is until SELL.
-            # But strictly, balance = 0, position_value = amount * price.
-            
-            # Let's track 'held_amount'
-            held_amount = amount
-            balance = 0 
-            
         elif decision['action'] == "SELL":
             if strategy.position == "NONE": continue # Should be handled by strategy, but double check
             
@@ -107,7 +110,8 @@ def run_backtest():
             exec_price = current_price * (1 - config['slippage'])
             revenue = held_amount * exec_price * (1 - config['commission_rate'])
             
-            balance = revenue
+            balance += revenue
+            pnl = revenue - (held_amount * strategy.entry_price)
             held_amount = 0
             
             strategy.update_position("SELL", exec_price)

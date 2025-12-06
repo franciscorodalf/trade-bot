@@ -2721,3 +2721,601 @@
 2025-12-06 13:41:38,810 [INFO] Waiting for next cycle...
 2025-12-06 13:42:39,046 [INFO] Prediction: HOLD (Prob: 0.4881, Close: 0.41)
 2025-12-06 13:42:39,048 [INFO] Waiting for next cycle...
+2025-12-06 13:43:39,309 [INFO] Prediction: HOLD (Prob: 0.4881, Close: 0.41)
+2025-12-06 13:43:39,313 [INFO] Waiting for next cycle...
+2025-12-06 14:35:29,837 [INFO] Prediction: HOLD (Prob: 0.5995, Close: 0.41)
+2025-12-06 14:35:29,840 [INFO] Waiting for next cycle...
+2025-12-06 15:38:16,679 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:16,679 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:16,684 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:38:19,371 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:19,371 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:19,373 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:38:19,656 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:19,656 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:19,658 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:38:22,650 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:22,650 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:22,651 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:38:25,482 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:25,490 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:25,496 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:38:25,496 [ERROR] No data available for prediction.
+2025-12-06 15:38:25,658 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:25,658 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:25,660 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:38:28,657 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:28,657 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:28,659 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:38:31,654 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:31,654 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:31,656 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:38:34,659 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:34,659 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:34,661 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:38:35,546 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:35,546 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:35,549 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:38:35,549 [ERROR] No data available for prediction.
+2025-12-06 15:38:37,658 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:37,658 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:37,660 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:38:40,659 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:40,659 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:40,661 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:38:43,653 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:43,653 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:43,655 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:38:45,590 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:45,590 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:45,591 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:38:45,591 [ERROR] No data available for prediction.
+2025-12-06 15:38:46,673 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:46,676 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:46,678 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:38:49,659 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:49,659 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:49,661 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:38:52,658 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:52,658 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:52,660 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:38:55,625 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:55,625 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:55,627 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:38:55,627 [ERROR] No data available for prediction.
+2025-12-06 15:38:55,660 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:55,660 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:55,661 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:38:58,666 [ERROR] 
+1 Failed download:
+2025-12-06 15:38:58,667 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:38:58,668 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:03,359 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:03,360 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:03,364 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:06,339 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:06,339 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:06,341 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:07,352 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:07,352 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:07,357 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:07,357 [ERROR] No data available for prediction.
+2025-12-06 15:45:09,339 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:09,339 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:09,340 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:12,338 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:12,338 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:12,339 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:15,337 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:15,337 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:15,338 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:17,398 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:17,398 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:17,399 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:17,399 [ERROR] No data available for prediction.
+2025-12-06 15:45:18,390 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:18,390 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:18,393 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:21,066 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:21,066 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:21,068 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:21,341 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:21,341 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:21,342 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:24,338 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:24,338 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:24,339 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:27,338 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:27,338 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:27,340 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:27,437 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:27,437 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:27,439 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:27,439 [ERROR] No data available for prediction.
+2025-12-06 15:45:30,335 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:30,335 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:30,336 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:33,335 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:33,335 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:33,337 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:36,341 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:36,341 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:36,343 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:37,485 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:37,485 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:37,487 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:37,487 [ERROR] No data available for prediction.
+2025-12-06 15:45:39,340 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:39,340 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:39,342 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:42,337 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:42,337 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:42,338 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:45,339 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:45,339 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:45,341 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:47,535 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:47,535 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:47,536 [ERROR] No data fetched for ADA-USD
+2025-12-06 15:45:47,536 [ERROR] No data available for prediction.
+2025-12-06 15:45:48,332 [ERROR] 
+1 Failed download:
+2025-12-06 15:45:48,332 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 15:45:48,334 [ERROR] No data fetched for ADA-USD
+2025-12-06 16:02:51,494 [ERROR] 
+1 Failed download:
+2025-12-06 16:02:51,494 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 16:02:51,495 [ERROR] No data fetched for ADA-USD
+2025-12-06 16:02:54,491 [ERROR] 
+1 Failed download:
+2025-12-06 16:02:54,491 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 16:02:54,492 [ERROR] No data fetched for ADA-USD
+2025-12-06 16:06:56,052 [ERROR] 
+1 Failed download:
+2025-12-06 16:06:56,052 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 16:06:56,053 [ERROR] No data fetched for ADA-USD
+2025-12-06 16:06:56,295 [ERROR] 
+1 Failed download:
+2025-12-06 16:06:56,295 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 16:06:56,298 [ERROR] No data fetched for ADA-USD
+2025-12-06 16:06:56,298 [ERROR] No data available for prediction.
+2025-12-06 16:06:59,051 [ERROR] 
+1 Failed download:
+2025-12-06 16:06:59,051 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 16:06:59,053 [ERROR] No data fetched for ADA-USD
+2025-12-06 16:07:07,335 [INFO] Prediction: HOLD (Prob: 0.4568, Close: 0.42)
+2025-12-06 16:07:07,339 [INFO] Waiting for next cycle...
+2025-12-06 16:21:22,629 [ERROR] 
+1 Failed download:
+2025-12-06 16:21:22,630 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 16:21:22,632 [ERROR] No data fetched for ADA-USD
+2025-12-06 16:21:25,290 [ERROR] 
+1 Failed download:
+2025-12-06 16:21:25,290 [ERROR] ['ADA-USD']: DNSError('Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2025-12-06 16:21:25,294 [ERROR] No data fetched for ADA-USD
+2025-12-06 16:21:48,722 [INFO] Prediction: HOLD (Prob: 0.4568, Close: 0.42)
+2025-12-06 16:21:48,725 [INFO] Waiting for next cycle...
+2025-12-06 16:22:00,824 [INFO] No API keys found. Using Internal Simulation Mode.
+2025-12-06 16:22:00,824 [INFO] Bot started.
+2025-12-06 16:22:02,748 [INFO] Prediction: HOLD (Prob: 0.4568, Close: 0.42)
+2025-12-06 16:22:02,749 [INFO] Waiting for next cycle...
+2025-12-06 18:04:11,245 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:07:06,044 [INFO] Model trained. Accuracy: 0.5395
+2025-12-06 18:22:36,360 [INFO] Universal Model trained on 6 pairs. Accuracy: 0.5781
+2025-12-06 18:23:42,480 [INFO] No API keys found. Using Internal Simulation Mode.
+2025-12-06 18:23:42,480 [INFO] Bot started in Multi-Symbol Mode.
+2025-12-06 18:23:42,480 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:23:47,606 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:23:50,922 [INFO] Prediction: HOLD (Prob: 0.5187, Close: 3049.27)
+2025-12-06 18:23:54,150 [INFO] Prediction: HOLD (Prob: 0.4988, Close: 132.87)
+2025-12-06 18:23:57,351 [INFO] Prediction: HOLD (Prob: 0.4605, Close: 892.42)
+2025-12-06 18:24:01,176 [INFO] Prediction: SELL (Prob: 0.3782, Close: 0.42)
+2025-12-06 18:24:04,624 [INFO] Prediction: HOLD (Prob: 0.4868, Close: 2.03)
+2025-12-06 18:24:04,626 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:24:04,627 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:25:04,634 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:25:07,967 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:25:11,180 [INFO] Prediction: HOLD (Prob: 0.5232, Close: 3048.56)
+2025-12-06 18:25:14,545 [INFO] Prediction: HOLD (Prob: 0.4928, Close: 132.90)
+2025-12-06 18:25:18,278 [INFO] Prediction: HOLD (Prob: 0.4642, Close: 892.56)
+2025-12-06 18:25:21,516 [INFO] Prediction: SELL (Prob: 0.3649, Close: 0.42)
+2025-12-06 18:25:24,652 [INFO] Prediction: HOLD (Prob: 0.4826, Close: 2.03)
+2025-12-06 18:25:24,654 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:25:24,655 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:26:24,662 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:26:28,000 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:26:31,083 [INFO] Prediction: HOLD (Prob: 0.5212, Close: 3050.29)
+2025-12-06 18:26:34,469 [INFO] Prediction: HOLD (Prob: 0.5025, Close: 133.04)
+2025-12-06 18:26:37,969 [INFO] Prediction: HOLD (Prob: 0.4475, Close: 892.66)
+2025-12-06 18:26:41,163 [INFO] Prediction: SELL (Prob: 0.3675, Close: 0.42)
+2025-12-06 18:26:44,531 [INFO] Prediction: HOLD (Prob: 0.4825, Close: 2.03)
+2025-12-06 18:26:44,533 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:26:44,534 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:27:44,541 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:27:47,965 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:27:51,430 [INFO] Prediction: HOLD (Prob: 0.5212, Close: 3050.67)
+2025-12-06 18:27:54,680 [INFO] Prediction: HOLD (Prob: 0.4998, Close: 133.02)
+2025-12-06 18:27:58,117 [INFO] Prediction: HOLD (Prob: 0.4497, Close: 892.76)
+2025-12-06 18:28:01,551 [INFO] Prediction: SELL (Prob: 0.3719, Close: 0.42)
+2025-12-06 18:28:04,829 [INFO] Prediction: HOLD (Prob: 0.4780, Close: 2.03)
+2025-12-06 18:28:04,831 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:28:04,832 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:29:04,839 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:29:08,629 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:29:11,985 [INFO] Prediction: HOLD (Prob: 0.5212, Close: 3051.84)
+2025-12-06 18:29:15,599 [INFO] Prediction: HOLD (Prob: 0.5043, Close: 133.07)
+2025-12-06 18:29:18,755 [INFO] Prediction: HOLD (Prob: 0.4593, Close: 893.24)
+2025-12-06 18:29:22,496 [INFO] Prediction: SELL (Prob: 0.3707, Close: 0.42)
+2025-12-06 18:29:25,631 [INFO] Prediction: HOLD (Prob: 0.4780, Close: 2.03)
+2025-12-06 18:29:25,632 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:29:25,633 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:30:25,636 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:30:29,451 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:30:32,992 [INFO] Prediction: HOLD (Prob: 0.5212, Close: 3050.14)
+2025-12-06 18:30:37,284 [INFO] Prediction: HOLD (Prob: 0.4940, Close: 132.93)
+2025-12-06 18:30:40,968 [INFO] Prediction: HOLD (Prob: 0.4605, Close: 892.43)
+2025-12-06 18:30:44,307 [INFO] Prediction: SELL (Prob: 0.3837, Close: 0.42)
+2025-12-06 18:30:47,475 [INFO] Prediction: HOLD (Prob: 0.4924, Close: 2.03)
+2025-12-06 18:30:47,476 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:30:47,477 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:31:04,608 [INFO] No API keys found. Using Internal Simulation Mode.
+2025-12-06 18:31:04,609 [INFO] Bot started in Multi-Symbol Mode.
+2025-12-06 18:31:04,609 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:31:39,598 [INFO] No API keys found. Using Internal Simulation Mode.
+2025-12-06 18:31:39,599 [INFO] Bot started in Multi-Symbol Mode.
+2025-12-06 18:31:39,599 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:31:44,178 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:31:47,483 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:31:47,487 [INFO] Prediction: HOLD (Prob: 0.5187, Close: 3049.39)
+2025-12-06 18:31:50,559 [INFO] Prediction: HOLD (Prob: 0.4928, Close: 132.90)
+2025-12-06 18:31:50,880 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:31:53,705 [INFO] Prediction: HOLD (Prob: 0.4623, Close: 892.17)
+2025-12-06 18:31:54,212 [INFO] Prediction: HOLD (Prob: 0.5187, Close: 3049.39)
+2025-12-06 18:31:56,787 [INFO] Prediction: SELL (Prob: 0.3845, Close: 0.42)
+2025-12-06 18:31:57,586 [INFO] Prediction: HOLD (Prob: 0.4928, Close: 132.90)
+2025-12-06 18:31:59,824 [INFO] Prediction: HOLD (Prob: 0.4776, Close: 2.03)
+2025-12-06 18:31:59,826 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:31:59,826 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:32:00,566 [INFO] Prediction: HOLD (Prob: 0.4721, Close: 892.12)
+2025-12-06 18:32:04,086 [INFO] Prediction: SELL (Prob: 0.3845, Close: 0.42)
+2025-12-06 18:32:08,087 [INFO] Prediction: HOLD (Prob: 0.4776, Close: 2.03)
+2025-12-06 18:32:08,088 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:32:08,089 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:32:39,449 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:32:42,613 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:32:45,741 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:32:48,750 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:32:51,388 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:32:54,717 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:32:57,535 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:32:59,832 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:33:00,721 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:02,804 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:33:03,809 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:06,131 [INFO] Prediction: HOLD (Prob: 0.5232, Close: 3049.22)
+2025-12-06 18:33:06,912 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:08,092 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:33:09,653 [INFO] Prediction: HOLD (Prob: 0.4928, Close: 132.89)
+2025-12-06 18:33:11,174 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:12,508 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:33:12,851 [INFO] Prediction: HOLD (Prob: 0.4721, Close: 892.07)
+2025-12-06 18:33:13,030 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:15,542 [INFO] Prediction: HOLD (Prob: 0.5232, Close: 3049.24)
+2025-12-06 18:33:16,102 [INFO] Prediction: SELL (Prob: 0.3837, Close: 0.42)
+2025-12-06 18:33:18,641 [INFO] Prediction: HOLD (Prob: 0.4928, Close: 132.89)
+2025-12-06 18:33:20,017 [INFO] Prediction: HOLD (Prob: 0.4780, Close: 2.03)
+2025-12-06 18:33:20,019 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:33:20,020 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:33:20,103 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:21,115 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:21,234 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:21,810 [INFO] Prediction: HOLD (Prob: 0.4617, Close: 892.25)
+2025-12-06 18:33:22,958 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:24,066 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:24,086 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:24,896 [INFO] Prediction: SELL (Prob: 0.3845, Close: 0.42)
+2025-12-06 18:33:27,384 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:27,952 [INFO] Prediction: HOLD (Prob: 0.4826, Close: 2.03)
+2025-12-06 18:33:27,953 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:33:27,954 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:33:30,041 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:32,833 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:35,559 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:38,537 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:41,203 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:43,868 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:47,413 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:50,700 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:53,454 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:56,303 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:33:59,243 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:34:02,272 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:34:05,625 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:34:08,498 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:34:11,466 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:34:14,233 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:34:17,075 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:34:19,991 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:34:20,163 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:34:23,042 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:34:23,147 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:34:26,244 [INFO] Prediction: HOLD (Prob: 0.5206, Close: 3052.66)
+2025-12-06 18:34:26,646 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:34:27,925 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:34:30,256 [INFO] Prediction: HOLD (Prob: 0.5021, Close: 133.11)
+2025-12-06 18:34:30,493 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:34:32,002 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:34:33,545 [INFO] Prediction: HOLD (Prob: 0.4642, Close: 892.56)
+2025-12-06 18:34:33,941 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:34:35,329 [INFO] Prediction: HOLD (Prob: 0.5212, Close: 3051.53)
+2025-12-06 18:34:36,705 [INFO] Prediction: SELL (Prob: 0.3867, Close: 0.42)
+2025-12-06 18:34:36,969 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:34:38,708 [INFO] Prediction: HOLD (Prob: 0.5010, Close: 133.05)
+2025-12-06 18:34:40,502 [INFO] Prediction: HOLD (Prob: 0.4900, Close: 2.04)
+2025-12-06 18:34:40,504 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:34:40,505 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:34:40,547 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:34:41,972 [INFO] Prediction: HOLD (Prob: 0.4605, Close: 892.42)
+2025-12-06 18:34:43,949 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:34:44,017 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:34:45,964 [INFO] Prediction: SELL (Prob: 0.3845, Close: 0.42)
+2025-12-06 18:34:48,312 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:34:49,076 [INFO] Prediction: HOLD (Prob: 0.4900, Close: 2.04)
+2025-12-06 18:34:49,079 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:34:49,080 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:34:51,196 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:34:54,003 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:34:57,268 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:00,484 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:03,185 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:06,264 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:09,664 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:12,457 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:15,331 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:18,750 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:21,820 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:25,120 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:28,295 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:31,350 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:31,578 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:34,283 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:37,029 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:39,820 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:40,508 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:35:43,106 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:43,611 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:35:45,940 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:47,441 [INFO] Prediction: HOLD (Prob: 0.5205, Close: 3049.50)
+2025-12-06 18:35:48,839 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:49,086 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:35:51,038 [INFO] Prediction: HOLD (Prob: 0.4940, Close: 132.96)
+2025-12-06 18:35:52,015 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:52,907 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:35:54,529 [INFO] Prediction: HOLD (Prob: 0.4617, Close: 892.32)
+2025-12-06 18:35:54,945 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:56,392 [INFO] Prediction: HOLD (Prob: 0.5232, Close: 3049.24)
+2025-12-06 18:35:57,824 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:35:58,113 [INFO] Prediction: SELL (Prob: 0.3837, Close: 0.42)
+2025-12-06 18:35:59,874 [INFO] Prediction: HOLD (Prob: 0.4940, Close: 132.96)
+2025-12-06 18:36:00,694 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:36:01,751 [INFO] Prediction: HOLD (Prob: 0.4826, Close: 2.03)
+2025-12-06 18:36:01,753 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:36:01,754 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:36:02,963 [INFO] Prediction: HOLD (Prob: 0.4617, Close: 892.32)
+2025-12-06 18:36:03,769 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:36:06,672 [INFO] Prediction: SELL (Prob: 0.3895, Close: 0.42)
+2025-12-06 18:36:06,700 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:36:09,697 [INFO] Prediction: HOLD (Prob: 0.4826, Close: 2.03)
+2025-12-06 18:36:09,699 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:36:09,699 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:36:09,808 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:36:13,346 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:36:16,405 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:36:19,355 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:36:22,122 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:36:24,860 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:36:27,803 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:36:30,711 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:36:33,632 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:36:43,637 [ERROR] Error fetching data: binance does not have market symbol ADA-USD
+2025-12-06 18:37:01,760 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:37:04,911 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:37:07,926 [INFO] Prediction: HOLD (Prob: 0.5232, Close: 3048.92)
+2025-12-06 18:37:09,701 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:37:11,249 [INFO] Prediction: HOLD (Prob: 0.4928, Close: 132.89)
+2025-12-06 18:37:12,936 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:37:16,645 [INFO] Prediction: HOLD (Prob: 0.5232, Close: 3048.71)
+2025-12-06 18:37:20,494 [INFO] Prediction: HOLD (Prob: 0.4928, Close: 132.90)
+2025-12-06 18:37:23,761 [INFO] Prediction: HOLD (Prob: 0.4605, Close: 892.50)
+2025-12-06 18:37:25,375 [INFO] No API keys found. Using Internal Simulation Mode.
+2025-12-06 18:37:25,375 [INFO] Bot started in Multi-Symbol Mode.
+2025-12-06 18:37:25,375 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:37:27,118 [INFO] Prediction: HOLD (Prob: 0.4073, Close: 0.42)
+2025-12-06 18:37:30,122 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:37:30,789 [INFO] Prediction: HOLD (Prob: 0.4780, Close: 2.03)
+2025-12-06 18:37:30,790 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:37:30,791 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:37:33,181 [INFO] Prediction: HOLD (Prob: 0.5232, Close: 3048.71)
+2025-12-06 18:37:36,202 [INFO] Prediction: HOLD (Prob: 0.4928, Close: 132.91)
+2025-12-06 18:37:39,720 [INFO] Prediction: HOLD (Prob: 0.4605, Close: 892.49)
+2025-12-06 18:37:43,042 [INFO] Prediction: HOLD (Prob: 0.4004, Close: 0.42)
+2025-12-06 18:37:46,107 [INFO] Prediction: HOLD (Prob: 0.4780, Close: 2.03)
+2025-12-06 18:37:46,108 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:37:46,109 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:38:30,797 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:38:34,093 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:38:37,075 [INFO] Prediction: HOLD (Prob: 0.5232, Close: 3048.69)
+2025-12-06 18:38:40,671 [INFO] Prediction: HOLD (Prob: 0.4988, Close: 132.87)
+2025-12-06 18:38:43,585 [INFO] Prediction: HOLD (Prob: 0.4573, Close: 892.37)
+2025-12-06 18:38:46,111 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:38:46,660 [INFO] Prediction: HOLD (Prob: 0.4073, Close: 0.42)
+2025-12-06 18:38:49,059 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:38:49,782 [INFO] Prediction: HOLD (Prob: 0.4852, Close: 2.03)
+2025-12-06 18:38:49,784 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:38:49,784 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:38:52,251 [INFO] Prediction: HOLD (Prob: 0.5246, Close: 3048.00)
+2025-12-06 18:38:56,534 [INFO] Prediction: HOLD (Prob: 0.4988, Close: 132.86)
+2025-12-06 18:38:59,802 [INFO] Prediction: HOLD (Prob: 0.4617, Close: 892.28)
+2025-12-06 18:39:02,824 [INFO] Prediction: HOLD (Prob: 0.4372, Close: 0.42)
+2025-12-06 18:39:05,826 [INFO] Prediction: HOLD (Prob: 0.4924, Close: 2.03)
+2025-12-06 18:39:05,828 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:39:05,828 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:39:49,827 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:39:54,180 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:39:57,235 [INFO] Prediction: HOLD (Prob: 0.5246, Close: 3047.58)
+2025-12-06 18:40:00,612 [INFO] Prediction: HOLD (Prob: 0.5042, Close: 132.81)
+2025-12-06 18:40:04,333 [INFO] Prediction: HOLD (Prob: 0.4605, Close: 892.43)
+2025-12-06 18:40:05,830 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:40:07,904 [INFO] Prediction: HOLD (Prob: 0.4332, Close: 0.42)
+2025-12-06 18:40:09,338 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:40:12,653 [INFO] Prediction: HOLD (Prob: 0.4924, Close: 2.03)
+2025-12-06 18:40:12,655 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:40:12,656 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:40:12,713 [INFO] Prediction: HOLD (Prob: 0.5252, Close: 3046.22)
+2025-12-06 18:40:16,505 [INFO] Prediction: HOLD (Prob: 0.5087, Close: 132.76)
+2025-12-06 18:40:19,868 [INFO] Prediction: HOLD (Prob: 0.4573, Close: 892.33)
+2025-12-06 18:40:23,221 [INFO] Prediction: HOLD (Prob: 0.4332, Close: 0.42)
+2025-12-06 18:40:27,617 [INFO] Prediction: HOLD (Prob: 0.4924, Close: 2.03)
+2025-12-06 18:40:27,618 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:40:27,619 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:41:12,661 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:41:16,148 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:41:19,868 [INFO] Prediction: HOLD (Prob: 0.5235, Close: 3047.24)
+2025-12-06 18:41:23,304 [INFO] Prediction: HOLD (Prob: 0.5064, Close: 132.82)
+2025-12-06 18:41:26,446 [INFO] Prediction: HOLD (Prob: 0.4605, Close: 892.47)
+2025-12-06 18:41:29,582 [INFO] Prediction: HOLD (Prob: 0.4168, Close: 0.42)
+2025-12-06 18:46:53,290 [INFO] No API keys found. Using Internal Simulation Mode.
+2025-12-06 18:46:53,291 [INFO] Bot started in Multi-Symbol Mode.
+2025-12-06 18:46:53,291 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:46:58,005 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:47:01,790 [INFO] Prediction: HOLD (Prob: 0.5637, Close: 3043.54)
+2025-12-06 18:47:05,572 [INFO] Prediction: HOLD (Prob: 0.4928, Close: 132.88)
+2025-12-06 18:47:09,395 [INFO] Prediction: HOLD (Prob: 0.4662, Close: 891.86)
+2025-12-06 18:47:12,680 [INFO] Prediction: HOLD (Prob: 0.4529, Close: 0.42)
+2025-12-06 18:47:15,858 [INFO] Prediction: HOLD (Prob: 0.4924, Close: 2.03)
+2025-12-06 18:47:15,859 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:47:15,860 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:48:15,865 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:48:19,032 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:48:22,571 [INFO] Prediction: HOLD (Prob: 0.5637, Close: 3042.74)
+2025-12-06 18:48:25,795 [INFO] Prediction: HOLD (Prob: 0.5122, Close: 132.79)
+2025-12-06 18:48:29,280 [INFO] Prediction: HOLD (Prob: 0.4667, Close: 891.65)
+2025-12-06 18:48:32,586 [INFO] Prediction: HOLD (Prob: 0.4491, Close: 0.42)
+2025-12-06 18:48:35,747 [INFO] Prediction: HOLD (Prob: 0.4924, Close: 2.03)
+2025-12-06 18:48:35,749 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:48:35,749 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:49:35,752 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:49:39,016 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:49:42,019 [INFO] Prediction: HOLD (Prob: 0.5607, Close: 3043.90)
+2025-12-06 18:49:44,996 [INFO] Prediction: HOLD (Prob: 0.5071, Close: 132.83)
+2025-12-06 18:49:47,940 [INFO] Prediction: HOLD (Prob: 0.4662, Close: 891.87)
+2025-12-06 18:49:50,967 [INFO] Prediction: HOLD (Prob: 0.4529, Close: 0.42)
+2025-12-06 18:49:54,239 [INFO] Prediction: HOLD (Prob: 0.4924, Close: 2.03)
+2025-12-06 18:49:54,240 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:49:54,241 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:50:54,258 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:50:57,397 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:51:00,367 [INFO] Prediction: HOLD (Prob: 0.5637, Close: 3043.19)
+2025-12-06 18:51:03,400 [INFO] Prediction: HOLD (Prob: 0.5087, Close: 132.77)
+2025-12-06 18:51:06,401 [INFO] Prediction: HOLD (Prob: 0.4667, Close: 891.67)
+2025-12-06 18:51:09,954 [INFO] Prediction: HOLD (Prob: 0.4701, Close: 0.42)
+2025-12-06 18:51:13,169 [INFO] Prediction: HOLD (Prob: 0.4924, Close: 2.03)
+2025-12-06 18:51:13,170 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:51:13,170 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:52:13,174 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:52:16,708 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:52:19,799 [INFO] Prediction: HOLD (Prob: 0.5702, Close: 3038.02)
+2025-12-06 18:52:23,376 [INFO] Prediction: HOLD (Prob: 0.5207, Close: 132.64)
+2025-12-06 18:52:26,486 [INFO] Prediction: HOLD (Prob: 0.4968, Close: 890.70)
+2025-12-06 18:52:30,025 [INFO] Prediction: HOLD (Prob: 0.4936, Close: 0.42)
+2025-12-06 18:52:33,297 [INFO] Prediction: HOLD (Prob: 0.5089, Close: 2.03)
+2025-12-06 18:52:33,299 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:52:33,300 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:53:33,307 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:53:36,533 [INFO] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-06 18:53:39,701 [INFO] Prediction: HOLD (Prob: 0.5702, Close: 3038.11)
+2025-12-06 18:53:42,697 [INFO] Prediction: HOLD (Prob: 0.5207, Close: 132.62)
+2025-12-06 18:53:45,906 [INFO] Prediction: HOLD (Prob: 0.4968, Close: 890.69)
+2025-12-06 18:53:48,994 [INFO] Prediction: HOLD (Prob: 0.4849, Close: 0.42)
+2025-12-06 18:53:52,418 [INFO] Prediction: HOLD (Prob: 0.5048, Close: 2.03)
+2025-12-06 18:53:52,420 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:53:52,420 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:54:52,422 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:54:56,070 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:54:59,713 [INFO] Prediction: HOLD (Prob: 0.5578, Close: 3039.17)
+2025-12-06 18:55:03,058 [INFO] Prediction: HOLD (Prob: 0.5254, Close: 132.60)
+2025-12-06 18:55:06,383 [INFO] Prediction: HOLD (Prob: 0.4873, Close: 890.79)
+2025-12-06 18:55:09,952 [INFO] Prediction: HOLD (Prob: 0.4936, Close: 0.42)
+2025-12-06 18:55:13,109 [INFO] Prediction: HOLD (Prob: 0.5048, Close: 2.03)
+2025-12-06 18:55:13,111 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:55:13,112 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 18:56:13,117 [INFO] Scanning market... (6 pairs)
+2025-12-06 18:56:17,231 [INFO] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 18:56:21,362 [INFO] Prediction: HOLD (Prob: 0.5578, Close: 3039.22)
+2025-12-06 18:56:25,662 [INFO] Prediction: HOLD (Prob: 0.5207, Close: 132.66)
+2025-12-06 18:56:29,031 [INFO] Prediction: HOLD (Prob: 0.4820, Close: 890.97)
+2025-12-06 18:56:32,282 [INFO] Prediction: HOLD (Prob: 0.4849, Close: 0.42)
+2025-12-06 18:56:35,404 [INFO] Prediction: HOLD (Prob: 0.5048, Close: 2.03)
+2025-12-06 18:56:35,406 [INFO] Found 0 BUY opportunities.
+2025-12-06 18:56:35,406 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 19:01:27,461 [INFO] Universal Model trained on 6 pairs. Accuracy: 0.5218
+2025-12-06 19:29:05,632 [INFO] No API keys found. Using Internal Simulation Mode.
+2025-12-06 19:29:05,633 [INFO] Bot started in Multi-Symbol Mode.
+2025-12-06 19:29:05,633 [INFO] Scanning market... (6 pairs)
+2025-12-06 19:29:10,325 [INFO] [BTC/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-06 19:29:13,267 [INFO] Prediction: HOLD (Prob: 0.5490, Close: 3033.65)
+2025-12-06 19:29:16,566 [INFO] Prediction: HOLD (Prob: 0.5117, Close: 132.28)
+2025-12-06 19:29:19,631 [INFO] Prediction: HOLD (Prob: 0.4984, Close: 891.02)
+2025-12-06 19:29:23,367 [INFO] Prediction: HOLD (Prob: 0.4885, Close: 0.41)
+2025-12-06 19:29:26,760 [INFO] Prediction: HOLD (Prob: 0.4740, Close: 2.03)
+2025-12-06 19:29:26,761 [INFO] Found 0 BUY opportunities.
+2025-12-06 19:29:26,762 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 19:30:26,768 [INFO] Scanning market... (6 pairs)
+2025-12-06 19:30:29,746 [INFO] [BTC/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-06 19:30:32,968 [INFO] Prediction: HOLD (Prob: 0.5490, Close: 3034.93)
+2025-12-06 19:30:36,577 [INFO] Prediction: HOLD (Prob: 0.5272, Close: 132.22)
+2025-12-06 19:30:40,057 [INFO] Prediction: HOLD (Prob: 0.4971, Close: 890.58)
+2025-12-06 19:30:43,174 [INFO] Prediction: HOLD (Prob: 0.5073, Close: 0.41)
+2025-12-06 19:30:46,312 [INFO] Prediction: HOLD (Prob: 0.4740, Close: 2.02)
+2025-12-06 19:30:46,313 [INFO] Found 0 BUY opportunities.
+2025-12-06 19:30:46,314 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0

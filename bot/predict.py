@@ -18,14 +18,30 @@ def load_model():
         return None
     return joblib.load(model_path)
 
-def predict():
+def predict(symbol=None):
+    # Backward compatibility alias
+    return predict_symbol(symbol)
+
+def predict_symbol(symbol=None):
     model = load_model()
     if model is None:
         return None
 
-    df = get_latest_data_with_indicators()
+    # Determine symbol (if None, let utils handle it via config)
+    # But for multi-symbol we usually pass it.
+    
+    # We need to ensure we fetch data FOR THAT symbol
+    from utils import fetch_data, add_indicators
+    
+    # Custom fetch for prediction to ensure we get the right symbol's data
+    # utils.fetch_data handles the default if symbol is None
+    df = fetch_data(symbol=symbol, limit=100)
+    
+    if df is not None:
+        df = add_indicators(df)
+
     if df is None or df.empty:
-        logging.error("No data available for prediction.")
+        logging.error(f"No data available for prediction on {symbol}.")
         return None
     
     # Get the last row (most recent completed candle)
@@ -36,7 +52,7 @@ def predict():
     vol_threshold = config['volatility_threshold']
     
     if volatility < vol_threshold:
-        logging.info(f"Volatility too low ({volatility:.4f} < {vol_threshold}). Skipping prediction.")
+        logging.info(f"[{symbol}] Volatility too low ({volatility:.4f} < {vol_threshold}). Skipping prediction.")
         return {
             "signal": "HOLD",
             "probability": 0.0,
@@ -47,10 +63,13 @@ def predict():
 
     # Prepare features
     features = [
-        'return', 'sma_20', 'sma_50', 'ema_12', 'rsi', 'volatility',
+        'return', 'sma_20', 'sma_50', 'ema_12', 'rsi', 'volatility', 'atr',
+        'macd', 'bb_width',
         'return_lag_1', 'return_lag_2', 'return_lag_3',
         'rsi_lag_1', 'rsi_lag_2', 'rsi_lag_3',
-        'volatility_lag_1', 'volatility_lag_2', 'volatility_lag_3'
+        'volatility_lag_1', 'volatility_lag_2', 'volatility_lag_3',
+        'macd_lag_1', 'macd_lag_2', 'macd_lag_3',
+        'bb_width_lag_1', 'bb_width_lag_2', 'bb_width_lag_3'
     ]
     
     X_new = pd.DataFrame([last_row[features]])
@@ -73,6 +92,7 @@ def predict():
         "signal": signal,
         "probability": prob,
         "volatility": volatility,
+        "atr": last_row['atr'],
         "close": last_row['close'],
         "reason": "Model Signal"
     }

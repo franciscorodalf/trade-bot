@@ -1,12 +1,25 @@
 {
     "initial_capital": 80.0,
+    "binance": {
+        "api_key": "",
+        "api_secret": "",
+        "testnet": false
+    },
     "risk_per_trade": 0.02,
     "buy_threshold": 0.60,
     "sell_threshold": 0.40,
     "commission_rate": 0.0005,
     "slippage": 0.0003,
     "volatility_threshold": 0.002,
-    "symbol": "ADA-USD",
+    "symbols": [
+        "BTC/USDT",
+        "ETH/USDT",
+        "SOL/USDT",
+        "BNB/USDT",
+        "ADA/USDT",
+        "XRP/USDT"
+    ],
+    "max_open_positions": 3,
     "timeframe": "1h",
     "model_params": {
         "n_estimators": 100,

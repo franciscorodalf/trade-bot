@@ -2,13 +2,15 @@
 
 Este proyecto es un sistema completo de simulación de trading algorítmico diseñado para cuentas de capital pequeño. Integra Inteligencia Artificial (Random Forest), gestión de riesgo profesional y un dashboard de visualización en tiempo real con logs del sistema.
 
-## Características Principales
-- **Motor de IA**: Predicción de dirección del mercado basada en indicadores técnicos (RSI, SMA, EMA, Volatilidad).
-- **Gestión de Riesgo**: Sistema estricto con Stop Loss, Take Profit y filtro de volatilidad para proteger el capital.
-- **Paper Trading Realista**: Simulación en tiempo real conectada a datos de mercado en vivo (Yahoo Finance).
-- **Dashboard Profesional**: 
-    - Gráficos de TradingView en tiempo real.
-    - **Visor de Logs en Vivo**: Visualiza el "pensamiento" y decisiones de la IA minuto a minuto.
+## ✨ Características Principales
+
+-   **🧠 IA Avanzada (Random Forest)**: Entrenada con datos de múltiples criptomonedas (BTC, ETH, SOL, etc.) para detectar patrones de mercado generalizados.
+-   **🔍 Scanner Multi-Moneda**: Analiza en tiempo real una cesta de monedas y selecciona las mejores oportunidades automáticamente.
+-   **🛡️ Gestión de Riesgo Profesional**:
+    -   Nunca apuesta todo el capital (posición regulada por riesgo).
+    -   Stop Loss y Take Profit dinámicos basados en la volatilidad (ATR).
+-   **📉 Simulación Realista (Paper Trading)**: Conectado a **Binance Futures** para usar precios y condiciones de mercado reales.
+-   **⚡ Dashboard Web**: Interfaz gráfica para ver el "cerebro" de la IA, el scanner de mercado y el rendimiento.
     - Panel de estadísticas y estado de la cuenta.
 - **Arquitectura Modular**: Separación clara entre Cerebro (IA), Ejecución (Bot) y Visualización (Web/API).
 

@@ -38,6 +38,24 @@
             </div>
         </div>
 
+        <div class="card" style="margin-bottom: 20px;">
+            <h3>🤖 AI Market Scanner</h3>
+            <table id="scanner-table" style="width: 100%; text-align: left;">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Signal</th>
+                        <th>Confidence</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Scanner results here -->
+                </tbody>
+            </table>
+        </div>
+
         <div class="main-content">
             <div class="chart-container" id="chart"></div>
 
@@ -47,10 +65,10 @@
                     <thead>
                         <tr>
                             <th>Time</th>
+                            <th>Symbol</th>
                             <th>Type</th>
                             <th>Price</th>
                             <th>PnL</th>
-                            <th>Reason</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,20 +87,20 @@
 
         <div class="about-section">
             <h2>Sobre este Proyecto</h2>
-            <p>Este es un simulador de trading algorítmico diseñado para cuentas de capital reducido (ej. 80€). Utiliza
-                Inteligencia Artificial para predecir movimientos del mercado y ejecutar operaciones simuladas.</p>
+            <p>Este es un sistema de trading algorítmico avanzado. Utiliza Inteligencia Artificial para escanear
+                múltiples mercados simultáneamente y detectar oportunidades de alta probabilidad.</p>
             <div class="features-list">
                 <div class="feature">
-                    <strong>🧠 IA Random Forest</strong>
-                    <span>Predice la dirección del precio basándose en RSI, Medias Móviles y Volatilidad.</span>
+                    <strong>🧠 Scanner IA</strong>
+                    <span>Analiza BTC, ETH, SOL y más en tiempo real buscando patrones ganadores.</span>
                 </div>
                 <div class="feature">
                     <strong>🛡️ Gestión de Riesgo</strong>
-                    <span>Protege el capital con Stop Loss del 2% y evita operar en baja volatilidad.</span>
+                    <span>Stop Loss dinámico (ATR) y tamaño de posición calculado para proteger el capital.</span>
                 </div>
                 <div class="feature">
-                    <strong>📉 Paper Trading</strong>
-                    <span>Simulación realista conectada a datos de mercado en vivo (Yahoo Finance).</span>
+                    <strong>📉 Datos Reales</strong>
+                    <span>Conexión directa con Binance Futures para máxima precisión.</span>
                 </div>
             </div>
             <p class="disclaimer">⚠️ Este software es una herramienta educativa. El trading de criptomonedas conlleva

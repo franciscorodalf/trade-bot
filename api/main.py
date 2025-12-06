@@ -74,26 +74,48 @@ def get_statistics():
         "pnl": round(total_pnl, 2)
     }
 
-@app.get("/chart-data")
-def get_chart_data(limit: int = 100):
-    # In a real app, we'd fetch this from DB if we stored OHLC there, 
-    # or proxy to yfinance/exchange. For now, let's use yfinance via utils.
-    # But importing utils here might be slow or cause issues if not careful.
-    # Let's just read from a local CSV if we had one, or fetch fresh.
-    # For speed, let's fetch fresh but cache it or similar.
-    # To keep it simple and robust as requested:
+@app.get("/scanner")
+def get_scanner():
+    """
+    Get the latest signal for every symbol.
+    """
+    conn = get_db_connection()
+    # Get unique symbols first or just group by symbol
+    # Simple query: Get latest entry for each symbol
+    # SQLite distinct on/group by trick
+    query = """
+    SELECT * FROM signals 
+    WHERE id IN (
+        SELECT MAX(id) 
+        FROM signals 
+        GROUP BY symbol
+    )
+    ORDER BY probability DESC
+    """
+    rows = conn.execute(query).fetchall()
+    conn.close()
     
+    # Filter by configured symbols only to avoid legacy data issues
+    valid_symbols = set(config.get('symbols', []))
+    results = [dict(row) for row in rows if row['symbol'] in valid_symbols]
+    
+    return results
+
+@app.get("/chart-data")
+def get_chart_data(symbol: Optional[str] = None, limit: int = 100):
     import sys
     import os
     sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'bot'))
     from utils import fetch_data
     
-    df = fetch_data(limit=limit)
+    # Use config default if None
+    # We can load them from config here or just pass None to fetch_data which handles it
+    
+    df = fetch_data(symbol=symbol, limit=limit)
     if df is None:
         return []
         
     # Format for TradingView Lightweight Charts
-    # Time needs to be unix timestamp
     data = []
     for index, row in df.iterrows():
         data.append({

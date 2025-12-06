@@ -1,4 +1,4 @@
-import yfinance as yf
+import ccxt
 import pandas as pd
 import numpy as np
 import ta
@@ -15,38 +15,37 @@ logging.basicConfig(filename=config['paths']['logs'], level=logging.INFO, format
 
 def fetch_data(symbol=None, interval=None, limit=1000):
     """
-    Fetch historical data from YFinance.
+    Fetch historical data from Binance using CCXT.
     """
-    symbol = symbol or config['symbol']
+    symbol = symbol or config.get('symbol') or config.get('symbols', [])[0]
     interval = interval or config['timeframe']
     
     try:
-        # YFinance doesn't support 'limit' directly in the same way as exchanges, 
-        # so we fetch a period that covers enough data.
-        period = "2y" if interval == "1d" else "60d" # Adjust based on interval
+        # Use public API for now (no keys required for fetching data)
+        exchange = ccxt.binance({
+            'enableRateLimit': True,
+            'options': {
+                'defaultType': 'future' # Use futures data by default as requested/implied by "robust"
+            }
+        })
         
-        df = yf.download(symbol, period=period, interval=interval, progress=False)
+        # Check if keys are provided in config for higher limits (optional)
+        if config.get('binance', {}).get('api_key'):
+             exchange.apiKey = config['binance']['api_key']
+             exchange.secret = config['binance']['api_secret']
+
+        # Fetch OHLCV
+        ohlcv = exchange.fetch_ohlcv(symbol, timeframe=interval, limit=limit)
         
-        if df.empty:
+        if not ohlcv:
             logging.error(f"No data fetched for {symbol}")
             return None
             
-        # Flatten MultiIndex columns if present (yfinance update)
-        if isinstance(df.columns, pd.MultiIndex):
-            df.columns = df.columns.get_level_values(0)
-            
-        df = df.rename(columns={
-            "Open": "open",
-            "High": "high",
-            "Low": "low",
-            "Close": "close",
-            "Volume": "volume"
-        })
+        df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
+        df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
+        df.set_index('timestamp', inplace=True)
         
-        # Ensure lowercase columns
-        df.columns = [c.lower() for c in df.columns]
-        
-        return df.tail(limit)
+        return df
         
     except Exception as e:
         logging.error(f"Error fetching data: {e}")
@@ -77,11 +76,22 @@ def add_indicators(df):
     # Volatility (Bollinger Bands Width or standard deviation of returns)
     df['volatility'] = df['return'].rolling(window=20).std()
     
+    # MACD
+    df['macd'] = ta.trend.macd_diff(df['close'])
+
+    # Bollinger Bands Width
+    df['bb_width'] = ta.volatility.bollinger_wband(df['close'], window=20, window_dev=2)
+    
+    # ATR (Average True Range) for Risk Management
+    df['atr'] = ta.volatility.AverageTrueRange(df['high'], df['low'], df['close'], window=14).average_true_range()
+    
     # Lag features (previous values to predict next)
     for lag in [1, 2, 3]:
         df[f'return_lag_{lag}'] = df['return'].shift(lag)
         df[f'rsi_lag_{lag}'] = df['rsi'].shift(lag)
         df[f'volatility_lag_{lag}'] = df['volatility'].shift(lag)
+        df[f'macd_lag_{lag}'] = df['macd'].shift(lag)
+        df[f'bb_width_lag_{lag}'] = df['bb_width'].shift(lag)
         
     # Target: 1 if next close > current close, else 0
     df['target'] = (df['close'].shift(-1) > df['close']).astype(int)
