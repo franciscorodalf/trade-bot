@@ -3391,3 +3391,30 @@
 2025-12-06 19:41:25,541 [INFO] Prediction: HOLD (Prob: 0.4740, Close: 2.02)
 2025-12-06 19:41:25,543 [INFO] Found 0 BUY opportunities.
 2025-12-06 19:41:25,543 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 19:42:25,546 [INFO] Scanning market... (6 pairs)
+2025-12-06 19:42:28,704 [INFO] [BTC/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-06 19:42:32,011 [INFO] Prediction: HOLD (Prob: 0.5490, Close: 3029.07)
+2025-12-06 19:42:35,137 [INFO] Prediction: HOLD (Prob: 0.5319, Close: 132.11)
+2025-12-06 19:42:38,182 [INFO] Prediction: HOLD (Prob: 0.4957, Close: 889.58)
+2025-12-06 19:42:41,194 [INFO] Prediction: HOLD (Prob: 0.5229, Close: 0.41)
+2025-12-06 19:42:44,251 [INFO] Prediction: HOLD (Prob: 0.4740, Close: 2.02)
+2025-12-06 19:42:44,252 [INFO] Found 0 BUY opportunities.
+2025-12-06 19:42:44,253 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 19:43:44,258 [INFO] Scanning market... (6 pairs)
+2025-12-06 19:43:47,474 [INFO] [BTC/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-06 19:43:50,708 [INFO] Prediction: HOLD (Prob: 0.5565, Close: 3028.56)
+2025-12-06 19:43:53,717 [INFO] Prediction: HOLD (Prob: 0.5271, Close: 132.00)
+2025-12-06 19:43:56,674 [INFO] Prediction: HOLD (Prob: 0.4918, Close: 889.42)
+2025-12-06 19:43:59,614 [INFO] Prediction: HOLD (Prob: 0.5213, Close: 0.41)
+2025-12-06 19:44:02,670 [INFO] Prediction: HOLD (Prob: 0.4740, Close: 2.02)
+2025-12-06 19:44:02,671 [INFO] Found 0 BUY opportunities.
+2025-12-06 19:44:02,672 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 19:45:02,677 [INFO] Scanning market... (6 pairs)
+2025-12-06 19:45:06,429 [INFO] [BTC/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-06 19:45:10,990 [INFO] Prediction: HOLD (Prob: 0.5565, Close: 3028.67)
+2025-12-06 19:45:14,695 [INFO] Prediction: HOLD (Prob: 0.5280, Close: 131.97)
+2025-12-06 19:45:17,792 [INFO] Prediction: HOLD (Prob: 0.5013, Close: 889.27)
+2025-12-06 19:45:20,942 [INFO] Prediction: HOLD (Prob: 0.5229, Close: 0.41)
+2025-12-06 19:45:24,261 [INFO] Prediction: HOLD (Prob: 0.4740, Close: 2.02)
+2025-12-06 19:45:24,262 [INFO] Found 0 BUY opportunities.
+2025-12-06 19:45:24,263 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0

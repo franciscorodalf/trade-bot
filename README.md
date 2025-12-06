@@ -18,7 +18,7 @@ Su arquitectura modular permite escanear múltiples pares simultáneamente, ejec
 
 ## 📚 Documentación Exclusiva
 
-Para entender a fondo cómo funciona cada engranaje, consulta nuestra documentación detallada:
+Para entender a fondo cómo funciona cada engranaje, consulta la documentación detallada:
 
 -   **[🏗️ Arquitectura Técnica](docs/ARCHITECTURE.md)**: Cómo se comunican el Bot, la API y la Web.
 -   **[🧠 Estrategia e IA](docs/STRATEGY.md)**: Explicación del modelo predictivo, indicadores (MACD, Bollinger) y gestión de riesgo.
