@@ -1,112 +1,101 @@
-# Simulación de Bot de Trading con IA
+# 🦅 AI Quantitative Trading Bot
 
-Este proyecto es un sistema completo de simulación de trading algorítmico diseñado para cuentas de capital pequeño. Integra Inteligencia Artificial (Random Forest), gestión de riesgo profesional y un dashboard de visualización en tiempo real con logs del sistema.
-
-## ✨ Características Principales
-
--   **🧠 IA Avanzada (Random Forest)**: Entrenada con datos de múltiples criptomonedas (BTC, ETH, SOL, etc.) para detectar patrones de mercado generalizados.
--   **🔍 Scanner Multi-Moneda**: Analiza en tiempo real una cesta de monedas y selecciona las mejores oportunidades automáticamente.
--   **🛡️ Gestión de Riesgo Profesional**:
-    -   Nunca apuesta todo el capital (posición regulada por riesgo).
-    -   Stop Loss y Take Profit dinámicos basados en la volatilidad (ATR).
--   **📉 Simulación Realista (Paper Trading)**: Conectado a **Binance Futures** para usar precios y condiciones de mercado reales.
--   **⚡ Dashboard Web**: Interfaz gráfica para ver el "cerebro" de la IA, el scanner de mercado y el rendimiento.
-    - Panel de estadísticas y estado de la cuenta.
-- **Arquitectura Modular**: Separación clara entre Cerebro (IA), Ejecución (Bot) y Visualización (Web/API).
-
-## Estructura del Proyecto
-```
-/bot
-   train_model.py    # Entrenamiento del modelo IA
-   predict.py        # Inferencia y predicción
-   strategy.py       # Lógica de trading (SL/TP)
-   paper_trading.py  # Motor de ejecución en tiempo real
-   backtest.py       # Simulación histórica
-   config.json       # Configuración central (Pares, Riesgo, Capital)
-
-/api
-   main.py           # Servidor Backend (FastAPI)
-
-/web
-   index.html        # Dashboard (Frontend)
-   dashboard.js      # Lógica de conexión y gráficos
-```
-
-## Instalación Paso a Paso
-
-### 1. Preparar el Entorno
-Es **crítico** usar un entorno virtual para evitar conflictos con librerías.
-
-```bash
-# Crear el entorno virtual
-python3 -m venv venv
-
-# Activar el entorno
-source venv/bin/activate
-```
-
-### 2. Instalar Dependencias
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Inicializar Base de Datos
-```bash
-sqlite3 database/bot.db < database/schema.sql
-```
-
-## Guía de Ejecución (Sistema Completo)
-
-Para que el sistema funcione, necesitas abrir **3 TERMINALES** diferentes y mantenerlas abiertas.
-
-### TERMINAL 1: La API (El Cerebro)
-Este servicio conecta la base de datos con la web.
-```bash
-source venv/bin/activate
-uvicorn api.main:app --reload
-```
-*Debe decir: `Uvicorn running on http://127.0.0.1:8000`*
-
-### TERMINAL 2: El Bot (El Ejecutor)
-Este script analiza el mercado y ejecuta las operaciones.
-```bash
-source venv/bin/activate
-python3 bot/paper_trading.py
-```
-*Verás logs indicando que está descargando datos y operando.*
-
-### TERMINAL 3: El Dashboard (La Visualización)
-Servimos la web localmente para asegurar la mejor conectividad.
-```bash
-cd web
-python3 -m http.server 5500
-```
-*Ahora abre en tu navegador:* **http://localhost:5500**
+![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.68+-green.svg)
+![Binance](https://img.shields.io/badge/Data-Binance-yellow.svg)
+![License](https://img.shields.io/badge/License-MIT-lightgrey.svg)
+![Status](https://img.shields.io/badge/Status-Beta%20(Paper%20Trading)-orange.svg)
 
 ---
 
-## Flujo de Trabajo Recomendado
+**Sistema de Trading Algorítmico Automatizado**
 
-1.  **Entrenamiento Inicial**: Antes de nada, entrena a la IA con datos históricos.
+Este proyecto implementa un bot de trading cuantitativo diseñado para operar en mercados de criptomonedas de forma autónoma. El sistema combina análisis técnico tradicional con modelos de **Machine Learning (Random Forest)** para identificar oportunidades de mercado con una gestión de riesgo estricta.
+
+Su arquitectura modular permite escanear múltiples pares simultáneamente, ejecutar validaciones de volatilidad en tiempo real y simular operaciones (Paper Trading) utilizando datos reales de **Binance Futures**.
+
+---
+
+## 📚 Documentación Exclusiva
+
+Para entender a fondo cómo funciona cada engranaje, consulta nuestra documentación detallada:
+
+-   **[🏗️ Arquitectura Técnica](docs/ARCHITECTURE.md)**: Cómo se comunican el Bot, la API y la Web.
+-   **[🧠 Estrategia e IA](docs/STRATEGY.md)**: Explicación del modelo predictivo, indicadores (MACD, Bollinger) y gestión de riesgo.
+-   **[🗺️ Roadmap](docs/ROADMAP.md)**: El plan de futuro y las próximas funcionalidades.
+
+---
+
+## ✨ Características Clave
+
+*   **🔍 Scanner de Mercado IA**: Monitorización en tiempo real de 6+ pares (BTC, ETH, SOL...) buscando patrones de alta probabilidad.
+*   **🧠 Inteligencia Colectiva**: Modelo "Universal" entrenado con datos de todo el mercado, capaz de adaptarse a diferentes activos.
+*   **🛡️ Gestión de Riesgo Profesional**: Cálculo dinámico de posiciones y Stop Loss basados en la volatilidad (ATR). Nunca se arriesga más de lo configurado.
+*   **📉 Simulación Realista (Paper Trading)**: Opera con precios reales de **Binance Futures** sin arriesgar dinero real. Perfecto para validar estrategias.
+*   **📊 Command Center**: Dashboard web interactivo para visualizar las decisiones de la IA, el portafolio y los gráficos en vivo.
+
+---
+
+## 🚀 Quick Start
+
+Sigue estos pasos para levantar tu propio laboratorio de trading en minutos.
+
+### Prerrequisitos
+-   Python 3.9+
+-   Git
+
+### Instalación
+
+1.  **Clonar el repositorio**:
+    ```bash
+    git clone https://github.com/tu-usuario/trade-bot.git
+    cd trade-bot
+    ```
+
+2.  **Preparar entorno**:
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # En Windows: venv\Scripts\activate
+    pip install -r requirements.txt
+    ```
+
+3.  **Configuración**:
+    El archivo `config.json` ya viene pre-configurado para simulación. Puedes editar `symbols` para añadir más monedas.
+
+4.  **Entrenar a la IA**:
+    Antes de operar, el cerebro debe aprender.
     ```bash
     python3 bot/train_model.py
     ```
-2.  **Backtesting**: Comprueba qué tal habría funcionado tu estrategia en el pasado.
+
+### Ejecutar el Sistema
+
+Necesitarás **3 terminales** abiertas (o usar tmux/docker en el futuro):
+
+*   **Terminal 1 (El Bot)**:
     ```bash
-    python3 bot/backtest.py
+    source venv/bin/activate
+    python3 bot/paper_trading.py
     ```
-3.  **Ejecución en Vivo**: Sigue los pasos de las "3 Terminales" de arriba.
 
-## Configuración (`config.json`)
-Puedes ajustar el comportamiento del bot editando este archivo:
-- `symbol`: Par a operar (Recomendado: `ADA-USD` para cuentas pequeñas).
-- `risk_per_trade`: % de capital a arriesgar por operación (ej: 0.02 = 2%).
-- `volatility_threshold`: Filtro de actividad (ej: 0.002 para permitir más operaciones en criptos estables).
-- `initial_capital`: Tu capital simulado inicial.
+*   **Terminal 2 (La API)**:
+    ```bash
+    source venv/bin/activate
+    uvicorn api.main:app --reload
+    ```
 
-## Notas Importantes
-- **Datos**: Por defecto usa Yahoo Finance (gratis). Puede tener un ligero retraso respecto a Binance real.
-- **Logs en Vivo**: Si ves "HOLD" y "Waiting for next cycle", es el comportamiento normal. El bot está esperando la oportunidad perfecta según su entrenamiento.
+*   **Terminal 3 (El Dashboard)**:
+    ```bash
+    cd web
+    python3 -m http.server 5500
+    ```
+    👉 Abre tu navegador en: `http://localhost:5500`
 
 ---
-*Descargo de responsabilidad: Este software es una herramienta educativa de simulación. El trading de criptomonedas conlleva un alto riesgo de pérdida de capital.*
+
+## ⚠️ Disclaimer
+
+**Este software es una herramienta con fines educativos y de investigación.** El trading con criptomonedas conlleva un riesgo significativo de pérdida de capital. El rendimiento pasado del modelo no garantiza resultados futuros. Úsalo bajo tu propia responsabilidad.
+
+---
+*Desarrollado con ❤️ y mucho ☕.*

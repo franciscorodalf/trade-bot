@@ -3319,3 +3319,75 @@
 2025-12-06 19:30:46,312 [INFO] Prediction: HOLD (Prob: 0.4740, Close: 2.02)
 2025-12-06 19:30:46,313 [INFO] Found 0 BUY opportunities.
 2025-12-06 19:30:46,314 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 19:31:46,318 [INFO] Scanning market... (6 pairs)
+2025-12-06 19:31:49,346 [INFO] [BTC/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-06 19:31:52,803 [INFO] Prediction: HOLD (Prob: 0.5565, Close: 3027.20)
+2025-12-06 19:31:55,853 [INFO] Prediction: HOLD (Prob: 0.5271, Close: 132.08)
+2025-12-06 19:31:58,952 [INFO] Prediction: HOLD (Prob: 0.4918, Close: 889.45)
+2025-12-06 19:32:02,054 [INFO] Prediction: HOLD (Prob: 0.5189, Close: 0.41)
+2025-12-06 19:32:05,666 [INFO] Prediction: HOLD (Prob: 0.4740, Close: 2.02)
+2025-12-06 19:32:05,667 [INFO] Found 0 BUY opportunities.
+2025-12-06 19:32:05,668 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 19:33:05,675 [INFO] Scanning market... (6 pairs)
+2025-12-06 19:33:09,423 [INFO] [BTC/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
+2025-12-06 19:33:12,544 [INFO] Prediction: HOLD (Prob: 0.5610, Close: 3026.03)
+2025-12-06 19:33:15,909 [INFO] Prediction: HOLD (Prob: 0.5271, Close: 131.99)
+2025-12-06 19:33:18,920 [INFO] Prediction: HOLD (Prob: 0.4981, Close: 888.67)
+2025-12-06 19:33:21,928 [INFO] Prediction: HOLD (Prob: 0.5213, Close: 0.41)
+2025-12-06 19:33:25,534 [INFO] Prediction: HOLD (Prob: 0.4822, Close: 2.02)
+2025-12-06 19:33:25,536 [INFO] Found 0 BUY opportunities.
+2025-12-06 19:33:25,537 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 19:34:25,542 [INFO] Scanning market... (6 pairs)
+2025-12-06 19:34:28,607 [INFO] [BTC/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
+2025-12-06 19:34:31,607 [INFO] Prediction: HOLD (Prob: 0.5565, Close: 3027.37)
+2025-12-06 19:34:34,632 [INFO] Prediction: HOLD (Prob: 0.5271, Close: 132.06)
+2025-12-06 19:34:37,849 [INFO] Prediction: HOLD (Prob: 0.5013, Close: 889.25)
+2025-12-06 19:34:40,778 [INFO] Prediction: HOLD (Prob: 0.5229, Close: 0.41)
+2025-12-06 19:34:44,659 [INFO] Prediction: HOLD (Prob: 0.4740, Close: 2.02)
+2025-12-06 19:34:44,660 [INFO] Found 0 BUY opportunities.
+2025-12-06 19:34:44,661 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 19:35:44,667 [INFO] Scanning market... (6 pairs)
+2025-12-06 19:35:47,915 [INFO] [BTC/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-06 19:35:51,269 [INFO] Prediction: HOLD (Prob: 0.5565, Close: 3028.39)
+2025-12-06 19:35:55,185 [INFO] Prediction: HOLD (Prob: 0.5271, Close: 132.03)
+2025-12-06 19:35:58,250 [INFO] Prediction: HOLD (Prob: 0.5067, Close: 889.14)
+2025-12-06 19:36:01,658 [INFO] Prediction: HOLD (Prob: 0.5229, Close: 0.41)
+2025-12-06 19:36:05,209 [INFO] Prediction: HOLD (Prob: 0.4740, Close: 2.02)
+2025-12-06 19:36:05,210 [INFO] Found 0 BUY opportunities.
+2025-12-06 19:36:05,211 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 19:37:05,216 [INFO] Scanning market... (6 pairs)
+2025-12-06 19:37:08,308 [INFO] [BTC/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-06 19:37:11,263 [INFO] Prediction: HOLD (Prob: 0.5565, Close: 3027.37)
+2025-12-06 19:37:14,558 [INFO] Prediction: HOLD (Prob: 0.5328, Close: 131.96)
+2025-12-06 19:37:17,582 [INFO] Prediction: HOLD (Prob: 0.5067, Close: 889.13)
+2025-12-06 19:37:20,707 [INFO] Prediction: HOLD (Prob: 0.5213, Close: 0.41)
+2025-12-06 19:37:24,322 [INFO] Prediction: HOLD (Prob: 0.4822, Close: 2.02)
+2025-12-06 19:37:24,323 [INFO] Found 0 BUY opportunities.
+2025-12-06 19:37:24,324 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 19:38:24,309 [INFO] Scanning market... (6 pairs)
+2025-12-06 19:38:28,080 [INFO] [BTC/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
+2025-12-06 19:38:31,077 [INFO] Prediction: HOLD (Prob: 0.5610, Close: 3026.18)
+2025-12-06 19:38:34,069 [INFO] Prediction: HOLD (Prob: 0.5358, Close: 131.90)
+2025-12-06 19:38:38,481 [INFO] Prediction: HOLD (Prob: 0.5002, Close: 889.09)
+2025-12-06 19:38:42,496 [INFO] Prediction: HOLD (Prob: 0.5213, Close: 0.41)
+2025-12-06 19:38:47,225 [INFO] Prediction: HOLD (Prob: 0.4822, Close: 2.02)
+2025-12-06 19:38:47,227 [INFO] Found 0 BUY opportunities.
+2025-12-06 19:38:47,228 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 19:39:47,227 [INFO] Scanning market... (6 pairs)
+2025-12-06 19:39:51,148 [INFO] [BTC/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-06 19:39:54,031 [INFO] Prediction: HOLD (Prob: 0.5610, Close: 3026.18)
+2025-12-06 19:39:57,462 [INFO] Prediction: HOLD (Prob: 0.5358, Close: 131.93)
+2025-12-06 19:40:00,597 [INFO] Prediction: HOLD (Prob: 0.5013, Close: 889.22)
+2025-12-06 19:40:03,713 [INFO] Prediction: HOLD (Prob: 0.5213, Close: 0.41)
+2025-12-06 19:40:06,684 [INFO] Prediction: HOLD (Prob: 0.4822, Close: 2.02)
+2025-12-06 19:40:06,685 [INFO] Found 0 BUY opportunities.
+2025-12-06 19:40:06,686 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
+2025-12-06 19:41:06,688 [INFO] Scanning market... (6 pairs)
+2025-12-06 19:41:10,343 [INFO] [BTC/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-06 19:41:13,252 [INFO] Prediction: HOLD (Prob: 0.5565, Close: 3028.21)
+2025-12-06 19:41:16,234 [INFO] Prediction: HOLD (Prob: 0.5271, Close: 132.08)
+2025-12-06 19:41:19,428 [INFO] Prediction: HOLD (Prob: 0.4918, Close: 889.52)
+2025-12-06 19:41:22,473 [INFO] Prediction: HOLD (Prob: 0.5229, Close: 0.41)
+2025-12-06 19:41:25,541 [INFO] Prediction: HOLD (Prob: 0.4740, Close: 2.02)
+2025-12-06 19:41:25,543 [INFO] Found 0 BUY opportunities.
+2025-12-06 19:41:25,543 [INFO] Cycle End. Balance: 80.00, Equity: 80.00. Open Pos: 0
