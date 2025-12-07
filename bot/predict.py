@@ -3,7 +3,7 @@ import pandas as pd
 import json
 import logging
 import os
-from utils import get_latest_data_with_indicators
+import asyncio
 
 # Load config
 with open('config.json', 'r') as f:
@@ -11,18 +11,24 @@ with open('config.json', 'r') as f:
 
 logging.basicConfig(filename=config['paths']['logs'], level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
+# Global cache for the model
+_model_cache = None
+
 def load_model():
+    global _model_cache
+    if _model_cache is not None:
+        return _model_cache
+
     model_path = config['paths']['model']
     if not os.path.exists(model_path):
         logging.error("Model file not found. Please train the model first.")
         return None
-    return joblib.load(model_path)
+    
+    logging.info(f"Loading model from {model_path}...")
+    _model_cache = joblib.load(model_path)
+    return _model_cache
 
-def predict(symbol=None):
-    # Backward compatibility alias
-    return predict_symbol(symbol)
-
-def predict_symbol(symbol=None):
+async def predict_symbol(symbol=None):
     model = load_model()
     if model is None:
         return None
@@ -35,7 +41,8 @@ def predict_symbol(symbol=None):
     
     # Custom fetch for prediction to ensure we get the right symbol's data
     # utils.fetch_data handles the default if symbol is None
-    df = fetch_data(symbol=symbol, limit=1000)
+    # Now ASYNC awaiting
+    df = await fetch_data(symbol=symbol, limit=1000)
     
     if df is not None:
         df = add_indicators(df)
@@ -102,4 +109,5 @@ def predict_symbol(symbol=None):
     }
 
 if __name__ == "__main__":
-    print(predict())
+    loop = asyncio.get_event_loop()
+    print(loop.run_until_complete(predict_symbol()))

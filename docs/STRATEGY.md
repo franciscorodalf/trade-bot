@@ -1,3 +1,5 @@
+[← Volver al README Principal](../README.md)
+
 # 🧠 Estrategia de Trading e Inteligencia Artificial
 
 Este documento explica la lógica financiera y algorítmica detrás de las decisiones del bot.
@@ -31,7 +33,6 @@ No se usan stops fijos (ej. siempre vender a -2%). Se utiliza el **ATR (Average 
 *   **Risk Per Trade**: Se calcula el tamaño de la posición para no arriesgar más de un X% del balance total en una sola operación mala.
 
 ## 🔄 El Scanner Multi-Moneda
-El bot no es pasivo; es un **cazador**.
 Cada ciclo (aprox. 1 minuto), analiza todos los pares configurados.
 1.  Obtiene predicciones para todos.
 2.  Las clasifica por **Probabilidad de Éxito** (Confidence).

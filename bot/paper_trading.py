@@ -1,12 +1,11 @@
-import time
+import asyncio
 import json
 import logging
 import sqlite3
-import ccxt
+import ccxt.async_support as ccxt
 import pandas as pd
 from datetime import datetime
-from utils import get_latest_data_with_indicators
-from predict import predict
+from predict import predict_symbol
 from strategy import Strategy
 
 # Load config
@@ -26,21 +25,10 @@ class PaperTrader:
         # Initialize Balance in DB if not exists
         self.init_db_balance()
         
-        # Try Binance connection
-        self.exchange = None
-        # In a real scenario, we'd load keys from env or secure config
-        # self.exchange = ccxt.binance({
-        #     'apiKey': 'YOUR_API_KEY',
-        #     'secret': 'YOUR_SECRET',
-        #     'enableRateLimit': True,
-        #     'options': { 'defaultType': 'future' } # or spot
-        # })
-        # self.exchange.set_sandbox_mode(True) 
+        # Portfolio State: { "SYMBOL": (amount, entry_price, sl, tp) }
+        self.portfolio = {}
         
-        if self.exchange:
-            logging.info("Connected to Binance Testnet")
-        else:
-            logging.info("No API keys found. Using Internal Simulation Mode.")
+        logging.info("Initialized PaperTrader (Async Mode)")
 
     def init_db_balance(self):
         conn = sqlite3.connect(self.db_path)
@@ -119,14 +107,12 @@ class PaperTrader:
             logging.info(f"Loaded open position from DB: {sym} ({amt} units @ {price})")
         conn.close()
 
-    def run(self):
-        logging.info("Bot started in Multi-Symbol Mode.")
+    async def run(self):
+        logging.info("Bot started in ASYNC Multi-Symbol Mode.")
         
         # Track internal state for simulation
         current_balance, current_equity = self.get_balance()
         
-        # Portfolio State: { "SYMBOL": (amount, entry_price, sl, tp) }
-        self.portfolio = {}
         try:
             self.load_portfolio()
         except Exception as e:
@@ -136,25 +122,26 @@ class PaperTrader:
         
         while self.running:
             if self.paused:
-                time.sleep(5)
+                await asyncio.sleep(5)
                 continue
                 
             try:
                 symbols = config.get('symbols', [config.get('symbol')])
                 max_pos = config.get('max_open_positions', 3)
                 
+                start_time = datetime.now()
+                logging.info(f"Scanning market... ({len(symbols)} pairs) [ASYNC]")
+                
+                # 1. SCANNING PHASE (Parallel)
+                tasks = [predict_symbol(sym) for sym in symbols]
+                results = await asyncio.gather(*tasks)
+                
                 opportunities = []
-                
-                # 1. SCANNING PHASE
-                logging.info(f"Scanning market... ({len(symbols)} pairs)")
-                
-                for symbol in symbols:
-                    from predict import predict_symbol
-                    prediction = predict_symbol(symbol)
-                    
+                for i, prediction in enumerate(results):
+                    symbol = symbols[i]
                     if not prediction:
                         continue
-                        
+                    
                     current_price = prediction['close']
                     self.log_signal(prediction['signal'], prediction['probability'], current_price, symbol=symbol)
                     
@@ -163,12 +150,16 @@ class PaperTrader:
                         "prediction": prediction,
                         "price": current_price
                     })
-                    
+                
+                scan_duration = (datetime.now() - start_time).total_seconds()
+                logging.info(f"Scan completed in {scan_duration:.2f}s")
+
                 # 2. RANKING PHASE
                 buy_signals = [o for o in opportunities if o['prediction']['signal'] == "BUY"]
                 buy_signals.sort(key=lambda x: x['prediction']['probability'], reverse=True)
                 
-                logging.info(f"Found {len(buy_signals)} BUY opportunities.")
+                if buy_signals:
+                    logging.info(f"Found {len(buy_signals)} BUY opportunities.")
                 
                 # 3. EXECUTION PHASE
                 
@@ -181,6 +172,7 @@ class PaperTrader:
                     prediction = opp['prediction']
                     
                     amount, entry_price, sl_price, tp_price = portfolio[symbol]
+                    cost_val = amount * entry_price # Estimate cost
                     
                     exit_reason = None
                     if sl_price > 0 and current_price <= sl_price: exit_reason = "SL"
@@ -194,11 +186,9 @@ class PaperTrader:
                         del portfolio[symbol]
                         
                         sell_fee = revenue * config['commission_rate']
-                        current_balance -= sell_fee # Deduct sell fee from balance (PnL calculation might need adjustment if PnL includes fee)
-                        # PnL = (Revenue - Sell Fee) - (Cost + Buy Fee). My PnL calc above was simple.
-                        # Let's keep PnL simple: Revenue - Cost. Fees are logged separately.
+                        current_balance -= sell_fee 
                         
-                        self.log_trade("SELL", current_price, amount, pnl, exit_reason, cost=portfolio[symbol][0]*portfolio[symbol][1], fee=sell_fee, symbol=symbol)
+                        self.log_trade("SELL", current_price, amount, pnl, exit_reason, cost=cost_val, fee=sell_fee, symbol=symbol)
                         logging.info(f"SELL {symbol} ({exit_reason}). PnL: {pnl:.2f}")
 
                 # Enter New Positions
@@ -254,12 +244,12 @@ class PaperTrader:
                 
                 logging.info(f"Cycle End. Balance: {current_balance:.2f}, Equity: {current_equity:.2f}. Open Pos: {len(portfolio)}")
                 
-                time.sleep(60) 
+                await asyncio.sleep(60) 
                 
             except Exception as e:
                 logging.error(f"Error in main loop: {e}", exc_info=True)
-                time.sleep(10)
+                await asyncio.sleep(10)
 
 if __name__ == "__main__":
     bot = PaperTrader()
-    bot.run()
+    asyncio.run(bot.run())

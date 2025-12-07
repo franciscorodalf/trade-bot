@@ -1,11 +1,12 @@
-import ccxt
-# Updated: 2025-12-07 11:15 UTC
+import ccxt.async_support as ccxt
+# Updated: 2025-12-07 12:05 UTC (Async)
 import pandas as pd
 import numpy as np
 import ta
 import json
 import logging
 import time
+import asyncio
 from datetime import datetime, timedelta
 
 # Load config
@@ -14,49 +15,55 @@ with open('config.json', 'r') as f:
 
 logging.basicConfig(filename=config['paths']['logs'], level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
-def fetch_data(symbol=None, interval=None, limit=1000):
+async def fetch_data(symbol=None, interval=None, limit=1000):
     """
-    Fetch historical data from Binance using CCXT.
+    Fetch historical data from Binance using CCXT (Async).
     """
     symbol = symbol or config.get('symbol') or config.get('symbols', [])[0]
     interval = interval or config['timeframe']
     
     retries = 3
-    for attempt in range(retries):
-        try:
-            # Use public API for now (no keys required for fetching data)
-            exchange = ccxt.binance({
-                'enableRateLimit': True,
-                'options': {
-                    'defaultType': 'future' # Use futures data by default as requested/implied by "robust"
-                }
-            })
-            
-            # Check if keys are provided in config for higher limits (optional)
-            if config.get('binance', {}).get('api_key'):
-                 exchange.apiKey = config['binance']['api_key']
-                 exchange.secret = config['binance']['api_secret']
+    exchange = None
+    try:
+        # Use public API
+        exchange = ccxt.binance({
+            'enableRateLimit': True,
+            'options': {
+                'defaultType': 'future' 
+            }
+        })
+        
+        # Check keys (optional)
+        if config.get('binance', {}).get('api_key'):
+             exchange.apiKey = config['binance']['api_key']
+             exchange.secret = config['binance']['api_secret']
 
-            # Fetch OHLCV
-            ohlcv = exchange.fetch_ohlcv(symbol, timeframe=interval, limit=limit)
-            
-            if not ohlcv:
-                logging.warning(f"Attempt {attempt+1}: No data fetched for {symbol}. Retrying...")
-                time.sleep(2)
-                continue
+        for attempt in range(retries):
+            try:
+                # Async Fetch
+                ohlcv = await exchange.fetch_ohlcv(symbol, timeframe=interval, limit=limit)
                 
-            df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
-            df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
-            df.set_index('timestamp', inplace=True)
-            
-            return df
-            
-        except Exception as e:
-            logging.warning(f"Attempt {attempt+1} failed for {symbol}: {e}. Retrying in 2s...")
-            time.sleep(2)
-            
-    logging.error(f"Failed to fetch data for {symbol} after {retries} attempts.")
-    return None
+                if not ohlcv:
+                    logging.warning(f"Attempt {attempt+1}: No data fetched for {symbol}. Retrying...")
+                    await asyncio.sleep(2)
+                    continue
+                    
+                df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
+                df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
+                df.set_index('timestamp', inplace=True)
+                
+                return df
+                
+            except Exception as e:
+                logging.warning(f"Attempt {attempt+1} failed for {symbol}: {e}. Retrying in 2s...")
+                await asyncio.sleep(2)
+                
+        logging.error(f"Failed to fetch data for {symbol} after {retries} attempts.")
+        return None
+        
+    finally:
+        if exchange:
+            await exchange.close()
 
 def add_indicators(df):
     """
@@ -157,11 +164,11 @@ def add_indicators(df):
     
     return df
 
-def get_latest_data_with_indicators():
+async def get_latest_data_with_indicators():
     """
-    Fetch latest data and add indicators for real-time prediction.
+    Fetch latest data and add indicators for real-time prediction (Async).
     """
-    df = fetch_data(limit=1000) # Fetch enough for indicators (esp. 4h SMA)
+    df = await fetch_data(limit=1000) # Fetch enough for indicators (esp. 4h SMA)
     if df is not None:
         df = add_indicators(df)
         return df

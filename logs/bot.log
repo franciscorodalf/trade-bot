@@ -1,1410 +1,428 @@
-2025-12-07 11:03:12,052 [INFO] No API keys found. Using Internal Simulation Mode.
-2025-12-07 11:03:12,053 [INFO] Bot started in Multi-Symbol Mode.
-2025-12-07 11:03:12,053 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:03:16,521 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:03:26,538 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:03:30,357 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:03:40,369 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:03:44,193 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:03:54,200 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:03:57,296 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:04:07,309 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:04:11,289 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:04:16,414 [INFO] No API keys found. Using Internal Simulation Mode.
-2025-12-07 11:04:16,414 [INFO] Bot started in Multi-Symbol Mode.
-2025-12-07 11:04:16,414 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:04:20,496 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Documents/GitHub/trade-bot/venv/lib/python3.9/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Documents/GitHub/trade-bot/venv/lib/python3.9/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:04:21,297 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:04:24,712 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:04:30,509 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:04:33,659 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Documents/GitHub/trade-bot/venv/lib/python3.9/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Documents/GitHub/trade-bot/venv/lib/python3.9/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:04:34,724 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:04:37,671 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:04:43,664 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:04:47,562 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Documents/GitHub/trade-bot/venv/lib/python3.9/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Documents/GitHub/trade-bot/venv/lib/python3.9/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:04:47,678 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:04:50,940 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:04:57,569 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:05:00,797 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Documents/GitHub/trade-bot/venv/lib/python3.9/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Documents/GitHub/trade-bot/venv/lib/python3.9/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:05:00,944 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:05:04,121 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:05:10,805 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:05:14,132 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:05:14,162 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Documents/GitHub/trade-bot/venv/lib/python3.9/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Documents/GitHub/trade-bot/venv/lib/python3.9/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:05:17,385 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:05:24,170 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:05:27,400 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:05:27,547 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Documents/GitHub/trade-bot/venv/lib/python3.9/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Documents/GitHub/trade-bot/venv/lib/python3.9/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:05:30,614 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:05:37,552 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:05:40,621 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:05:40,787 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Documents/GitHub/trade-bot/venv/lib/python3.9/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Documents/GitHub/trade-bot/venv/lib/python3.9/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:05:43,763 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:05:50,793 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:05:53,770 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:05:55,427 [INFO] No API keys found. Using Internal Simulation Mode.
-2025-12-07 11:05:55,427 [INFO] Bot started in Multi-Symbol Mode.
-2025-12-07 11:05:55,427 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:05:56,804 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:06:00,130 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:06:03,149 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
-2025-12-07 11:06:06,151 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5183, Close: 132.28000000)
-2025-12-07 11:06:06,815 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:06:10,029 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:06:10,273 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
-2025-12-07 11:06:13,720 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5800, Close: 0.41500000)
-2025-12-07 11:06:16,890 [INFO] [XRP/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
-2025-12-07 11:06:19,983 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4742, Close: 0.13882000)
-2025-12-07 11:06:20,036 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:06:23,118 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:06:23,256 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4716, Close: 0.00447450)
-2025-12-07 11:06:26,482 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4763, Close: 0.00840100)
-2025-12-07 11:06:29,651 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3711, Close: 81.90000000)
-2025-12-07 11:06:32,942 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4864, Close: 13.33300000)
-2025-12-07 11:06:33,125 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:06:36,049 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4858, Close: 13.81500000)
-2025-12-07 11:06:36,050 [INFO] Found 1 BUY opportunities.
-2025-12-07 11:06:36,051 [INFO] BUY ADA/USDT @ 0.41500000. Prob: 0.58
-2025-12-07 11:06:36,052 [INFO] Cycle End. Balance: 666.50, Equity: 999.83. Open Pos: 1
-2025-12-07 11:06:36,240 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:06:46,247 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:06:49,483 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:06:59,486 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:07:02,664 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:07:12,670 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:07:16,179 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:07:26,186 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:07:29,691 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:07:36,057 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:07:39,364 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:07:39,710 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:07:42,784 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
-2025-12-07 11:07:42,933 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:07:46,409 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4976, Close: 132.36000000)
-2025-12-07 11:07:50,100 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
-2025-12-07 11:07:52,937 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:07:53,531 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5677, Close: 0.41520000)
-2025-12-07 11:07:55,986 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    resampled = calc_techs(resampled)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:07:57,193 [INFO] [XRP/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
-2025-12-07 11:08:00,258 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4709, Close: 0.13881000)
-2025-12-07 11:08:03,497 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4732, Close: 0.00447400)
-2025-12-07 11:08:05,992 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:08:06,838 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4763, Close: 0.00840100)
-2025-12-07 11:08:09,603 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    logging.warning(f"Not enough data for timeframe {tf_str} (Has: {len(resampled)}, Need: 52). Skipping symbol.")
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:08:10,649 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3711, Close: 81.89000000)
-2025-12-07 11:08:14,093 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4596, Close: 13.33700000)
-2025-12-07 11:08:17,975 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4441, Close: 13.82600000)
-2025-12-07 11:08:17,977 [INFO] Found 1 BUY opportunities.
-2025-12-07 11:08:17,978 [INFO] Cycle End. Balance: 666.50, Equity: 999.99. Open Pos: 1
-2025-12-07 11:08:19,614 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:08:22,759 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    logging.warning(f"Not enough data for timeframe {tf_str} (Has: {len(resampled)}, Need: 52). Skipping symbol.")
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:08:32,769 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:08:35,867 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    logging.warning(f"Not enough data for timeframe {tf_str} (Has: {len(resampled)}, Need: 52). Skipping symbol.")
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:08:45,871 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:08:48,799 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    logging.warning(f"Not enough data for timeframe {tf_str} (Has: {len(resampled)}, Need: 52). Skipping symbol.")
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:08:58,805 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:09:02,383 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    logging.warning(f"Not enough data for timeframe {tf_str} (Has: {len(resampled)}, Need: 52). Skipping symbol.")
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:09:06,240 [INFO] No API keys found. Using Internal Simulation Mode.
-2025-12-07 11:09:06,240 [INFO] Bot started in Multi-Symbol Mode.
-2025-12-07 11:09:06,241 [INFO] Loaded open position from DB: ADA/USDT (803.2128514056225 units @ 0.415)
-2025-12-07 11:09:06,241 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:09:11,025 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:09:12,391 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:09:14,609 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:09:15,681 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    logging.warning(f"Not enough data for timeframe {tf_str} (Has: {len(resampled)}, Need: 52). Skipping symbol.")
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:09:18,049 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4939, Close: 132.45000000)
-2025-12-07 11:09:22,360 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
-2025-12-07 11:09:25,508 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5739, Close: 0.41530000)
-2025-12-07 11:09:25,688 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:09:28,628 [INFO] [XRP/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
-2025-12-07 11:09:29,026 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    logging.warning(f"Not enough data for timeframe {tf_str} (Has: {len(resampled)}, Need: 52). Skipping symbol.")
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:09:31,826 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4680, Close: 0.13885000)
-2025-12-07 11:09:35,332 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4734, Close: 0.00447570)
-2025-12-07 11:09:39,032 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:09:39,091 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4468, Close: 0.00840500)
-2025-12-07 11:09:42,131 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3514, Close: 81.95000000)
-2025-12-07 11:09:42,779 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    logging.warning(f"Not enough data for timeframe {tf_str} (Has: {len(resampled)}, Need: 52). Skipping symbol.")
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:09:45,111 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4793, Close: 13.34400000)
-2025-12-07 11:09:48,595 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4401, Close: 13.83300000)
-2025-12-07 11:09:48,596 [INFO] Found 1 BUY opportunities.
-2025-12-07 11:09:48,597 [INFO] Cycle End. Balance: 666.50, Equity: 1000.07. Open Pos: 1
-2025-12-07 11:09:52,782 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:09:55,950 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    logging.warning(f"Not enough data for timeframe {tf_str} (Has: {len(resampled)}, Need: 52). Skipping symbol.")
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:10:05,955 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:10:08,980 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    logging.warning(f"Not enough data for timeframe {tf_str} (Has: {len(resampled)}, Need: 52). Skipping symbol.")
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:10:18,986 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:10:22,384 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    logging.warning(f"Not enough data for timeframe {tf_str} (Has: {len(resampled)}, Need: 52). Skipping symbol.")
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:10:32,388 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:10:35,610 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    logging.warning(f"Not enough data for timeframe {tf_str} (Has: {len(resampled)}, Need: 52). Skipping symbol.")
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['atr'] = ta.volatility.AverageTrueRange(d['high'], d['low'], d['close'], window=14).average_true_range()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:10:45,618 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:10:48,600 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:10:48,863 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:10:51,800 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:10:54,924 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
-2025-12-07 11:10:58,108 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4978, Close: 132.40000000)
-2025-12-07 11:10:58,878 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:11:01,185 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
-2025-12-07 11:11:01,950 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:11:04,273 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.6077, Close: 0.41480000)
-2025-12-07 11:11:08,223 [INFO] [XRP/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
-2025-12-07 11:11:11,517 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4629, Close: 0.13879000)
-2025-12-07 11:11:11,958 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:11:14,782 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4732, Close: 0.00447440)
-2025-12-07 11:11:15,028 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:11:18,741 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4839, Close: 0.00840000)
-2025-12-07 11:11:23,627 [INFO] No API keys found. Using Internal Simulation Mode.
-2025-12-07 11:11:23,627 [INFO] Bot started in Multi-Symbol Mode.
-2025-12-07 11:11:23,627 [INFO] Loaded open position from DB: ADA/USDT (803.2128514056225 units @ 0.415)
-2025-12-07 11:11:23,627 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:11:25,049 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:11:27,495 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:11:28,864 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:11:30,604 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:11:34,183 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4939, Close: 132.44000000)
-2025-12-07 11:11:37,254 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
-2025-12-07 11:11:38,881 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:11:40,255 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5742, Close: 0.41510000)
-2025-12-07 11:11:41,947 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:11:43,301 [INFO] [XRP/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
-2025-12-07 11:11:46,993 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4709, Close: 0.13880000)
-2025-12-07 11:11:50,442 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4753, Close: 0.00447270)
-2025-12-07 11:11:51,959 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:11:55,774 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:11:58,717 [INFO] No API keys found. Using Internal Simulation Mode.
-2025-12-07 11:11:58,717 [INFO] Bot started in Multi-Symbol Mode.
-2025-12-07 11:11:58,718 [INFO] Loaded open position from DB: ADA/USDT (803.2128514056225 units @ 0.415)
-2025-12-07 11:11:58,718 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:12:02,622 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:12:05,781 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:12:05,932 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:12:08,930 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4939, Close: 132.44000000)
-2025-12-07 11:12:09,328 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:12:11,963 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
-2025-12-07 11:12:15,188 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.6077, Close: 0.41480000)
-2025-12-07 11:12:18,212 [INFO] [XRP/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
-2025-12-07 11:12:19,333 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:12:21,248 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4709, Close: 0.13881000)
-2025-12-07 11:12:22,911 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:12:24,238 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4695, Close: 0.00447160)
-2025-12-07 11:12:27,687 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4796, Close: 0.00840100)
-2025-12-07 11:12:31,452 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3647, Close: 81.91000000)
-2025-12-07 11:12:32,919 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:12:35,580 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4953, Close: 13.32900000)
-2025-12-07 11:12:36,573 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:12:38,570 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4761, Close: 13.82200000)
-2025-12-07 11:12:38,571 [INFO] Found 1 BUY opportunities.
-2025-12-07 11:12:38,572 [INFO] Cycle End. Balance: 666.50, Equity: 999.67. Open Pos: 1
-2025-12-07 11:12:46,579 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:12:49,855 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:12:59,862 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:13:03,846 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:13:13,854 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:13:17,035 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:13:27,040 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:13:30,013 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:13:38,578 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:13:40,019 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:13:43,072 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:13:49,615 [INFO] No API keys found. Using Internal Simulation Mode.
-2025-12-07 11:13:49,615 [INFO] Bot started in Multi-Symbol Mode.
-2025-12-07 11:13:49,615 [INFO] Loaded open position from DB: ADA/USDT (803.2128514056225 units @ 0.415)
-2025-12-07 11:13:49,615 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:13:53,078 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:13:53,490 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:13:56,145 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:13:56,573 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
-2025-12-07 11:13:59,995 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5096, Close: 132.34000000)
-2025-12-07 11:14:03,212 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
-2025-12-07 11:14:06,156 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:14:06,313 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.6077, Close: 0.41480000)
-2025-12-07 11:14:09,338 [INFO] [XRP/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
-2025-12-07 11:14:09,592 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:14:12,752 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4662, Close: 0.13875000)
-2025-12-07 11:14:15,918 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4753, Close: 0.00447270)
-2025-12-07 11:14:19,009 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4824, Close: 0.00839800)
-2025-12-07 11:14:19,599 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:14:21,944 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3557, Close: 81.92000000)
-2025-12-07 11:14:22,985 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:14:24,941 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4950, Close: 13.32600000)
-2025-12-07 11:14:27,956 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4498, Close: 13.82700000)
-2025-12-07 11:14:27,957 [INFO] Found 1 BUY opportunities.
-2025-12-07 11:14:27,958 [INFO] Cycle End. Balance: 666.50, Equity: 999.67. Open Pos: 1
-2025-12-07 11:14:32,993 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:14:36,378 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:14:46,385 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:14:49,453 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:14:59,460 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:15:02,715 [ERROR] Error in main loop: index 13 is out of bounds for axis 0 with size 7
-Traceback (most recent call last):
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/paper_trading.py", line 153, in run
-    prediction = predict_symbol(symbol)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/predict.py", line 41, in predict_symbol
-    df = add_indicators(df)
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 118, in add_indicators
-    if len(resampled) < 52: # Need at least 50 for SMA50 + buffer
-  File "/Users/fran/Documents/GitHub/trade-bot/bot/utils.py", line 79, in calc_techs
-    d['bb_width'] = ta.volatility.bollinger_wband(d['close'], window=20, window_dev=2)
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 44, in __init__
-    self._run()
-  File "/Users/fran/Library/Python/3.9/lib/python/site-packages/ta/volatility.py", line 50, in _run
-    atr[self._window - 1] = true_range[0 : self._window].mean()
-IndexError: index 13 is out of bounds for axis 0 with size 7
-2025-12-07 11:16:54,077 [INFO] Universal Model trained on 12 pairs. Accuracy: 0.5911
-2025-12-07 11:24:19,081 [INFO] No API keys found. Using Internal Simulation Mode.
-2025-12-07 11:24:19,081 [INFO] Bot started in Multi-Symbol Mode.
-2025-12-07 11:24:19,082 [INFO] Loaded open position from DB: ADA/USDT (803.2128514056225 units @ 0.415)
-2025-12-07 11:24:19,082 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:24:23,902 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:24:27,538 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:24:30,727 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5113, Close: 132.29000000)
-2025-12-07 11:24:33,913 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
-2025-12-07 11:24:37,044 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.4711, Close: 0.41540000)
-2025-12-07 11:24:43,014 [INFO] [XRP/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
-2025-12-07 11:24:46,195 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4249, Close: 0.13893000)
-2025-12-07 11:24:50,310 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4364, Close: 0.00447420)
-2025-12-07 11:24:53,650 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4299, Close: 0.00840100)
-2025-12-07 11:24:56,955 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3721, Close: 82.02000000)
-2025-12-07 11:25:00,268 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4106, Close: 13.34600000)
-2025-12-07 11:25:03,633 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4226, Close: 13.83300000)
-2025-12-07 11:25:03,635 [INFO] Found 0 BUY opportunities.
-2025-12-07 11:25:03,635 [INFO] Cycle End. Balance: 666.50, Equity: 1000.15. Open Pos: 1
-2025-12-07 11:26:03,639 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:26:07,612 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:26:11,330 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:26:14,950 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5112, Close: 132.27000000)
-2025-12-07 11:26:18,761 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
-2025-12-07 11:26:22,069 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.4778, Close: 0.41530000)
-2025-12-07 11:26:25,692 [INFO] [XRP/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
-2025-12-07 11:26:29,440 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4249, Close: 0.13893000)
-2025-12-07 11:26:32,385 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4328, Close: 0.00447270)
-2025-12-07 11:26:35,556 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4299, Close: 0.00840100)
-2025-12-07 11:26:39,589 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3876, Close: 81.98000000)
-2025-12-07 11:26:42,608 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4211, Close: 13.34300000)
-2025-12-07 11:26:46,008 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4145, Close: 13.83400000)
-2025-12-07 11:26:46,009 [INFO] Found 0 BUY opportunities.
-2025-12-07 11:26:46,010 [INFO] Cycle End. Balance: 666.50, Equity: 1000.07. Open Pos: 1
-2025-12-07 11:27:46,048 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:27:49,536 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:27:52,925 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:27:55,919 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5151, Close: 132.28000000)
-2025-12-07 11:28:00,113 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
-2025-12-07 11:28:03,147 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.4531, Close: 0.41550000)
-2025-12-07 11:28:06,121 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
-2025-12-07 11:28:09,785 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4214, Close: 0.13896000)
-2025-12-07 11:28:12,884 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4365, Close: 0.00447480)
-2025-12-07 11:28:16,788 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4420, Close: 0.00839700)
-2025-12-07 11:28:20,531 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3770, Close: 81.95000000)
-2025-12-07 11:28:23,506 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4537, Close: 13.33400000)
-2025-12-07 11:28:26,855 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4288, Close: 13.82300000)
-2025-12-07 11:28:26,857 [INFO] Found 0 BUY opportunities.
-2025-12-07 11:28:26,857 [INFO] Cycle End. Balance: 666.50, Equity: 1000.23. Open Pos: 1
-2025-12-07 11:29:26,862 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:29:30,452 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:29:33,682 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:29:36,782 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5198, Close: 132.18000000)
-2025-12-07 11:29:40,778 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
-2025-12-07 11:29:43,966 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5825, Close: 0.41500000)
-2025-12-07 11:29:47,153 [INFO] [XRP/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
-2025-12-07 11:29:50,530 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4259, Close: 0.13878000)
-2025-12-07 11:29:53,490 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4328, Close: 0.00447240)
-2025-12-07 11:29:56,628 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4369, Close: 0.00839800)
-2025-12-07 11:29:59,736 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3790, Close: 81.99000000)
-2025-12-07 11:30:02,923 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4696, Close: 13.33700000)
-2025-12-07 11:30:06,088 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4460, Close: 13.81900000)
-2025-12-07 11:30:06,089 [INFO] Found 1 BUY opportunities.
-2025-12-07 11:30:06,090 [INFO] Cycle End. Balance: 666.50, Equity: 999.83. Open Pos: 1
-2025-12-07 11:31:06,094 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:31:09,321 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:31:13,265 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:31:16,295 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4876, Close: 132.30000000)
-2025-12-07 11:31:19,893 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
-2025-12-07 11:31:23,016 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.4480, Close: 0.41540000)
-2025-12-07 11:31:25,995 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
-2025-12-07 11:31:29,697 [INFO] [DOGE/USDT] Prediction: SELL (Prob: 0.3872, Close: 0.13887000)
-2025-12-07 11:31:32,837 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4017, Close: 0.00447970)
-2025-12-07 11:31:35,835 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4140, Close: 0.00840600)
-2025-12-07 11:31:38,906 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4095, Close: 81.99000000)
-2025-12-07 11:31:42,523 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4140, Close: 13.34900000)
-2025-12-07 11:31:45,869 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4215, Close: 13.83600000)
-2025-12-07 11:31:45,870 [INFO] Found 0 BUY opportunities.
-2025-12-07 11:31:45,871 [INFO] Cycle End. Balance: 666.50, Equity: 1000.15. Open Pos: 1
-2025-12-07 11:32:45,878 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:32:50,291 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:32:54,741 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:32:58,832 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5133, Close: 132.27000000)
-2025-12-07 11:33:03,024 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
-2025-12-07 11:33:07,092 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.4480, Close: 0.41540000)
-2025-12-07 11:33:11,821 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
-2025-12-07 11:33:15,860 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4065, Close: 0.13883000)
-2025-12-07 11:33:20,321 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4094, Close: 0.00447930)
-2025-12-07 11:33:25,247 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4080, Close: 0.00840800)
-2025-12-07 11:33:29,291 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4043, Close: 81.96000000)
-2025-12-07 11:33:33,355 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4045, Close: 13.35200000)
-2025-12-07 11:33:37,381 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4258, Close: 13.83500000)
-2025-12-07 11:33:37,383 [INFO] Found 0 BUY opportunities.
-2025-12-07 11:33:37,383 [INFO] Cycle End. Balance: 666.50, Equity: 1000.15. Open Pos: 1
-2025-12-07 11:34:37,385 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:34:40,438 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:34:43,567 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:34:46,532 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4820, Close: 132.34000000)
-2025-12-07 11:34:49,697 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
-2025-12-07 11:34:53,043 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.4434, Close: 0.41550000)
-2025-12-07 11:34:58,418 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
-2025-12-07 11:35:01,584 [INFO] [DOGE/USDT] Prediction: SELL (Prob: 0.3843, Close: 0.13894000)
-2025-12-07 11:35:04,984 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4094, Close: 0.00447950)
-2025-12-07 11:35:08,332 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4140, Close: 0.00840600)
-2025-12-07 11:35:11,514 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4175, Close: 81.94000000)
-2025-12-07 11:35:14,505 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4067, Close: 13.35500000)
-2025-12-07 11:35:18,919 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4215, Close: 13.83600000)
-2025-12-07 11:35:18,921 [INFO] Found 0 BUY opportunities.
-2025-12-07 11:35:18,921 [INFO] Cycle End. Balance: 666.50, Equity: 1000.23. Open Pos: 1
-2025-12-07 11:36:18,924 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:36:22,365 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:36:25,351 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:36:28,886 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4825, Close: 132.38000000)
-2025-12-07 11:36:32,263 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
-2025-12-07 11:36:35,865 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.4454, Close: 0.41570000)
-2025-12-07 11:36:38,961 [INFO] [XRP/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
-2025-12-07 11:36:42,501 [INFO] [DOGE/USDT] Prediction: SELL (Prob: 0.3752, Close: 0.13897000)
-2025-12-07 11:36:45,641 [INFO] [1000PEPE/USDT] Prediction: SELL (Prob: 0.3996, Close: 0.00448310)
-2025-12-07 11:36:49,070 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4184, Close: 0.00840400)
-2025-12-07 11:36:52,136 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4043, Close: 81.96000000)
-2025-12-07 11:36:55,214 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4088, Close: 13.35300000)
-2025-12-07 11:36:58,577 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4215, Close: 13.83800000)
-2025-12-07 11:36:58,578 [INFO] Found 0 BUY opportunities.
-2025-12-07 11:36:58,579 [INFO] Cycle End. Balance: 666.50, Equity: 1000.40. Open Pos: 1
-2025-12-07 11:37:58,582 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:38:01,926 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:38:05,221 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:38:08,187 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5133, Close: 132.27000000)
-2025-12-07 11:38:11,459 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
-2025-12-07 11:38:15,298 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.4750, Close: 0.41520000)
-2025-12-07 11:38:19,095 [INFO] [XRP/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
-2025-12-07 11:38:22,827 [INFO] [DOGE/USDT] Prediction: SELL (Prob: 0.3806, Close: 0.13891000)
-2025-12-07 11:38:26,780 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4017, Close: 0.00448040)
-2025-12-07 11:38:29,928 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4035, Close: 0.00839600)
-2025-12-07 11:38:33,047 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4223, Close: 81.91000000)
-2025-12-07 11:38:36,368 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4093, Close: 13.35400000)
-2025-12-07 11:38:39,344 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4371, Close: 13.82900000)
-2025-12-07 11:38:39,345 [INFO] Found 0 BUY opportunities.
-2025-12-07 11:38:39,346 [INFO] Cycle End. Balance: 666.50, Equity: 999.99. Open Pos: 1
-2025-12-07 11:39:39,353 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:39:43,009 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:39:46,222 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:39:49,672 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4824, Close: 132.32000000)
-2025-12-07 11:39:53,153 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
-2025-12-07 11:39:56,203 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.4477, Close: 0.41560000)
-2025-12-07 11:39:59,312 [INFO] [XRP/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
-2025-12-07 11:40:02,964 [INFO] [DOGE/USDT] Prediction: SELL (Prob: 0.3888, Close: 0.13893000)
-2025-12-07 11:40:06,088 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4017, Close: 0.00448070)
-2025-12-07 11:40:09,274 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4035, Close: 0.00839600)
-2025-12-07 11:40:12,675 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4265, Close: 81.90000000)
-2025-12-07 11:40:15,849 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4067, Close: 13.35600000)
-2025-12-07 11:40:19,718 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4486, Close: 13.82400000)
-2025-12-07 11:40:19,720 [INFO] Found 0 BUY opportunities.
-2025-12-07 11:40:19,720 [INFO] Cycle End. Balance: 666.50, Equity: 1000.32. Open Pos: 1
-2025-12-07 11:41:19,723 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:41:23,154 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:41:26,899 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:41:29,931 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4805, Close: 132.31000000)
-2025-12-07 11:41:33,260 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
-2025-12-07 11:41:36,470 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.5173, Close: 0.41510000)
-2025-12-07 11:41:39,840 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
-2025-12-07 11:41:43,222 [INFO] [DOGE/USDT] Prediction: SELL (Prob: 0.3833, Close: 0.13895000)
-2025-12-07 11:41:46,503 [INFO] [1000PEPE/USDT] Prediction: SELL (Prob: 0.3909, Close: 0.00448500)
-2025-12-07 11:41:50,053 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4035, Close: 0.00839600)
-2025-12-07 11:41:53,287 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4279, Close: 81.93000000)
-2025-12-07 11:41:56,575 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4035, Close: 13.35700000)
-2025-12-07 11:41:59,559 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4371, Close: 13.82800000)
-2025-12-07 11:41:59,560 [INFO] Found 0 BUY opportunities.
-2025-12-07 11:41:59,561 [INFO] Cycle End. Balance: 666.50, Equity: 999.91. Open Pos: 1
-2025-12-07 11:42:59,564 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:43:02,642 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:43:06,170 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:43:09,173 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4876, Close: 132.30000000)
-2025-12-07 11:43:12,470 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
-2025-12-07 11:43:15,558 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.4683, Close: 0.41530000)
-2025-12-07 11:43:19,379 [INFO] [XRP/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
-2025-12-07 11:43:23,263 [INFO] [DOGE/USDT] Prediction: SELL (Prob: 0.3843, Close: 0.13894000)
-2025-12-07 11:43:26,466 [INFO] [1000PEPE/USDT] Prediction: SELL (Prob: 0.4000, Close: 0.00448980)
-2025-12-07 11:43:29,591 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4152, Close: 0.00839400)
-2025-12-07 11:43:32,665 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4175, Close: 81.94000000)
-2025-12-07 11:43:36,301 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4067, Close: 13.35600000)
-2025-12-07 11:43:39,303 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4505, Close: 13.82100000)
-2025-12-07 11:43:39,304 [INFO] Found 0 BUY opportunities.
-2025-12-07 11:43:39,305 [INFO] Cycle End. Balance: 666.50, Equity: 1000.07. Open Pos: 1
-2025-12-07 11:44:39,323 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:44:42,434 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:44:46,015 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:44:49,380 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4805, Close: 132.31000000)
-2025-12-07 11:44:52,374 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
-2025-12-07 11:44:55,385 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.4683, Close: 0.41530000)
-2025-12-07 11:44:58,911 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
-2025-12-07 11:45:02,166 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4143, Close: 0.13897000)
-2025-12-07 11:45:05,098 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4218, Close: 0.00448850)
-2025-12-07 11:45:08,418 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4280, Close: 0.00839600)
-2025-12-07 11:45:11,601 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4010, Close: 81.95000000)
-2025-12-07 11:45:14,722 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4173, Close: 13.35100000)
-2025-12-07 11:45:18,168 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4674, Close: 13.81100000)
-2025-12-07 11:45:18,170 [INFO] Found 0 BUY opportunities.
-2025-12-07 11:45:18,170 [INFO] Cycle End. Balance: 666.50, Equity: 1000.07. Open Pos: 1
-2025-12-07 11:46:18,176 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:46:21,814 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:46:25,611 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:46:28,744 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5315, Close: 132.26000000)
-2025-12-07 11:46:31,941 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
-2025-12-07 11:46:34,969 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5529, Close: 0.41520000)
-2025-12-07 11:46:38,046 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
-2025-12-07 11:46:41,187 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4062, Close: 0.13894000)
-2025-12-07 11:46:44,217 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4213, Close: 0.00448920)
-2025-12-07 11:46:47,614 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4444, Close: 0.00839300)
-2025-12-07 11:46:50,673 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3984, Close: 81.91000000)
-2025-12-07 11:46:53,838 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4196, Close: 13.34800000)
-2025-12-07 11:46:57,304 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4740, Close: 13.80800000)
-2025-12-07 11:46:57,311 [INFO] Found 1 BUY opportunities.
-2025-12-07 11:46:57,312 [INFO] Cycle End. Balance: 666.50, Equity: 999.99. Open Pos: 1
-2025-12-07 11:47:57,315 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:48:00,448 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:48:03,605 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:48:07,343 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5459, Close: 132.18000000)
-2025-12-07 11:48:10,518 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
-2025-12-07 11:48:13,782 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5881, Close: 0.41470000)
-2025-12-07 11:48:17,537 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
-2025-12-07 11:48:20,807 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4448, Close: 0.13880000)
-2025-12-07 11:48:24,669 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4192, Close: 0.00449000)
-2025-12-07 11:48:27,793 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4808, Close: 0.00838700)
-2025-12-07 11:48:31,168 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4361, Close: 81.82000000)
-2025-12-07 11:48:34,167 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4446, Close: 13.33900000)
-2025-12-07 11:48:37,235 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.5301, Close: 13.78200000)
-2025-12-07 11:48:37,236 [INFO] Found 1 BUY opportunities.
-2025-12-07 11:48:37,237 [INFO] Cycle End. Balance: 666.50, Equity: 999.59. Open Pos: 1
-2025-12-07 11:49:37,242 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:49:41,030 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:49:45,532 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:49:48,621 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5314, Close: 132.23000000)
-2025-12-07 11:49:51,932 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
-2025-12-07 11:49:55,160 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5936, Close: 0.41440000)
-2025-12-07 11:49:58,383 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
-2025-12-07 11:50:01,586 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4393, Close: 0.13878000)
-2025-12-07 11:50:05,244 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4192, Close: 0.00449060)
-2025-12-07 11:50:08,397 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4497, Close: 0.00839100)
-2025-12-07 11:50:12,319 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4379, Close: 81.78000000)
-2025-12-07 11:50:15,509 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4438, Close: 13.33800000)
-2025-12-07 11:50:18,518 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.5245, Close: 13.78600000)
-2025-12-07 11:50:18,519 [INFO] Found 1 BUY opportunities.
-2025-12-07 11:50:18,520 [INFO] Cycle End. Balance: 666.50, Equity: 999.35. Open Pos: 1
-2025-12-07 11:51:18,527 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:51:21,604 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:51:24,609 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:51:27,567 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5332, Close: 132.25000000)
-2025-12-07 11:51:30,934 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
-2025-12-07 11:51:33,910 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5957, Close: 0.41480000)
-2025-12-07 11:51:36,871 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
-2025-12-07 11:51:40,232 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4468, Close: 0.13875000)
-2025-12-07 11:51:43,506 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4283, Close: 0.00448660)
-2025-12-07 11:51:46,514 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4445, Close: 0.00839200)
-2025-12-07 11:51:50,060 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4597, Close: 81.73000000)
-2025-12-07 11:51:53,096 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4608, Close: 13.32900000)
-2025-12-07 11:51:56,148 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.5290, Close: 13.77500000)
-2025-12-07 11:51:56,149 [INFO] Found 1 BUY opportunities.
-2025-12-07 11:51:56,150 [INFO] Cycle End. Balance: 666.50, Equity: 999.67. Open Pos: 1
-2025-12-07 11:52:56,155 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:52:59,320 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:53:02,639 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:53:05,787 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5332, Close: 132.25000000)
-2025-12-07 11:53:08,845 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
-2025-12-07 11:53:12,403 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5795, Close: 0.41490000)
-2025-12-07 11:53:16,168 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
-2025-12-07 11:53:20,236 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4289, Close: 0.13883000)
-2025-12-07 11:53:23,543 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4192, Close: 0.00448970)
-2025-12-07 11:53:26,649 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4237, Close: 0.00839800)
-2025-12-07 11:53:29,641 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4465, Close: 81.76000000)
-2025-12-07 11:53:32,655 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4446, Close: 13.33900000)
-2025-12-07 11:53:35,646 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.5195, Close: 13.78800000)
-2025-12-07 11:53:35,648 [INFO] Found 1 BUY opportunities.
-2025-12-07 11:53:35,648 [INFO] Cycle End. Balance: 666.50, Equity: 999.75. Open Pos: 1
-2025-12-07 11:54:35,655 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:54:38,926 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:54:41,899 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:54:44,867 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5294, Close: 132.27000000)
-2025-12-07 11:54:47,843 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
-2025-12-07 11:54:50,846 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5881, Close: 0.41470000)
-2025-12-07 11:54:53,869 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
-2025-12-07 11:54:56,918 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4448, Close: 0.13880000)
-2025-12-07 11:54:59,953 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4485, Close: 0.00448300)
-2025-12-07 11:55:03,583 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4260, Close: 0.00839500)
-2025-12-07 11:55:06,598 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4704, Close: 81.70000000)
-2025-12-07 11:55:10,437 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4506, Close: 13.33500000)
-2025-12-07 11:55:13,764 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.5369, Close: 13.77800000)
-2025-12-07 11:55:13,765 [INFO] Found 1 BUY opportunities.
-2025-12-07 11:55:13,766 [INFO] Cycle End. Balance: 666.50, Equity: 999.59. Open Pos: 1
-2025-12-07 11:56:13,773 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:56:16,883 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:56:20,226 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:56:23,218 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5332, Close: 132.25000000)
-2025-12-07 11:56:26,224 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
-2025-12-07 11:56:29,782 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5795, Close: 0.41490000)
-2025-12-07 11:56:32,809 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
-2025-12-07 11:56:35,938 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4167, Close: 0.13884000)
-2025-12-07 11:56:38,892 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4631, Close: 0.00448000)
-2025-12-07 11:56:41,960 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4444, Close: 0.00839400)
-2025-12-07 11:56:46,180 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4704, Close: 81.69000000)
-2025-12-07 11:56:49,251 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4438, Close: 13.33800000)
-2025-12-07 11:56:52,520 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.5369, Close: 13.77800000)
-2025-12-07 11:56:52,521 [INFO] Found 1 BUY opportunities.
-2025-12-07 11:56:52,522 [INFO] Cycle End. Balance: 666.50, Equity: 999.75. Open Pos: 1
-2025-12-07 11:57:52,526 [INFO] Scanning market... (12 pairs)
-2025-12-07 11:57:56,014 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
-2025-12-07 11:57:59,011 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
-2025-12-07 11:58:02,320 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5433, Close: 132.35000000)
-2025-12-07 11:58:05,326 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
-2025-12-07 11:58:08,509 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5795, Close: 0.41490000)
-2025-12-07 11:58:12,299 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
-2025-12-07 11:58:15,497 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4097, Close: 0.13888000)
-2025-12-07 11:58:18,631 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4485, Close: 0.00448210)
-2025-12-07 11:58:22,246 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4260, Close: 0.00839500)
-2025-12-07 11:58:26,091 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4799, Close: 81.68000000)
-2025-12-07 11:58:29,186 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4196, Close: 13.34600000)
-2025-12-07 11:58:32,504 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.5301, Close: 13.78200000)
-2025-12-07 11:58:32,505 [INFO] Found 1 BUY opportunities.
-2025-12-07 11:58:32,506 [INFO] Cycle End. Balance: 666.50, Equity: 999.75. Open Pos: 1
+2025-12-07 12:10:47,991 [INFO] Universal Model trained on 12 pairs. Accuracy: 0.5997
+2025-12-07 12:12:00,088 [INFO] Initialized PaperTrader (Async Mode)
+2025-12-07 12:12:00,088 [INFO] Bot started in ASYNC Multi-Symbol Mode.
+2025-12-07 12:12:00,089 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:12:00,089 [INFO] Loading model from bot/models/model.pkl...
+2025-12-07 12:12:07,098 [INFO] [LINK/USDT] Prediction: SELL (Prob: 0.3925, Close: 13.79800000)
+2025-12-07 12:12:07,138 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.4045, Close: 0.41570000)
+2025-12-07 12:12:07,173 [INFO] [AVAX/USDT] Prediction: SELL (Prob: 0.3754, Close: 13.36200000)
+2025-12-07 12:12:07,208 [INFO] [XRP/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-07 12:12:07,241 [INFO] [SOL/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
+2025-12-07 12:12:07,278 [INFO] [1000PEPE/USDT] Prediction: SELL (Prob: 0.3687, Close: 0.00448010)
+2025-12-07 12:12:07,312 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:12:10,218 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
+2025-12-07 12:12:10,279 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:12:10,317 [INFO] [DOGE/USDT] Prediction: SELL (Prob: 0.3655, Close: 0.13904000)
+2025-12-07 12:12:10,357 [INFO] [1000SHIB/USDT] Prediction: SELL (Prob: 0.3935, Close: 0.00840500)
+2025-12-07 12:12:10,453 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3310, Close: 81.94000000)
+2025-12-07 12:12:10,461 [INFO] Scan completed in 10.37s
+2025-12-07 12:12:10,462 [INFO] Cycle End. Balance: 1000.00, Equity: 1000.00. Open Pos: 0
+2025-12-07 12:13:10,464 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:13:19,425 [INFO] [BTC/USDT] Volatility too low (0.0014 < 0.002). Skipping prediction.
+2025-12-07 12:13:19,510 [INFO] [BNB/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:13:19,552 [INFO] [AVAX/USDT] Prediction: SELL (Prob: 0.3770, Close: 13.37900000)
+2025-12-07 12:13:19,591 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.4012, Close: 0.41630000)
+2025-12-07 12:13:19,629 [INFO] [1000PEPE/USDT] Prediction: SELL (Prob: 0.3818, Close: 0.00448470)
+2025-12-07 12:13:19,670 [INFO] [1000SHIB/USDT] Prediction: SELL (Prob: 0.3787, Close: 0.00840800)
+2025-12-07 12:13:19,709 [INFO] [LINK/USDT] Prediction: SELL (Prob: 0.3900, Close: 13.81800000)
+2025-12-07 12:13:19,745 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
+2025-12-07 12:13:19,812 [INFO] [SOL/USDT] Prediction: SELL (Prob: 0.3509, Close: 132.70000000)
+2025-12-07 12:13:19,864 [INFO] [ETH/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-07 12:13:20,155 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3212, Close: 81.98000000)
+2025-12-07 12:13:20,194 [INFO] [DOGE/USDT] Prediction: SELL (Prob: 0.3580, Close: 0.13914000)
+2025-12-07 12:13:20,203 [INFO] Scan completed in 9.74s
+2025-12-07 12:13:20,204 [INFO] Cycle End. Balance: 1000.00, Equity: 1000.00. Open Pos: 0
+2025-12-07 12:14:20,206 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:14:31,320 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:14:31,402 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.4031, Close: 0.41620000)
+2025-12-07 12:14:31,457 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:14:31,517 [INFO] [1000PEPE/USDT] Prediction: SELL (Prob: 0.3800, Close: 0.00448290)
+2025-12-07 12:14:31,564 [INFO] [DOGE/USDT] Prediction: SELL (Prob: 0.3591, Close: 0.13911000)
+2025-12-07 12:14:31,609 [INFO] [LINK/USDT] Prediction: SELL (Prob: 0.3821, Close: 13.81300000)
+2025-12-07 12:14:31,657 [INFO] [XRP/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-07 12:14:31,719 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3310, Close: 81.94000000)
+2025-12-07 12:14:31,765 [INFO] [SOL/USDT] Prediction: SELL (Prob: 0.3534, Close: 132.69000000)
+2025-12-07 12:14:31,817 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
+2025-12-07 12:14:31,858 [INFO] [1000SHIB/USDT] Prediction: SELL (Prob: 0.3935, Close: 0.00840500)
+2025-12-07 12:14:31,910 [INFO] [AVAX/USDT] Prediction: SELL (Prob: 0.3784, Close: 13.37200000)
+2025-12-07 12:14:31,918 [INFO] Scan completed in 11.71s
+2025-12-07 12:14:31,919 [INFO] Cycle End. Balance: 1000.00, Equity: 1000.00. Open Pos: 0
+2025-12-07 12:15:31,927 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:15:40,935 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:15:41,267 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4420, Close: 0.00840800)
+2025-12-07 12:15:41,343 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
+2025-12-07 12:15:41,414 [INFO] [XRP/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-07 12:15:41,497 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4355, Close: 0.00448650)
+2025-12-07 12:15:41,557 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3714, Close: 81.97000000)
+2025-12-07 12:15:41,606 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4306, Close: 13.37100000)
+2025-12-07 12:15:41,664 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4439, Close: 132.69000000)
+2025-12-07 12:15:41,719 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:15:41,779 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4492, Close: 0.13917000)
+2025-12-07 12:15:41,825 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4289, Close: 13.82000000)
+2025-12-07 12:15:42,131 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.4836, Close: 0.41620000)
+2025-12-07 12:15:42,139 [INFO] Scan completed in 10.21s
+2025-12-07 12:15:42,140 [INFO] Cycle End. Balance: 1000.00, Equity: 1000.00. Open Pos: 0
+2025-12-07 12:16:42,156 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:16:52,847 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
+2025-12-07 12:16:52,922 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4027, Close: 13.37500000)
+2025-12-07 12:16:52,981 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4044, Close: 13.82500000)
+2025-12-07 12:16:53,030 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4205, Close: 0.00841200)
+2025-12-07 12:16:53,072 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:16:53,117 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
+2025-12-07 12:16:53,178 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3804, Close: 81.96000000)
+2025-12-07 12:16:53,236 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:16:53,296 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4439, Close: 132.69000000)
+2025-12-07 12:16:53,346 [INFO] [DOGE/USDT] Prediction: SELL (Prob: 0.3912, Close: 0.13928000)
+2025-12-07 12:16:53,409 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4330, Close: 0.00449030)
+2025-12-07 12:16:53,718 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.4247, Close: 0.41690000)
+2025-12-07 12:16:53,727 [INFO] Scan completed in 11.57s
+2025-12-07 12:16:53,728 [INFO] Cycle End. Balance: 1000.00, Equity: 1000.00. Open Pos: 0
+2025-12-07 12:17:53,730 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:18:02,477 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
+2025-12-07 12:18:02,525 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4212, Close: 0.00841000)
+2025-12-07 12:18:02,571 [INFO] [SOL/USDT] Prediction: SELL (Prob: 0.3884, Close: 132.71000000)
+2025-12-07 12:18:02,610 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:18:02,649 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.4247, Close: 0.41690000)
+2025-12-07 12:18:02,685 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:18:02,728 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4619, Close: 0.00448240)
+2025-12-07 12:18:02,766 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4301, Close: 0.13921000)
+2025-12-07 12:18:02,805 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4185, Close: 13.37200000)
+2025-12-07 12:18:03,113 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3804, Close: 81.96000000)
+2025-12-07 12:18:03,155 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.5070, Close: 13.80900000)
+2025-12-07 12:18:03,192 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
+2025-12-07 12:18:03,201 [INFO] Scan completed in 9.47s
+2025-12-07 12:18:03,202 [INFO] Cycle End. Balance: 1000.00, Equity: 1000.00. Open Pos: 0
+2025-12-07 12:19:03,204 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:19:13,634 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4883, Close: 0.13908000)
+2025-12-07 12:19:13,693 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4864, Close: 132.59000000)
+2025-12-07 12:19:13,749 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
+2025-12-07 12:19:13,809 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.6071, Close: 0.41560000)
+2025-12-07 12:19:13,854 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.5205, Close: 13.79100000)
+2025-12-07 12:19:13,901 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4542, Close: 81.82000000)
+2025-12-07 12:19:13,937 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:19:13,990 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
+2025-12-07 12:19:14,034 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.5026, Close: 13.35100000)
+2025-12-07 12:19:14,071 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:19:14,116 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4925, Close: 0.00447380)
+2025-12-07 12:19:14,174 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4819, Close: 0.00840100)
+2025-12-07 12:19:14,183 [INFO] Scan completed in 10.98s
+2025-12-07 12:19:14,183 [INFO] Found 1 BUY opportunities.
+2025-12-07 12:19:14,183 [INFO] BUY ADA/USDT @ 0.41560000. Prob: 0.61
+2025-12-07 12:19:14,184 [INFO] Cycle End. Balance: 666.50, Equity: 999.83. Open Pos: 1
+2025-12-07 12:20:14,186 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:20:24,044 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.6155, Close: 0.41550000)
+2025-12-07 12:20:24,490 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:20:24,533 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
+2025-12-07 12:20:24,581 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4612, Close: 0.13912000)
+2025-12-07 12:20:24,626 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4956, Close: 13.34900000)
+2025-12-07 12:20:24,672 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
+2025-12-07 12:20:24,727 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4872, Close: 0.00839900)
+2025-12-07 12:20:24,776 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4510, Close: 132.62000000)
+2025-12-07 12:20:24,832 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.5180, Close: 13.79300000)
+2025-12-07 12:20:24,879 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4922, Close: 0.00447360)
+2025-12-07 12:20:24,922 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:20:24,966 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4394, Close: 81.85000000)
+2025-12-07 12:20:24,976 [INFO] Scan completed in 10.79s
+2025-12-07 12:20:24,976 [INFO] Found 1 BUY opportunities.
+2025-12-07 12:20:24,977 [INFO] Cycle End. Balance: 666.50, Equity: 999.75. Open Pos: 1
+2025-12-07 12:21:24,979 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:21:35,427 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.6155, Close: 0.41550000)
+2025-12-07 12:21:35,471 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:21:35,511 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4659, Close: 81.81000000)
+2025-12-07 12:21:35,559 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
+2025-12-07 12:21:35,600 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4956, Close: 13.34900000)
+2025-12-07 12:21:35,639 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:21:35,689 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4930, Close: 0.00447130)
+2025-12-07 12:21:35,729 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4872, Close: 0.00839900)
+2025-12-07 12:21:35,775 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.5225, Close: 13.79400000)
+2025-12-07 12:21:35,815 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4928, Close: 132.59000000)
+2025-12-07 12:21:36,118 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4590, Close: 0.13915000)
+2025-12-07 12:21:36,158 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
+2025-12-07 12:21:36,167 [INFO] Scan completed in 11.19s
+2025-12-07 12:21:36,167 [INFO] Found 1 BUY opportunities.
+2025-12-07 12:21:36,168 [INFO] Cycle End. Balance: 666.50, Equity: 999.75. Open Pos: 1
+2025-12-07 12:22:36,170 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:22:48,933 [WARNING] Attempt 1 failed for LINK/USDT: binance GET https://dapi.binance.com/dapi/v1/exchangeInfo. Retrying in 2s...
+2025-12-07 12:22:49,324 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4575, Close: 81.80000000)
+2025-12-07 12:22:49,424 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
+2025-12-07 12:22:49,497 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4989, Close: 0.00447560)
+2025-12-07 12:22:49,563 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.5026, Close: 13.35200000)
+2025-12-07 12:22:49,917 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4301, Close: 0.13921000)
+2025-12-07 12:22:49,979 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4715, Close: 132.60000000)
+2025-12-07 12:22:50,045 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5949, Close: 0.41570000)
+2025-12-07 12:22:50,106 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
+2025-12-07 12:22:50,169 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4705, Close: 0.00840200)
+2025-12-07 12:22:50,232 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:22:50,272 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:22:53,435 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.5069, Close: 13.80100000)
+2025-12-07 12:22:53,445 [INFO] Scan completed in 17.27s
+2025-12-07 12:22:53,445 [INFO] Found 1 BUY opportunities.
+2025-12-07 12:22:53,445 [INFO] Cycle End. Balance: 666.50, Equity: 999.91. Open Pos: 1
+2025-12-07 12:23:53,448 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:24:04,261 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4440, Close: 81.84000000)
+2025-12-07 12:24:04,317 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
+2025-12-07 12:24:04,390 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4705, Close: 0.00840200)
+2025-12-07 12:24:04,444 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:24:04,495 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:24:04,830 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4715, Close: 132.60000000)
+2025-12-07 12:24:04,883 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4992, Close: 0.00447510)
+2025-12-07 12:24:04,932 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4179, Close: 0.13922000)
+2025-12-07 12:24:04,976 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
+2025-12-07 12:24:05,026 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.5136, Close: 13.79600000)
+2025-12-07 12:24:05,078 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.5028, Close: 13.34500000)
+2025-12-07 12:24:05,122 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5749, Close: 0.41580000)
+2025-12-07 12:24:05,132 [INFO] Scan completed in 11.68s
+2025-12-07 12:24:05,132 [INFO] Found 1 BUY opportunities.
+2025-12-07 12:24:05,133 [INFO] Cycle End. Balance: 666.50, Equity: 999.99. Open Pos: 1
+2025-12-07 12:25:05,135 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:25:15,492 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4179, Close: 0.13922000)
+2025-12-07 12:25:15,606 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5749, Close: 0.41580000)
+2025-12-07 12:25:15,679 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.5136, Close: 13.79600000)
+2025-12-07 12:25:15,747 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.5009, Close: 13.34400000)
+2025-12-07 12:25:15,799 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4329, Close: 81.86000000)
+2025-12-07 12:25:15,859 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
+2025-12-07 12:25:15,917 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:25:15,973 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:25:16,035 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.4519, Close: 132.61000000)
+2025-12-07 12:25:16,096 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4887, Close: 0.00447200)
+2025-12-07 12:25:16,160 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4819, Close: 0.00840100)
+2025-12-07 12:25:16,225 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
+2025-12-07 12:25:16,234 [INFO] Scan completed in 11.10s
+2025-12-07 12:25:16,234 [INFO] Found 1 BUY opportunities.
+2025-12-07 12:25:16,235 [INFO] Cycle End. Balance: 666.50, Equity: 999.99. Open Pos: 1
+2025-12-07 12:26:16,238 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:26:27,335 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
+2025-12-07 12:26:27,373 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:26:27,433 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.5180, Close: 13.79300000)
+2025-12-07 12:26:27,490 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.5098, Close: 13.33600000)
+2025-12-07 12:26:27,553 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.6135, Close: 0.41540000)
+2025-12-07 12:26:27,599 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5418, Close: 132.54000000)
+2025-12-07 12:26:27,655 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:26:27,713 [INFO] [XRP/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-07 12:26:27,776 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4531, Close: 81.83000000)
+2025-12-07 12:26:27,817 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4947, Close: 0.00447060)
+2025-12-07 12:26:27,864 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4532, Close: 0.13916000)
+2025-12-07 12:26:27,921 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.5270, Close: 0.00838800)
+2025-12-07 12:26:27,930 [INFO] Scan completed in 11.69s
+2025-12-07 12:26:27,930 [INFO] Found 1 BUY opportunities.
+2025-12-07 12:26:27,931 [INFO] Cycle End. Balance: 666.50, Equity: 999.67. Open Pos: 1
+2025-12-07 12:27:27,934 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:27:38,042 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.6155, Close: 0.41550000)
+2025-12-07 12:27:38,088 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:27:38,145 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
+2025-12-07 12:27:38,207 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4921, Close: 0.00447020)
+2025-12-07 12:27:38,264 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4301, Close: 0.13921000)
+2025-12-07 12:27:38,321 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.5217, Close: 13.79500000)
+2025-12-07 12:27:38,370 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.5226, Close: 0.00838700)
+2025-12-07 12:27:38,407 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:27:38,457 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5153, Close: 132.57000000)
+2025-12-07 12:27:38,514 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
+2025-12-07 12:27:38,821 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4394, Close: 81.85000000)
+2025-12-07 12:27:38,880 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.5009, Close: 13.34400000)
+2025-12-07 12:27:38,888 [INFO] Scan completed in 10.96s
+2025-12-07 12:27:38,888 [INFO] Found 1 BUY opportunities.
+2025-12-07 12:27:38,889 [INFO] Cycle End. Balance: 666.50, Equity: 999.75. Open Pos: 1
+2025-12-07 12:28:38,891 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:28:49,457 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4575, Close: 81.80000000)
+2025-12-07 12:28:49,543 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:28:49,592 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.5226, Close: 0.00446370)
+2025-12-07 12:28:49,635 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.5118, Close: 0.00838400)
+2025-12-07 12:28:49,679 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5481, Close: 132.53000000)
+2025-12-07 12:28:49,733 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.5148, Close: 13.78300000)
+2025-12-07 12:28:49,783 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
+2025-12-07 12:28:49,843 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4568, Close: 0.13914000)
+2025-12-07 12:28:49,885 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
+2025-12-07 12:28:49,938 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:28:49,983 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.5106, Close: 13.33500000)
+2025-12-07 12:28:50,030 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.6175, Close: 0.41510000)
+2025-12-07 12:28:50,039 [INFO] Scan completed in 11.15s
+2025-12-07 12:28:50,039 [INFO] Found 1 BUY opportunities.
+2025-12-07 12:28:50,039 [INFO] Cycle End. Balance: 666.50, Equity: 999.43. Open Pos: 1
+2025-12-07 12:29:50,043 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:30:02,445 [INFO] [XRP/USDT] Volatility too low (0.0020 < 0.002). Skipping prediction.
+2025-12-07 12:30:02,500 [INFO] [SOL/USDT] Prediction: HOLD (Prob: 0.5418, Close: 132.54000000)
+2025-12-07 12:30:02,543 [INFO] [BNB/USDT] Volatility too low (0.0016 < 0.002). Skipping prediction.
+2025-12-07 12:30:02,588 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5949, Close: 0.41570000)
+2025-12-07 12:30:02,645 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4985, Close: 13.34700000)
+2025-12-07 12:30:02,686 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:30:02,728 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.5217, Close: 13.79500000)
+2025-12-07 12:30:03,045 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:30:03,093 [INFO] [DOGE/USDT] Prediction: SELL (Prob: 0.3984, Close: 0.13927000)
+2025-12-07 12:30:03,138 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4887, Close: 0.00447210)
+2025-12-07 12:30:03,184 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4817, Close: 0.00839100)
+2025-12-07 12:30:03,226 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4329, Close: 81.86000000)
+2025-12-07 12:30:03,235 [INFO] Scan completed in 13.19s
+2025-12-07 12:30:03,235 [INFO] Found 1 BUY opportunities.
+2025-12-07 12:30:03,236 [INFO] Cycle End. Balance: 666.50, Equity: 999.91. Open Pos: 1
+2025-12-07 12:31:03,237 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:31:15,672 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4655, Close: 0.00447390)
+2025-12-07 12:31:15,741 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4004, Close: 81.88000000)
+2025-12-07 12:31:15,800 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4507, Close: 13.34700000)
+2025-12-07 12:31:15,859 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.5293, Close: 0.41570000)
+2025-12-07 12:31:15,914 [INFO] [SOL/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-07 12:31:15,979 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4350, Close: 0.00839500)
+2025-12-07 12:31:16,037 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
+2025-12-07 12:31:16,077 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4522, Close: 0.13926000)
+2025-12-07 12:31:16,132 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:31:16,184 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:31:16,240 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4237, Close: 13.80000000)
+2025-12-07 12:31:16,279 [INFO] [XRP/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-07 12:31:16,288 [INFO] Scan completed in 13.05s
+2025-12-07 12:31:16,289 [INFO] Cycle End. Balance: 666.50, Equity: 999.91. Open Pos: 1
+2025-12-07 12:32:16,310 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:32:27,808 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
+2025-12-07 12:32:27,869 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4337, Close: 0.00839600)
+2025-12-07 12:32:27,950 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4383, Close: 0.13922000)
+2025-12-07 12:32:28,003 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4470, Close: 13.34900000)
+2025-12-07 12:32:28,060 [INFO] [XRP/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-07 12:32:28,104 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3996, Close: 81.87000000)
+2025-12-07 12:32:28,159 [INFO] [SOL/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-07 12:32:28,216 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:32:28,276 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4384, Close: 13.79800000)
+2025-12-07 12:32:28,315 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4524, Close: 0.00447420)
+2025-12-07 12:32:28,356 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:32:28,415 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.5293, Close: 0.41570000)
+2025-12-07 12:32:28,424 [INFO] Scan completed in 12.11s
+2025-12-07 12:32:28,425 [INFO] Cycle End. Balance: 666.50, Equity: 999.91. Open Pos: 1
+2025-12-07 12:33:28,429 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:33:39,724 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4383, Close: 0.13922000)
+2025-12-07 12:33:39,782 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:33:39,824 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:33:39,883 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5518, Close: 0.41530000)
+2025-12-07 12:33:39,939 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4346, Close: 13.79900000)
+2025-12-07 12:33:39,997 [INFO] [SOL/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-07 12:33:40,037 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4528, Close: 13.34800000)
+2025-12-07 12:33:40,097 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4158, Close: 81.82000000)
+2025-12-07 12:33:40,157 [INFO] [XRP/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-07 12:33:40,218 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4817, Close: 0.00839100)
+2025-12-07 12:33:40,278 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4588, Close: 0.00447410)
+2025-12-07 12:33:40,332 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
+2025-12-07 12:33:40,341 [INFO] Scan completed in 11.91s
+2025-12-07 12:33:40,341 [INFO] Found 1 BUY opportunities.
+2025-12-07 12:33:40,342 [INFO] Cycle End. Balance: 666.50, Equity: 999.59. Open Pos: 1
+2025-12-07 12:34:02,174 [WARNING] Attempt 1 failed for ADA/USDT: binance GET https://fapi.binance.com/fapi/v1/exchangeInfo. Retrying in 2s...
+2025-12-07 12:34:40,345 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:34:49,979 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.5000, Close: 0.00446990)
+2025-12-07 12:34:50,047 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4616, Close: 0.13917000)
+2025-12-07 12:34:50,118 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4842, Close: 0.00838600)
+2025-12-07 12:34:50,183 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
+2025-12-07 12:34:50,239 [INFO] [SOL/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-07 12:34:50,275 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:34:50,323 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4260, Close: 13.80100000)
+2025-12-07 12:34:50,373 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4567, Close: 13.34500000)
+2025-12-07 12:34:50,432 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5895, Close: 0.41520000)
+2025-12-07 12:34:50,474 [INFO] [XRP/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-07 12:34:50,514 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:34:50,831 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4216, Close: 81.80000000)
+2025-12-07 12:34:50,840 [INFO] Scan completed in 10.50s
+2025-12-07 12:34:50,840 [INFO] Found 1 BUY opportunities.
+2025-12-07 12:34:50,841 [INFO] Cycle End. Balance: 666.50, Equity: 999.51. Open Pos: 1
+2025-12-07 12:35:50,843 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:36:03,410 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4842, Close: 0.00838500)
+2025-12-07 12:36:03,460 [INFO] [XRP/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-07 12:36:03,514 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4383, Close: 0.13922000)
+2025-12-07 12:36:03,572 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
+2025-12-07 12:36:03,646 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4164, Close: 81.81000000)
+2025-12-07 12:36:03,709 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4172, Close: 13.80400000)
+2025-12-07 12:36:03,764 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:36:03,824 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4477, Close: 0.00447460)
+2025-12-07 12:36:03,864 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4556, Close: 13.34400000)
+2025-12-07 12:36:04,171 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5518, Close: 0.41530000)
+2025-12-07 12:36:04,231 [INFO] [SOL/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-07 12:36:04,293 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:36:04,302 [INFO] Scan completed in 13.46s
+2025-12-07 12:36:04,302 [INFO] Found 1 BUY opportunities.
+2025-12-07 12:36:04,302 [INFO] Cycle End. Balance: 666.50, Equity: 999.59. Open Pos: 1
+2025-12-07 12:37:04,305 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:37:15,878 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:37:15,926 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4029, Close: 13.81300000)
+2025-12-07 12:37:15,972 [INFO] [XRP/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-07 12:37:16,022 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4024, Close: 81.85000000)
+2025-12-07 12:37:16,091 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
+2025-12-07 12:37:16,139 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4044, Close: 0.00447910)
+2025-12-07 12:37:16,195 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4869, Close: 0.00838800)
+2025-12-07 12:37:16,237 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:37:16,281 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4294, Close: 13.35400000)
+2025-12-07 12:37:16,326 [INFO] [SOL/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-07 12:37:16,375 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4251, Close: 0.13930000)
+2025-12-07 12:37:16,683 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.5293, Close: 0.41560000)
+2025-12-07 12:37:16,693 [INFO] Scan completed in 12.39s
+2025-12-07 12:37:16,693 [INFO] Cycle End. Balance: 666.50, Equity: 999.83. Open Pos: 1
+2025-12-07 12:38:16,696 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:38:27,456 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
+2025-12-07 12:38:27,513 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4427, Close: 13.35300000)
+2025-12-07 12:38:27,558 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.5384, Close: 0.41550000)
+2025-12-07 12:38:27,605 [INFO] [SOL/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-07 12:38:27,661 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4025, Close: 0.00448190)
+2025-12-07 12:38:27,710 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4251, Close: 0.13930000)
+2025-12-07 12:38:27,766 [INFO] [LINK/USDT] Prediction: SELL (Prob: 0.3896, Close: 13.81600000)
+2025-12-07 12:38:27,813 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:38:27,868 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4004, Close: 81.88000000)
+2025-12-07 12:38:27,915 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:38:28,223 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4869, Close: 0.00838800)
+2025-12-07 12:38:28,260 [INFO] [XRP/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-07 12:38:28,270 [INFO] Scan completed in 11.57s
+2025-12-07 12:38:28,271 [INFO] Cycle End. Balance: 666.50, Equity: 999.75. Open Pos: 1
+2025-12-07 12:39:28,273 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:39:41,120 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4842, Close: 0.00838600)
+2025-12-07 12:39:41,187 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4216, Close: 13.35500000)
+2025-12-07 12:39:41,248 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.5435, Close: 0.41540000)
+2025-12-07 12:39:41,304 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:39:41,349 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4093, Close: 0.00448150)
+2025-12-07 12:39:41,392 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4251, Close: 0.13930000)
+2025-12-07 12:39:41,442 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
+2025-12-07 12:39:41,502 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4042, Close: 13.80700000)
+2025-12-07 12:39:41,556 [INFO] [LTC/USDT] Prediction: HOLD (Prob: 0.4024, Close: 81.85000000)
+2025-12-07 12:39:41,615 [INFO] [SOL/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-07 12:39:41,924 [INFO] [XRP/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-07 12:39:41,983 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:39:41,992 [INFO] Scan completed in 13.72s
+2025-12-07 12:39:41,992 [INFO] Cycle End. Balance: 666.50, Equity: 999.67. Open Pos: 1
+2025-12-07 12:40:41,995 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:40:58,110 [INFO] [ADA/USDT] Prediction: BUY (Prob: 0.5895, Close: 0.41520000)
+2025-12-07 12:40:58,194 [INFO] [XRP/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-07 12:40:58,253 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:40:58,316 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4020, Close: 0.00447990)
+2025-12-07 12:40:58,373 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:40:58,461 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3989, Close: 81.84000000)
+2025-12-07 12:40:58,529 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4294, Close: 13.35400000)
+2025-12-07 12:40:58,618 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4251, Close: 0.13930000)
+2025-12-07 12:40:58,960 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.5014, Close: 0.00838100)
+2025-12-07 12:40:59,018 [INFO] [SOL/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-07 12:40:59,065 [INFO] [LINK/USDT] Prediction: HOLD (Prob: 0.4029, Close: 13.81300000)
+2025-12-07 12:40:59,122 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
+2025-12-07 12:40:59,132 [INFO] Scan completed in 17.14s
+2025-12-07 12:40:59,132 [INFO] Found 1 BUY opportunities.
+2025-12-07 12:40:59,132 [INFO] Cycle End. Balance: 666.50, Equity: 999.51. Open Pos: 1
+2025-12-07 12:41:59,135 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:42:12,572 [WARNING] Attempt 1 failed for BTC/USDT: binance GET https://dapi.binance.com/dapi/v1/exchangeInfo. Retrying in 2s...
+2025-12-07 12:42:13,383 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.5384, Close: 0.41550000)
+2025-12-07 12:42:13,485 [INFO] [1000PEPE/USDT] Prediction: SELL (Prob: 0.3920, Close: 0.00448280)
+2025-12-07 12:42:13,554 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4294, Close: 13.35400000)
+2025-12-07 12:42:13,615 [INFO] [LINK/USDT] Prediction: SELL (Prob: 0.3874, Close: 13.81500000)
+2025-12-07 12:42:13,695 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4853, Close: 0.00838300)
+2025-12-07 12:42:13,755 [INFO] [SOL/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-07 12:42:13,812 [INFO] [XRP/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-07 12:42:13,877 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
+2025-12-07 12:42:13,966 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:42:14,042 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3988, Close: 81.86000000)
+2025-12-07 12:42:14,121 [INFO] [DOGE/USDT] Prediction: HOLD (Prob: 0.4244, Close: 0.13933000)
+2025-12-07 12:42:17,104 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:42:17,114 [INFO] Scan completed in 17.98s
+2025-12-07 12:42:17,115 [INFO] Cycle End. Balance: 666.50, Equity: 999.75. Open Pos: 1
+2025-12-07 12:43:17,117 [INFO] Scanning market... (12 pairs) [ASYNC]
+2025-12-07 12:43:28,752 [WARNING] Attempt 1 failed for BNB/USDT: binance GET https://dapi.binance.com/dapi/v1/exchangeInfo. Retrying in 2s...
+2025-12-07 12:43:29,100 [INFO] [ETH/USDT] Volatility too low (0.0017 < 0.002). Skipping prediction.
+2025-12-07 12:43:29,171 [INFO] [1000PEPE/USDT] Prediction: HOLD (Prob: 0.4133, Close: 0.00448910)
+2025-12-07 12:43:29,334 [INFO] [DOGE/USDT] Prediction: SELL (Prob: 0.3830, Close: 0.13938000)
+2025-12-07 12:43:29,648 [INFO] [BTC/USDT] Volatility too low (0.0013 < 0.002). Skipping prediction.
+2025-12-07 12:43:29,738 [INFO] [SOL/USDT] Volatility too low (0.0019 < 0.002). Skipping prediction.
+2025-12-07 12:43:29,835 [INFO] [1000SHIB/USDT] Prediction: HOLD (Prob: 0.4904, Close: 0.00839000)
+2025-12-07 12:43:29,953 [INFO] [LTC/USDT] Prediction: SELL (Prob: 0.3634, Close: 81.92000000)
+2025-12-07 12:43:30,028 [INFO] [XRP/USDT] Volatility too low (0.0018 < 0.002). Skipping prediction.
+2025-12-07 12:43:30,102 [INFO] [ADA/USDT] Prediction: HOLD (Prob: 0.5293, Close: 0.41560000)
+2025-12-07 12:43:30,174 [INFO] [LINK/USDT] Prediction: SELL (Prob: 0.3896, Close: 13.81800000)
+2025-12-07 12:43:30,243 [INFO] [AVAX/USDT] Prediction: HOLD (Prob: 0.4216, Close: 13.35500000)
+2025-12-07 12:43:33,327 [INFO] [BNB/USDT] Volatility too low (0.0015 < 0.002). Skipping prediction.
+2025-12-07 12:43:33,335 [INFO] Scan completed in 16.22s
+2025-12-07 12:43:33,336 [INFO] Cycle End. Balance: 666.50, Equity: 999.83. Open Pos: 1

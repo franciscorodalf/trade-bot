@@ -1,3 +1,5 @@
+[← Volver al README Principal](../README.md)
+
 # 🗺️ Roadmap del Proyecto
 
 Este documento describe la visión a futuro del **AI Trading Bot**. El desarrollo se divide en fases para asegurar la estabilidad antes de escalar.
@@ -10,11 +12,11 @@ Este documento describe la visión a futuro del **AI Trading Bot**. El desarroll
 - [x] Soporte Multi-Moneda y Scanner Universal.
 - [x] Implementación de MACD y Bollinger Bands.
 
-## 🚧 Fase 2: Velocidad y Eficiencia (Próxima)
+## 🚧 Fase 2: Velocidad y Eficiencia (Completada)
 El objetivo es reducir la latencia de análisis para capturar oportunidades fugaces.
-- [ ] **Data Fetching Asíncrono**: Migrar de `ccxt` síncrono a `ccxt.async_support` + `asyncio`.
-    - *Meta*: Reducir el tiempo de escaneo total de ~20s a <2s.
-- [ ] **WebSockets**: Recibir precios en tiempo real (streaming) en lugar de pedir velas cada minuto.
+- [x] **Data Fetching Asíncrono**: Migrar de `ccxt` síncrono a `ccxt.async_support` + `asyncio`.
+    - *Logro*: Reducción de tiempo de escaneo de ~50s a ~10s.
+- [x] **Optimización de I/O**: Implementación de Caching de Modelo y gestión eficiente de recursos.
 
 ## 📅 Fase 3: Inteligencia Avanzada
 Darle más herramientas al modelo para entender el contexto.

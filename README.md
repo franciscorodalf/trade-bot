@@ -16,6 +16,17 @@ Su arquitectura modular permite escanear múltiples pares simultáneamente, ejec
 
 ---
 
+## 🔥 Novedades v2.0 (Turbo)
+¡El bot ha evolucionado! La nueva versión incluye mejoras críticas de arquitectura:
+
+*   **⚡ Motor Asíncrono (AsyncIO)**: Escaneo paralelo de monedas. 
+    *   *Antes*: ~50 segundos por ciclo.
+    *   *Ahora*: **~10 segundos** (x5 Velocidad).
+*   **🧠 Multi-Timeframe (MTF)**: Análisis simultáneo de 15m, 1h y 4h. El bot ya no es "ciego" a la tendencia general.
+*   **💾 Smart Caching**: Carga del modelo en RAM para evitar latencia de disco.
+
+---
+
 ## 📚 Documentación Exclusiva
 
 Para entender a fondo cómo funciona cada engranaje, consulta la documentación detallada:

@@ -7,6 +7,7 @@ import joblib
 import json
 import logging
 import os
+import asyncio
 from utils import fetch_data, add_indicators
 
 # Load config
@@ -15,15 +16,20 @@ with open('config.json', 'r') as f:
 
 logging.basicConfig(filename=config['paths']['logs'], level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
-def train():
+async def train():
     all_data = []
     symbols = config.get('symbols', [config.get('symbol')])
     
     print(f"Training on symbols: {symbols}")
     
-    for symbol in symbols:
-        print(f"Fetching data for {symbol}...")
-        df = fetch_data(symbol=symbol, limit=5000)
+    # Async Parallel Fetching
+    print("Fetching data for all symbols (Async)...")
+    tasks = [fetch_data(symbol=sym, limit=5000) for sym in symbols]
+    results = await asyncio.gather(*tasks)
+    
+    print("Processing fetched data...")
+    for i, df in enumerate(results):
+        symbol = symbols[i]
         
         if df is None:
             print(f"Failed to fetch data for {symbol}.")
@@ -32,11 +38,8 @@ def train():
         print(f"Adding indicators for {symbol}...")
         df = add_indicators(df)
         
-        # Add symbol as a feature? No, we want generalized patterns.
-        # But we might need to know which is which for splitting?
-        # For a universal model, we just stack them.
-        
-        all_data.append(df)
+        if df is not None and not df.empty:
+            all_data.append(df)
     
     if not all_data:
         print("No data available for training.")
@@ -65,13 +68,6 @@ def train():
     y = full_df['target']
     
     # Split data
-    # Note: Shuffling is dangerous for time series, but since we have multiple symbols stacked, 
-    # simple split might leak.
-    # ideally we split by time, but for simplicity we'll just shuffle=True here because 
-    # we want to learn "patterns" regardless of which coin/time. 
-    # *However*, stricly we should respect time.
-    # Let's keep it simple: Random split is acceptable for a "General Pattern" classifier 
-    # if we assume patterns are independent of specific timestamps.
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=True, random_state=42)
     
     # Initialize model with config params
@@ -106,4 +102,4 @@ def train():
     logging.info(f"Universal Model trained on {len(symbols)} pairs. Accuracy: {acc:.4f}")
 
 if __name__ == "__main__":
-    train()
+    asyncio.run(train())

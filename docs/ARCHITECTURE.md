@@ -1,3 +1,5 @@
+[← Volver al README Principal](../README.md)
+
 # 🏗️ Arquitectura del Sistema
 
 Este documento detalla la estructura técnica del **AI Trading Bot**. El sistema sigue una arquitectura modular desacoplada, donde el "cerebro" (Bot), la "boca" (API) y la "cara" (Frontend) funcionan de manera independiente pero coordinada a través de una base de datos central.

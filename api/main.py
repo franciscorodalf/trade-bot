@@ -5,6 +5,12 @@ import json
 import pandas as pd
 from pydantic import BaseModel
 from typing import List, Optional
+import sys
+import os
+
+# Add bot directory to path for imports
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'bot'))
+from utils import fetch_data
 
 app = FastAPI()
 
@@ -40,24 +46,36 @@ def get_balance():
 @app.get("/trades")
 def get_trades(limit: int = 50):
     conn = get_db_connection()
-    rows = conn.execute("SELECT * FROM trades ORDER BY id DESC LIMIT ?", (limit,)).fetchall()
-    conn.close()
-    return [dict(row) for row in rows]
+    try:
+        rows = conn.execute("SELECT * FROM trades ORDER BY id DESC LIMIT ?", (limit,)).fetchall()
+        return [dict(row) for row in rows]
+    except sqlite3.OperationalError:
+        return []
+    finally:
+        conn.close()
 
 @app.get("/live-signal")
 def get_live_signal():
     conn = get_db_connection()
-    row = conn.execute("SELECT * FROM signals ORDER BY id DESC LIMIT 1").fetchone()
-    conn.close()
-    if row:
-        return dict(row)
-    return {}
+    try:
+        row = conn.execute("SELECT * FROM signals ORDER BY id DESC LIMIT 1").fetchone()
+        if row:
+            return dict(row)
+        return {}
+    except sqlite3.OperationalError:
+        return {}
+    finally:
+        conn.close()
 
 @app.get("/statistics")
 def get_statistics():
     conn = get_db_connection()
-    trades = conn.execute("SELECT * FROM trades WHERE status='CLOSED'").fetchall()
-    conn.close()
+    try:
+        trades = conn.execute("SELECT * FROM trades WHERE status='CLOSED'").fetchall()
+    except sqlite3.OperationalError:
+         return {"winrate": 0, "total_trades": 0, "pnl": 0}
+    finally:
+        conn.close()
     
     if not trades:
         return {"winrate": 0, "total_trades": 0, "pnl": 0}
@@ -92,8 +110,12 @@ def get_scanner():
     )
     ORDER BY probability DESC
     """
-    rows = conn.execute(query).fetchall()
-    conn.close()
+    try:
+        rows = conn.execute(query).fetchall()
+    except sqlite3.OperationalError:
+        return []
+    finally:
+        conn.close()
     
     # Filter by configured symbols only to avoid legacy data issues
     valid_symbols = set(config.get('symbols', []))
@@ -102,16 +124,9 @@ def get_scanner():
     return results
 
 @app.get("/chart-data")
-def get_chart_data(symbol: Optional[str] = None, limit: int = 100):
-    import sys
-    import os
-    sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'bot'))
-    from utils import fetch_data
-    
-    # Use config default if None
-    # We can load them from config here or just pass None to fetch_data which handles it
-    
-    df = fetch_data(symbol=symbol, limit=limit)
+async def get_chart_data(symbol: Optional[str] = None, limit: int = 100):
+    # Async endpoint because it awaits fetch_data
+    df = await fetch_data(symbol=symbol, limit=limit)
     if df is None:
         return []
         
@@ -134,8 +149,7 @@ def get_logs(limit: int = 20):
     try:
         with open(log_path, "r") as f:
             lines = f.readlines()
-            # Return last N lines, reversed so newest is top (or keep chronological)
-            # Let's keep chronological for logs
+            # Return last N lines
             return {"logs": [line.strip() for line in lines[-limit:]]}
     except Exception as e:
         return {"logs": [f"Error reading logs: {str(e)}"]}
@@ -145,8 +159,6 @@ class ControlRequest(BaseModel):
 
 @app.post("/control")
 def control_bot(req: ControlRequest):
-    # In a real app, we'd communicate with the bot process via DB or IPC.
-    # Here we can write a status file that the bot checks.
     status_file = "bot_status.json"
     
     if req.action == "pause":
