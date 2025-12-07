@@ -69,7 +69,7 @@ async function fetchData() {
                 <td style="font-weight: bold; color: #fff;">${item.symbol}</td>
                 <td class="${item.signal_type.toLowerCase()}">${item.signal_type}</td>
                 <td>${(item.probability * 100).toFixed(1)}%</td>
-                <td>${item.close_price.toFixed(2)}</td>
+                <td>${item.close_price < 1 ? item.close_price.toFixed(8) : item.close_price.toFixed(2)}</td>
                 <td><button onclick="currentSymbol='${item.symbol}'; fetchData()">VIEW</button></td>
             `;
             scannerTable.appendChild(row);
@@ -87,15 +87,17 @@ async function fetchData() {
             el.innerText = `${selectedSignal.symbol}: ${selectedSignal.signal_type}`;
             el.className = selectedSignal.signal_type.toLowerCase();
             document.getElementById('signal-prob').innerText = `Prob: ${(selectedSignal.probability * 100).toFixed(1)}%`;
-            document.getElementById('signal-reason').innerText = `Price: ${selectedSignal.close_price}`;
+            document.getElementById('signal-reason').innerText = `Price: ${selectedSignal.close_price < 1 ? selectedSignal.close_price.toFixed(8) : selectedSignal.close_price.toFixed(2)}`;
         }
 
         // 4. Stats
         const statsRes = await fetch(`${API_URL}/statistics`);
         const statsData = await statsRes.json();
         const pnlEl = document.getElementById('pnl-display');
-        pnlEl.innerText = `$${statsData.pnl.toFixed(2)}`;
-        pnlEl.style.color = statsData.pnl >= 0 ? '#4caf50' : '#f44336';
+        const pnlValue = statsData.pnl;
+        // Adjust precision based on magnitude
+        pnlEl.innerText = `$${Math.abs(pnlValue) < 0.01 && pnlValue !== 0 ? pnlValue.toFixed(8) : pnlValue.toFixed(2)}`;
+        pnlEl.style.color = pnlValue >= 0 ? '#4caf50' : '#f44336';
         document.getElementById('winrate-display').innerText = `Winrate: ${statsData.winrate}% (${statsData.total_trades})`;
 
         // 5. Trades
@@ -109,8 +111,9 @@ async function fetchData() {
                 <td>${new Date(trade.timestamp).toLocaleTimeString()}</td>
                 <td>${trade.symbol}</td>
                 <td class="${trade.side.toLowerCase()}">${trade.side}</td>
-                <td>${trade.price.toFixed(2)}</td>
-                <td style="color: ${trade.pnl >= 0 ? '#4caf50' : '#f44336'}">${trade.pnl !== null ? trade.pnl.toFixed(2) : '-'}</td>
+                <td>${trade.price < 1 ? trade.price.toFixed(8) : trade.price.toFixed(2)}</td>
+                <td>$${trade.cost ? trade.cost.toFixed(2) : '-'}</td>
+                <td style="color: ${trade.pnl >= 0 ? '#4caf50' : '#f44336'}">${trade.pnl !== null ? trade.pnl.toFixed(8) : '-'}</td>
             `;
             tbody.appendChild(row);
         });

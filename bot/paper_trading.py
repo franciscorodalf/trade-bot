@@ -45,6 +45,18 @@ class PaperTrader:
     def init_db_balance(self):
         conn = sqlite3.connect(self.db_path)
         c = conn.cursor()
+        
+        # Ensure Tables Exist
+        c.execute('''CREATE TABLE IF NOT EXISTS balance_history
+                     (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                      balance REAL, equity REAL, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
+        c.execute('''CREATE TABLE IF NOT EXISTS trades
+                     (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                      symbol TEXT, side TEXT, price REAL, amount REAL, cost REAL, fee REAL, pnl REAL, status TEXT, reason TEXT, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
+        c.execute('''CREATE TABLE IF NOT EXISTS signals
+                     (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                      symbol TEXT, signal_type TEXT, probability REAL, close_price REAL, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
+        
         c.execute("SELECT * FROM balance_history ORDER BY id DESC LIMIT 1")
         row = c.fetchone()
         if not row:
@@ -59,7 +71,9 @@ class PaperTrader:
         c.execute("SELECT balance, equity FROM balance_history ORDER BY id DESC LIMIT 1")
         row = c.fetchone()
         conn.close()
-        return row[0], row[1]
+        if row:
+            return row[0], row[1]
+        return config['initial_capital'], config['initial_capital']
 
     def update_balance(self, balance, equity):
         conn = sqlite3.connect(self.db_path)
@@ -92,14 +106,33 @@ class PaperTrader:
         conn.commit()
         conn.close()
 
+    def load_portfolio(self):
+        conn = sqlite3.connect(self.db_path)
+        c = conn.cursor()
+        # Load OPEN trades
+        c.execute("SELECT symbol, amount, price FROM trades WHERE status='OPEN'")
+        rows = c.fetchall()
+        for r in rows:
+            sym, amt, price = r
+            # We don't have SL/TP in DB, so we use defaults or wide limits
+            self.portfolio[sym] = (amt, price, 0, 999999) 
+            logging.info(f"Loaded open position from DB: {sym} ({amt} units @ {price})")
+        conn.close()
+
     def run(self):
         logging.info("Bot started in Multi-Symbol Mode.")
         
         # Track internal state for simulation
         current_balance, current_equity = self.get_balance()
         
-        # Portfolio State: { "SYMBOL": amount }
-        portfolio = {}
+        # Portfolio State: { "SYMBOL": (amount, entry_price, sl, tp) }
+        self.portfolio = {}
+        try:
+            self.load_portfolio()
+        except Exception as e:
+            logging.error(f"Failed to load portfolio: {e}")
+            
+        portfolio = self.portfolio # Alias
         
         while self.running:
             if self.paused:
@@ -116,15 +149,6 @@ class PaperTrader:
                 logging.info(f"Scanning market... ({len(symbols)} pairs)")
                 
                 for symbol in symbols:
-                    # Update config symbol for utils (hacky, but utils relies on it if not passed)
-                    # Better to pass symbol explicitly to predict/fetch
-                    
-                    # Note: We need to modify predict() to accept symbol.
-                    # For now, let's just use utils directly here or assume predict takes it.
-                    # Wait, predict.py reads "latest data". We need to modify predict.py first?
-                    # Or we can just import the logic. 
-                    
-                    # Let's rely on importing `predict_symbol` which we will create/modify.
                     from predict import predict_symbol
                     prediction = predict_symbol(symbol)
                     
@@ -132,7 +156,6 @@ class PaperTrader:
                         continue
                         
                     current_price = prediction['close']
-                    # Pass symbol to log_signal so DB reflects the correct coin
                     self.log_signal(prediction['signal'], prediction['probability'], current_price, symbol=symbol)
                     
                     opportunities.append({
@@ -142,48 +165,35 @@ class PaperTrader:
                     })
                     
                 # 2. RANKING PHASE
-                # Filter for BUY signals
                 buy_signals = [o for o in opportunities if o['prediction']['signal'] == "BUY"]
-                # Sort by probability descending
                 buy_signals.sort(key=lambda x: x['prediction']['probability'], reverse=True)
                 
                 logging.info(f"Found {len(buy_signals)} BUY opportunities.")
                 
                 # 3. EXECUTION PHASE
                 
-                # Manage Exits First (for all held positions)
+                # Manage Exits
                 for symbol in list(portfolio.keys()):
-                    # Find current price for this symbol
                     opp = next((o for o in opportunities if o['symbol'] == symbol), None)
                     if not opp: continue
                     
                     current_price = opp['price']
                     prediction = opp['prediction']
                     
-                    # Manual Strategy Check for Exit
-                    # We need a strategy instance *per symbol* ideally, or stateless strategy.
-                    # Strategy is mostly stateless except for 'position' flag. 
-                    # We need to pass "I HAVE A POSITION" to strategy.
-                    
-                    # Let's check exit manually using strategy logic
-                    # We need the SL/TP stored for this position.
-                    # For simplicity in this demo, we'll store SL/TP in portfolio dict.
-                    
                     amount, entry_price, sl_price, tp_price = portfolio[symbol]
                     
                     exit_reason = None
-                    if current_price <= sl_price: exit_reason = "SL"
-                    elif current_price >= tp_price: exit_reason = "TP"
+                    if sl_price > 0 and current_price <= sl_price: exit_reason = "SL"
+                    elif tp_price < 999999 and current_price >= tp_price: exit_reason = "TP"
                     elif prediction['signal'] == "SELL": exit_reason = "SIGNAL_FLIP"
                     
                     if exit_reason:
-                        # SELL
                         revenue = amount * current_price * (1 - config['commission_rate'])
                         pnl = revenue - (amount * entry_price)
                         current_balance += revenue
                         del portfolio[symbol]
                         
-                        self.log_trade("SELL", current_price, 0, pnl, exit_reason) # We need to update log_trade to take symbol
+                        self.log_trade("SELL", current_price, 0, pnl, exit_reason, symbol=symbol)
                         logging.info(f"SELL {symbol} ({exit_reason}). PnL: {pnl:.2f}")
 
                 # Enter New Positions
@@ -193,56 +203,46 @@ class PaperTrader:
                     for opp in buy_signals:
                         if open_slots <= 0: break
                         symbol = opp['symbol']
-                        if symbol in portfolio: continue # Already have it
+                        if symbol in portfolio: continue
                         
-                        # BUY
                         prediction = opp['prediction']
                         current_price = opp['price']
                         
-                        # Risk Management (Fixed per trade)
-                        risk_amt = current_balance * self.strategy.risk_per_trade # Risk % of current capital?
-                        # Or Fixed capital allocation per slot?
-                        # Let's say we split capital into max_pos slots?
-                        # Or just standard risk management.
+                        # Capital Allocation
+                        position_size_usdt = config['initial_capital'] / max_pos
+                        if position_size_usdt > current_balance:
+                            position_size_usdt = current_balance * 0.98
                         
-                        sl_price = prediction.get('sl', 0)
-                        # We need to calculate SL/TP here or get from prediction?
-                        # Strategy.get_signal calculated it.
-                        
-                        # Re-calculate SL/TP using Strategy class (stateless use)
-                        sl, tp = self.strategy.calculate_sl_tp(current_price, "BUY", prediction.get('atr', 0))
-                        
-                        if sl > 0 and sl < current_price:
-                            loss_per_unit = current_price - sl
-                            amount = risk_amt / loss_per_unit
-                        else:
-                            amount = (current_balance * 0.1) / current_price # Fallback
+                        if position_size_usdt < 5: continue
                             
-                        # Cost Check
+                        amount = position_size_usdt / current_price
                         cost = amount * current_price
-                        if cost > current_balance:
-                            amount = current_balance / current_price # Cap
-                            cost = amount * current_price
+                        fee = cost * config['commission_rate']
                         
-                        if amount > 0 and cost > 5: # Min trade size 5$
+                        if (cost + fee) > current_balance:
+                            amount = current_balance / (current_price * (1 + config['commission_rate']))
+                            amount *= 0.999 # Safety
+                            cost = amount * current_price
                             fee = cost * config['commission_rate']
+                        
+                        if amount > 0 and cost > 5:
                             current_balance -= (cost + fee)
+                            sl, tp = self.strategy.calculate_sl_tp(current_price, "BUY", prediction.get('atr', 0))
                             
                             portfolio[symbol] = (amount, current_price, sl, tp)
                             open_slots -= 1
                             
-                            self.log_trade("BUY", current_price, amount, 0, "SIGNAL") # Need to pass symbol
-                            logging.info(f"BUY {symbol} @ {current_price:.2f}. Prob: {prediction['probability']:.2f}")
+                            self.log_trade("BUY", current_price, amount, 0, "SIGNAL", symbol=symbol)
+                            logging.info(f"BUY {symbol} @ {current_price:.8f}. Prob: {prediction['probability']:.2f}")
 
                 # Update Equity
                 equity_positions = 0
                 for sym, (amt, price, _, _) in portfolio.items():
-                    # Get current price
                     opp = next((o for o in opportunities if o['symbol'] == sym), None)
                     if opp:
                         equity_positions += amt * opp['price']
                     else:
-                        equity_positions += amt * price # Fallback
+                        equity_positions += amt * price
                 
                 current_equity = current_balance + equity_positions
                 self.update_balance(current_balance, current_equity)

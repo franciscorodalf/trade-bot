@@ -71,7 +71,7 @@ def get_statistics():
     return {
         "winrate": round(winrate, 2),
         "total_trades": total_trades,
-        "pnl": round(total_pnl, 2)
+        "pnl": round(total_pnl, 8)
     }
 
 @app.get("/scanner")

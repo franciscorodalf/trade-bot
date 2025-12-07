@@ -23,7 +23,7 @@ def train():
     
     for symbol in symbols:
         print(f"Fetching data for {symbol}...")
-        df = fetch_data(symbol=symbol, limit=2000)
+        df = fetch_data(symbol=symbol, limit=5000)
         
         if df is None:
             print(f"Failed to fetch data for {symbol}.")

@@ -86,7 +86,7 @@ def predict_symbol(symbol=None):
     elif prob < sell_threshold:
         signal = "SELL"
         
-    logging.info(f"Prediction: {signal} (Prob: {prob:.4f}, Close: {last_row['close']:.2f})")
+    logging.info(f"[{symbol}] Prediction: {signal} (Prob: {prob:.4f}, Close: {last_row['close']:.8f})")
     
     return {
         "signal": signal,

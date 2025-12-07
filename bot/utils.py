@@ -20,36 +20,42 @@ def fetch_data(symbol=None, interval=None, limit=1000):
     symbol = symbol or config.get('symbol') or config.get('symbols', [])[0]
     interval = interval or config['timeframe']
     
-    try:
-        # Use public API for now (no keys required for fetching data)
-        exchange = ccxt.binance({
-            'enableRateLimit': True,
-            'options': {
-                'defaultType': 'future' # Use futures data by default as requested/implied by "robust"
-            }
-        })
-        
-        # Check if keys are provided in config for higher limits (optional)
-        if config.get('binance', {}).get('api_key'):
-             exchange.apiKey = config['binance']['api_key']
-             exchange.secret = config['binance']['api_secret']
-
-        # Fetch OHLCV
-        ohlcv = exchange.fetch_ohlcv(symbol, timeframe=interval, limit=limit)
-        
-        if not ohlcv:
-            logging.error(f"No data fetched for {symbol}")
-            return None
+    retries = 3
+    for attempt in range(retries):
+        try:
+            # Use public API for now (no keys required for fetching data)
+            exchange = ccxt.binance({
+                'enableRateLimit': True,
+                'options': {
+                    'defaultType': 'future' # Use futures data by default as requested/implied by "robust"
+                }
+            })
             
-        df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
-        df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
-        df.set_index('timestamp', inplace=True)
-        
-        return df
-        
-    except Exception as e:
-        logging.error(f"Error fetching data: {e}")
-        return None
+            # Check if keys are provided in config for higher limits (optional)
+            if config.get('binance', {}).get('api_key'):
+                 exchange.apiKey = config['binance']['api_key']
+                 exchange.secret = config['binance']['api_secret']
+
+            # Fetch OHLCV
+            ohlcv = exchange.fetch_ohlcv(symbol, timeframe=interval, limit=limit)
+            
+            if not ohlcv:
+                logging.warning(f"Attempt {attempt+1}: No data fetched for {symbol}. Retrying...")
+                time.sleep(2)
+                continue
+                
+            df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
+            df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
+            df.set_index('timestamp', inplace=True)
+            
+            return df
+            
+        except Exception as e:
+            logging.warning(f"Attempt {attempt+1} failed for {symbol}: {e}. Retrying in 2s...")
+            time.sleep(2)
+            
+    logging.error(f"Failed to fetch data for {symbol} after {retries} attempts.")
+    return None
 
 def add_indicators(df):
     """

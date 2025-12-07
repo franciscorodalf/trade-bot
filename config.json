@@ -6,7 +6,7 @@
         "testnet": false
     },
     "risk_per_trade": 0.02,
-    "buy_threshold": 0.60,
+    "buy_threshold": 0.55,
     "sell_threshold": 0.40,
     "commission_rate": 0.0005,
     "slippage": 0.0003,
@@ -17,7 +17,13 @@
         "SOL/USDT",
         "BNB/USDT",
         "ADA/USDT",
-        "XRP/USDT"
+        "XRP/USDT",
+        "DOGE/USDT",
+        "1000PEPE/USDT",
+        "1000SHIB/USDT",
+        "LTC/USDT",
+        "AVAX/USDT",
+        "LINK/USDT"
     ],
     "max_open_positions": 3,
     "timeframe": "1h",
