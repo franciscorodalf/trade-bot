@@ -82,7 +82,7 @@ class PaperTrader:
         conn.commit()
         conn.close()
 
-    def log_trade(self, side, price, amount, pnl, reason, status=None, symbol=None):
+    def log_trade(self, side, price, amount, pnl, reason, cost=0, fee=0, status=None, symbol=None):
         if status is None:
             status = 'OPEN' if side == 'BUY' else 'CLOSED'
             
@@ -93,7 +93,7 @@ class PaperTrader:
         c.execute("""
             INSERT INTO trades (symbol, side, price, amount, cost, fee, pnl, status, reason)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (trade_symbol, side, price, amount, price*amount, 0, pnl, status, reason))
+        """, (trade_symbol, side, price, amount, cost, fee, pnl, status, reason))
         conn.commit()
         conn.close()
         
@@ -193,7 +193,12 @@ class PaperTrader:
                         current_balance += revenue
                         del portfolio[symbol]
                         
-                        self.log_trade("SELL", current_price, 0, pnl, exit_reason, symbol=symbol)
+                        sell_fee = revenue * config['commission_rate']
+                        current_balance -= sell_fee # Deduct sell fee from balance (PnL calculation might need adjustment if PnL includes fee)
+                        # PnL = (Revenue - Sell Fee) - (Cost + Buy Fee). My PnL calc above was simple.
+                        # Let's keep PnL simple: Revenue - Cost. Fees are logged separately.
+                        
+                        self.log_trade("SELL", current_price, amount, pnl, exit_reason, cost=portfolio[symbol][0]*portfolio[symbol][1], fee=sell_fee, symbol=symbol)
                         logging.info(f"SELL {symbol} ({exit_reason}). PnL: {pnl:.2f}")
 
                 # Enter New Positions
@@ -232,7 +237,7 @@ class PaperTrader:
                             portfolio[symbol] = (amount, current_price, sl, tp)
                             open_slots -= 1
                             
-                            self.log_trade("BUY", current_price, amount, 0, "SIGNAL", symbol=symbol)
+                            self.log_trade("BUY", current_price, amount, 0, "SIGNAL", cost=cost, fee=fee, symbol=symbol)
                             logging.info(f"BUY {symbol} @ {current_price:.8f}. Prob: {prediction['probability']:.2f}")
 
                 # Update Equity

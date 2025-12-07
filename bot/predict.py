@@ -35,7 +35,7 @@ def predict_symbol(symbol=None):
     
     # Custom fetch for prediction to ensure we get the right symbol's data
     # utils.fetch_data handles the default if symbol is None
-    df = fetch_data(symbol=symbol, limit=100)
+    df = fetch_data(symbol=symbol, limit=1000)
     
     if df is not None:
         df = add_indicators(df)
@@ -69,7 +69,11 @@ def predict_symbol(symbol=None):
         'rsi_lag_1', 'rsi_lag_2', 'rsi_lag_3',
         'volatility_lag_1', 'volatility_lag_2', 'volatility_lag_3',
         'macd_lag_1', 'macd_lag_2', 'macd_lag_3',
-        'bb_width_lag_1', 'bb_width_lag_2', 'bb_width_lag_3'
+        'bb_width_lag_1', 'bb_width_lag_2', 'bb_width_lag_3',
+        # Multi-Timeframe Features (1h)
+        'rsi_1h', 'macd_1h', 'sma_20_1h', 'sma_50_1h',
+        # Multi-Timeframe Features (4h)
+        'rsi_4h', 'macd_4h', 'sma_20_4h', 'sma_50_4h'
     ]
     
     X_new = pd.DataFrame([last_row[features]])

@@ -1,5 +1,5 @@
 {
-    "initial_capital": 80.0,
+    "initial_capital": 1000.0,
     "binance": {
         "api_key": "",
         "api_secret": "",
@@ -11,6 +11,11 @@
     "commission_rate": 0.0005,
     "slippage": 0.0003,
     "volatility_threshold": 0.002,
+    "timeframes": [
+        "15m",
+        "1h",
+        "4h"
+    ],
     "symbols": [
         "BTC/USDT",
         "ETH/USDT",
@@ -26,7 +31,7 @@
         "LINK/USDT"
     ],
     "max_open_positions": 3,
-    "timeframe": "1h",
+    "timeframe": "15m",
     "model_params": {
         "n_estimators": 100,
         "max_depth": 10,
