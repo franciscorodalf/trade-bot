@@ -7,23 +7,32 @@
 ![Status](https://img.shields.io/badge/Status-Beta%20(Paper%20Trading)-orange.svg)
 
 ---
+---
 
-**Sistema de Trading Algorítmico Automatizado**
+**Sistema de Trading Algorítmico Automatizado (v2.0)**
 
-Este proyecto implementa un bot de trading cuantitativo diseñado para operar en mercados de criptomonedas de forma autónoma. El sistema combina análisis técnico tradicional con modelos de **Machine Learning (Random Forest)** para identificar oportunidades de mercado con una gestión de riesgo estricta.
+Este proyecto implementa un bot de trading cuantitativo de nueva generación diseñado para operar en mercados de criptomonedas con precisión quirúrgica.
 
-Su arquitectura modular permite escanear múltiples pares simultáneamente, ejecutar validaciones de volatilidad en tiempo real y simular operaciones (Paper Trading) utilizando datos reales de **Binance Futures**.
+A diferencia de los bots tradicionales, este sistema **"Anti-Fragile"** combina:
+1.  **Inteligencia Artificial (Random Forest)**: Predicción de movimientos basada en aprendizaje histórico.
+2.  **Arquitectura Reactiva (AsyncIO)**: Escaneo paralelo de múltiples pares en milisegundos.
+3.  **Interfaz Premium**: Dashboard en tiempo real con diseño Glassmorphism y métricas profesionales.
 
 ---
 
-## 🔥 Novedades v2.0 (Turbo)
-¡El bot ha evolucionado! La nueva versión incluye mejoras críticas de arquitectura:
+## 🚀 Novedades v2.0 (Titanium Update)
 
-*   **⚡ Motor Asíncrono (AsyncIO)**: Escaneo paralelo de monedas. 
-    *   *Antes*: ~50 segundos por ciclo.
-    *   *Ahora*: **~10 segundos** (x5 Velocidad).
-*   **🧠 Multi-Timeframe (MTF)**: Análisis simultáneo de 15m, 1h y 4h. El bot ya no es "ciego" a la tendencia general.
-*   **💾 Smart Caching**: Carga del modelo en RAM para evitar latencia de disco.
+Hemos reconstruido el núcleo para ser más rápido, inteligente y bonito.
+
+*   **⚡ Motor Asíncrono Híbrido**: El bot ahora escanea 12+ pares simultáneamente usando `ccxt.async`. 
+    *   *Ciclo de Escaneo*: Reducido de 50s a **~8s**.
+*   **👁️ Frontend Glassmorphism**: Nueva interfaz visual inspirada en terminales Cyberpunk.
+    *   *Live Charts*: Gráficos interactivos con marcadores de compra/venta.
+    *   *Confidence Bars*: Visualización clara de la certeza de la IA.
+    *   *Terminal Logs*: Feedback del sistema en tiempo real.
+*   **🛡️ Resiliencia "Anti-Pánico"**: Lógica de gestión de errores (Exponential Backoff) y protección contra Rate Limits.
+    *   *Self-Healing*: Si la API falla, el bot espera inteligentemente en lugar de crashear.
+*   **🔐 Seguridad Enterprise**: Soporte nativo para API Keys de Solo Lectura (binance).
 
 ---
 

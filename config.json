@@ -1,8 +1,8 @@
 {
     "initial_capital": 1000.0,
     "binance": {
-        "api_key": "",
-        "api_secret": "",
+        "api_key": "au9mkjAqPy6IiZwIBfCIBUEXIOIarc2RDYsPzl0MU5RUbc6uhWGEW1LA0ZmUsFGt",
+        "api_secret": "X6RSKNeN310O0bn0ubQn7BTum8q6Ry3QpEvdfPfW6NOi7m9ocgzLQO7I2F8cw370",
         "testnet": false
     },
     "risk_per_trade": 0.02,

@@ -55,8 +55,9 @@ async def fetch_data(symbol=None, interval=None, limit=1000):
                 return df
                 
             except Exception as e:
-                logging.warning(f"Attempt {attempt+1} failed for {symbol}: {e}. Retrying in 2s...")
-                await asyncio.sleep(2)
+                wait_time = (attempt + 1) * 3  # 3s, 6s, 9s, etc.
+                logging.warning(f"Attempt {attempt+1} failed for {symbol}: {e}. Retrying in {wait_time}s...")
+                await asyncio.sleep(wait_time)
                 
         logging.error(f"Failed to fetch data for {symbol} after {retries} attempts.")
         return None

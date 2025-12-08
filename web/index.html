@@ -4,109 +4,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Trading Bot Dashboard</title>
+    <title>ANTIGRAVITY // TRADING TERMINAL</title>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/lightweight-charts@4.0.1/dist/lightweight-charts.standalone.production.js"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
+    <div class="background-glow"></div>
     <div class="container">
         <header>
-            <h1>AI Trading Bot <span id="bot-status" class="status-badge running">RUNNING</span></h1>
-            <div class="controls">
-                <button id="btn-pause" onclick="toggleBot()">PAUSE</button>
+            <div class="logo-section">
+                <i class="fa-solid fa-layer-group logo-icon"></i>
+                <div>
+                    <h1>ANTIGRAVITY <span class="version">v2.0</span></h1>
+                    <div class="subtitle">AI AUTONOMOUS TRADING SYSTEM</div>
+                </div>
+            </div>
+
+            <div class="status-panel glass">
+                <div class="status-indicator">
+                    <span class="pulse-dot"></span>
+                    <span id="bot-status">SYSTEM ONLINE</span>
+                </div>
+                <div class="controls">
+                    <button id="btn-pause" onclick="toggleBot()"><i class="fa-solid fa-power-off"></i></button>
+                </div>
             </div>
         </header>
 
+        <!-- Top Stats Row -->
         <div class="stats-grid">
-            <div class="card">
-                <h3>Balance</h3>
-                <p id="balance-display">Loading...</p>
-                <small id="equity-display">Equity: ...</small>
-            </div>
-            <div class="card">
-                <h3>Latest Signal</h3>
-                <p id="signal-display">Waiting...</p>
-                <div id="signal-prob" style="font-size: 0.5em; color: #888;">Prob: ...</div>
-                <div id="signal-reason" style="font-size: 0.5em; color: #aaa; margin-top: 5px; font-style: italic;">
-                    Reason: ...</div>
-            </div>
-            <div class="card">
-                <h3>Performance</h3>
-                <p id="pnl-display">PnL: ...</p>
-                <small id="winrate-display">Winrate: ...</small>
-            </div>
-        </div>
-
-        <div class="card" style="margin-bottom: 20px;">
-            <h3>🤖 AI Market Scanner</h3>
-            <table id="scanner-table" style="width: 100%; text-align: left;">
-                <thead>
-                    <tr>
-                        <th>Symbol</th>
-                        <th>Signal</th>
-                        <th>Confidence</th>
-                        <th>Price</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Scanner results here -->
-                </tbody>
-            </table>
-        </div>
-
-        <div class="main-content">
-            <div class="chart-container" id="chart"></div>
-
-            <div class="trades-container">
-                <h3>Recent Trades</h3>
-                <table id="trades-table">
-                    <thead>
-                        <tr>
-                            <th>Time</th>
-                            <th>Symbol</th>
-                            <th>Type</th>
-                            <th>Price</th>
-                            <th>Cost</th>
-                            <th>PnL</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Trades will be inserted here -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="card" style="margin-top: 20px;">
-            <h3>Live System Logs</h3>
-            <div id="logs-container" class="logs-container">
-                Waiting for logs...
-            </div>
-        </div>
-
-        <div class="about-section">
-            <h2>Sobre este Proyecto</h2>
-            <p>Este es un sistema de trading algorítmico avanzado. Utiliza Inteligencia Artificial para escanear
-                múltiples mercados simultáneamente y detectar oportunidades de alta probabilidad.</p>
-            <div class="features-list">
-                <div class="feature">
-                    <strong>🧠 Scanner IA</strong>
-                    <span>Analiza BTC, ETH, SOL y más en tiempo real buscando patrones ganadores.</span>
+            <div class="card glass">
+                <div class="card-header">
+                    <i class="fa-solid fa-wallet accent-icon"></i>
+                    <h3>Total Balance</h3>
                 </div>
-                <div class="feature">
-                    <strong>🛡️ Gestión de Riesgo</strong>
-                    <span>Stop Loss dinámico (ATR) y tamaño de posición calculado para proteger el capital.</span>
-                </div>
-                <div class="feature">
-                    <strong>📉 Datos Reales</strong>
-                    <span>Conexión directa con Binance Futures para máxima precisión.</span>
+                <div class="card-body">
+                    <p id="balance-display" class="highlight-number">Loading...</p>
+                    <div class="sub-stat">
+                        <span class="label">Equity</span>
+                        <span id="equity-display" class="value-mono">...</span>
+                    </div>
                 </div>
             </div>
-            <p class="disclaimer">⚠️ Este software es una herramienta educativa. El trading de criptomonedas conlleva
-                alto riesgo.</p>
+
+            <div class="card glass">
+                <div class="card-header">
+                    <i class="fa-solid fa-bolt accent-icon"></i>
+                    <h3>Latest Signal</h3>
+                </div>
+                <div class="card-body">
+                    <div class="signal-box">
+                        <p id="signal-display">Waiting...</p>
+                    </div>
+                    <div class="sub-stat">
+                        <span id="signal-prob" class="value-mono small">Prob: ...</span>
+                        <span id="signal-reason" class="value-mono small dim">Price: ...</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card glass">
+                <div class="card-header">
+                    <i class="fa-solid fa-chart-line accent-icon"></i>
+                    <h3>Session PnL</h3>
+                </div>
+                <div class="card-body">
+                    <p id="pnl-display" class="highlight-number">...</p>
+                    <div class="sub-stat">
+                        <span class="label">Winrate</span>
+                        <span id="winrate-display" class="value-mono">...</span>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <div class="main-layout">
+            <!-- Left Column: Chart & Logs -->
+            <div class="left-col">
+                <div class="card glass full-height">
+                    <div class="card-header flex-between">
+                        <h3><i class="fa-solid fa-chart-candlestick"></i> Market Analysis <span id="chart-symbol"
+                                class="mono active-symbol"></span></h3>
+                        <div class="live-badge"><span class="pulse-dot-mini red"></span> LIVE FEED</div>
+                    </div>
+                    <div class="chart-container" id="chart"></div>
+                </div>
+
+                <div class="card glass logs-panel">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-terminal"></i> System Terminal</h3>
+                    </div>
+                    <div id="logs-container" class="terminal-view">
+                        <div class="log-line"><span class="time">[INIT]</span> System ready...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Scanner & Trades -->
+            <div class="right-col">
+                <div class="card glass">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-radar"></i> AI Scanner</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="scanner-table">
+                            <thead>
+                                <tr>
+                                    <th>Asset</th>
+                                    <th>Signal</th>
+                                    <th>Confidence</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Scanner Item -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card glass">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-list-check"></i> Executed Trades</h3>
+                    </div>
+                    <div class="table-responsive small-table">
+                        <table id="trades-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Pair</th>
+                                    <th>Side</th>
+                                    <th>PnL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Trade Item -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="glass-footer">
+            <p>ANTIGRAVITY // ENGINE <span class="mono">v2.0.4</span> // CONNECTED TO <span
+                    class="mono">BINANCE_FUTURES</span></p>
+        </footer>
+
     </div>
     <script src="dashboard.js"></script>
 </body>

@@ -52,7 +52,10 @@ async function fetchData() {
         let selectedSignal = null;
 
         scannerData.forEach((item, index) => {
-            if (!currentSymbol && index === 0) currentSymbol = item.symbol;
+            if (!currentSymbol && index === 0) {
+                currentSymbol = item.symbol;
+                document.getElementById('chart-symbol').innerText = ` // ${currentSymbol}`;
+            }
 
             const isSelected = currentSymbol === item.symbol;
             if (isSelected) selectedSignal = item;
@@ -62,15 +65,24 @@ async function fetchData() {
             row.style.backgroundColor = isSelected ? '#2B2B43' : 'transparent';
             row.onclick = () => {
                 currentSymbol = item.symbol;
+                document.getElementById('chart-symbol').innerText = ` // ${currentSymbol}`;
                 fetchData(); // Refresh all with new symbol
             };
 
+            const prob = (item.probability * 100).toFixed(1);
+            const signalClass = item.signal_type === 'BUY' ? 'buy-text' : (item.signal_type === 'SELL' ? 'sell-text' : 'hold-text');
+            const barColor = item.signal_type === 'BUY' ? 'var(--neon-green)' : (item.signal_type === 'SELL' ? 'var(--neon-red)' : '#666');
+
             row.innerHTML = `
-                <td style="font-weight: bold; color: #fff;">${item.symbol}</td>
-                <td class="${item.signal_type.toLowerCase()}">${item.signal_type}</td>
-                <td>${(item.probability * 100).toFixed(1)}%</td>
-                <td>${item.close_price < 1 ? item.close_price.toFixed(8) : item.close_price.toFixed(2)}</td>
-                <td><button onclick="currentSymbol='${item.symbol}'; fetchData()">VIEW</button></td>
+                <td>${item.symbol}</td>
+                <td class="${signalClass}">${item.signal_type}</td>
+                <td>
+                    ${prob}%
+                    <div class="conf-bar-bg">
+                        <div class="conf-bar-fill" style="width: ${prob}%; background-color: ${barColor};"></div>
+                    </div>
+                </td>
+                <td><button class="btn-action" onclick="currentSymbol='${item.symbol}'; fetchData()">VIEW</button></td>
             `;
             scannerTable.appendChild(row);
         });
@@ -84,8 +96,9 @@ async function fetchData() {
         // 3. Highlighted Signal (Selected Symbol)
         if (selectedSignal) {
             const el = document.getElementById('signal-display');
-            el.innerText = `${selectedSignal.symbol}: ${selectedSignal.signal_type}`;
-            el.className = selectedSignal.signal_type.toLowerCase();
+            el.innerText = `${selectedSignal.symbol} ${selectedSignal.signal_type}`;
+            el.className = selectedSignal.signal_type === 'BUY' ? 'highlight-number buy-text' : (selectedSignal.signal_type === 'SELL' ? 'highlight-number sell-text' : 'highlight-number hold-text');
+
             document.getElementById('signal-prob').innerText = `Prob: ${(selectedSignal.probability * 100).toFixed(1)}%`;
             document.getElementById('signal-reason').innerText = `Price: ${selectedSignal.close_price < 1 ? selectedSignal.close_price.toFixed(8) : selectedSignal.close_price.toFixed(2)}`;
         }
@@ -120,11 +133,34 @@ async function fetchData() {
 
         // 6. Chart Data (Specific Symbol)
         if (currentSymbol) {
+            // Fetch Candles
             const chartRes = await fetch(`${API_URL}/chart-data?symbol=${encodeURIComponent(currentSymbol)}`);
             const chartData = await chartRes.json();
             if (chartData.length > 0) {
                 candleSeries.setData(chartData);
             }
+
+            // Fetch and Set Markers (Trades)
+            const symbolTradesRes = await fetch(`${API_URL}/trades?symbol=${encodeURIComponent(currentSymbol)}&limit=100`);
+            const symbolTrades = await symbolTradesRes.json();
+
+            const markers = symbolTrades.map(trade => {
+                const isBuy = trade.side === "BUY";
+                // Convert timestamp (YYYY-MM-DD HH:MM:SS) to match chart time (unix timestamp)
+                // Note: stored timestamp is string, chart expects unix timestamp or string. 
+                // We assume chartData uses unix timestamps, so we convert trade time.
+                const tradeTime = new Date(trade.timestamp).getTime() / 1000;
+
+                return {
+                    time: tradeTime,
+                    position: isBuy ? 'belowBar' : 'aboveBar',
+                    color: isBuy ? '#2196F3' : '#E91E63', // Blue for Buy, Pink/Red for Sell
+                    shape: isBuy ? 'arrowUp' : 'arrowDown',
+                    text: `${trade.side} @ ${trade.price}`
+                };
+            }).sort((a, b) => a.time - b.time); // Markers must be sorted by time
+
+            candleSeries.setMarkers(markers);
         }
 
         // 7. Logs
@@ -132,7 +168,17 @@ async function fetchData() {
         const logsData = await logsRes.json();
         const logsContainer = document.getElementById('logs-container');
         if (logsContainer && logsData.logs) {
-            logsContainer.innerHTML = logsData.logs.join('<br>');
+            logsContainer.innerHTML = logsData.logs.map(log => {
+                // Formatting log line to look like terminal
+                // Assume log format: YYYY-MM-DD HH:MM:SS,mmm [LEVEL] Message
+                const parts = log.split('] ');
+                if (parts.length > 1) {
+                    const meta = parts[0] + ']';
+                    const msg = parts.slice(1).join('] ');
+                    return `<div class="log-line"><span class="time">${meta}</span> ${msg}</div>`;
+                }
+                return `<div class="log-line">${log}</div>`;
+            }).join('');
             logsContainer.scrollTop = logsContainer.scrollHeight;
         }
 

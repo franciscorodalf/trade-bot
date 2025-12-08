@@ -44,10 +44,13 @@ def get_balance():
     return {"balance": 0, "equity": 0}
 
 @app.get("/trades")
-def get_trades(limit: int = 50):
+def get_trades(limit: int = 50, symbol: str = None):
     conn = get_db_connection()
     try:
-        rows = conn.execute("SELECT * FROM trades ORDER BY id DESC LIMIT ?", (limit,)).fetchall()
+        if symbol:
+            rows = conn.execute("SELECT * FROM trades WHERE symbol = ? ORDER BY id DESC LIMIT ?", (symbol, limit)).fetchall()
+        else:
+            rows = conn.execute("SELECT * FROM trades ORDER BY id DESC LIMIT ?", (limit,)).fetchall()
         return [dict(row) for row in rows]
     except sqlite3.OperationalError:
         return []

@@ -78,6 +78,11 @@ class PaperTrader:
             
         conn = sqlite3.connect(self.db_path)
         c = conn.cursor()
+        
+        # If closing a position (SELL), mark previous OPEN trade as CLOSED to prevent re-loading on restart
+        if side == 'SELL':
+            c.execute("UPDATE trades SET status='CLOSED' WHERE symbol=? AND status='OPEN'", (trade_symbol,))
+            
         c.execute("""
             INSERT INTO trades (symbol, side, price, amount, cost, fee, pnl, status, reason)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -180,13 +185,19 @@ class PaperTrader:
                     elif prediction['signal'] == "SELL": exit_reason = "SIGNAL_FLIP"
                     
                     if exit_reason:
+                        # Revenue already includes fee deduction (Net Revenue)
                         revenue = amount * current_price * (1 - config['commission_rate'])
+                        
+                        # PnL = Net Revenue - Cost Basis. 
+                        # Note: This PnL accounts for Sell Fee but strictly not Buy Fee (sunk cost)
                         pnl = revenue - (amount * entry_price)
                         current_balance += revenue
                         del portfolio[symbol]
                         
-                        sell_fee = revenue * config['commission_rate']
-                        current_balance -= sell_fee 
+                        # Calculate fee just for logging (already deducted from revenue)
+                        # Approximating fee based on Gross value
+                        raw_value = amount * current_price
+                        sell_fee = raw_value * config['commission_rate']
                         
                         self.log_trade("SELL", current_price, amount, pnl, exit_reason, cost=cost_val, fee=sell_fee, symbol=symbol)
                         logging.info(f"SELL {symbol} ({exit_reason}). PnL: {pnl:.2f}")
