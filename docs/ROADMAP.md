@@ -10,6 +10,14 @@ Este documento describe la visión a futuro del **AI Trading Bot**. El desarroll
 - [x] Soporte Multi-Moneda y Scanner Universal.
 - [x] Implementación de MACD y Bollinger Bands.
 
+## ✅ Fase 1.5: DevOps y UI Profesional (Completada)
+- [x] Dockerización completa (`Dockerfile` + `docker-compose.yml`).
+- [x] `Makefile` con comandos de desarrollo y despliegue.
+- [x] Soporte de variables de entorno (`.env`).
+- [x] `.gitignore` profesional.
+- [x] Rediseño completo del Dashboard (dark theme profesional, glassmorphism, animaciones).
+- [x] README.md de nivel portfolio para LinkedIn.
+
 ## 🚧 Fase 2: Velocidad y Eficiencia (Próxima)
 El objetivo es reducir la latencia de análisis para capturar oportunidades fugaces.
 - [ ] **Data Fetching Asíncrono**: Migrar de `ccxt` síncrono a `ccxt.async_support` + `asyncio`.
@@ -25,5 +33,6 @@ Darle más herramientas al modelo para entender el contexto.
 ## 🚀 Fase 4: Producción y Live Trading
 Solo cuando el sistema demuestre rentabilidad consistente en simulación.
 - [ ] **Gestión de API Keys**: Encriptación segura de claves privadas.
-- [ ] **Dockerización**: `Dockerfile` y `docker-compose` para despliegue en VPS (AWS/DigitalOcean).
+- [x] **Dockerización**: `Dockerfile` y `docker-compose` para despliegue en VPS (AWS/DigitalOcean).
 - [ ] **Notificaciones**: Telegram/Discord bot para avisar al móvil cuando se abre una operación.
+- [ ] **CI/CD Pipeline**: GitHub Actions para tests automáticos y despliegue.

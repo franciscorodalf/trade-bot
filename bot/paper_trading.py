@@ -1,260 +1,400 @@
+"""
+Paper trading engine — the main execution loop.
+
+Continuously scans configured cryptocurrency pairs, generates ML predictions,
+manages a simulated portfolio with position entries/exits, and persists
+all state to SQLite for the dashboard to display.
+"""
+
 import time
 import json
 import logging
 import sqlite3
-import ccxt
-import pandas as pd
+import os
 from datetime import datetime
-from utils import get_latest_data_with_indicators
-from predict import predict
+from typing import Dict, List, Optional, Tuple, Any
+from contextlib import contextmanager
+
 from strategy import Strategy
 
 # Load config
 with open('config.json', 'r') as f:
     config = json.load(f)
 
-logging.basicConfig(filename=config['paths']['logs'], level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
+logging.basicConfig(
+    filename=config['paths']['logs'],
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(message)s'
+)
+
+# Constants
+MIN_TRADE_VALUE_USDT: float = 5.0
+SAFETY_MARGIN: float = 0.999
+SCAN_INTERVAL_SECONDS: int = 60
+PAUSE_CHECK_SECONDS: int = 5
+
+# Type alias for portfolio positions
+# (amount, entry_price, stop_loss, take_profit)
+Position = Tuple[float, float, float, float]
+
 
 class PaperTrader:
-    def __init__(self):
+    """
+    Simulated trading engine with real market data.
+
+    Executes a scan → rank → trade cycle every 60 seconds:
+    1. Fetch ML predictions for all configured symbols
+    2. Manage exits on open positions (SL/TP/signal flip)
+    3. Enter new positions on highest-confidence BUY signals
+    4. Update portfolio equity and persist to database
+    """
+
+    def __init__(self) -> None:
         self.strategy = Strategy()
-        self.db_path = config['paths']['database']
-        self.symbol = config.get('symbol', config.get('symbols', ['BTC/USDT'])[0])
-        self.running = True
-        self.paused = False
-        
-        # Initialize Balance in DB if not exists
-        self.init_db_balance()
-        
-        # Try Binance connection
-        self.exchange = None
-        # In a real scenario, we'd load keys from env or secure config
-        # self.exchange = ccxt.binance({
-        #     'apiKey': 'YOUR_API_KEY',
-        #     'secret': 'YOUR_SECRET',
-        #     'enableRateLimit': True,
-        #     'options': { 'defaultType': 'future' } # or spot
-        # })
-        # self.exchange.set_sandbox_mode(True) 
-        
-        if self.exchange:
-            logging.info("Connected to Binance Testnet")
-        else:
-            logging.info("No API keys found. Using Internal Simulation Mode.")
+        self.db_path: str = config['paths']['database']
+        self.running: bool = True
+        self.portfolio: Dict[str, Position] = {}
 
-    def init_db_balance(self):
+        # Initialize database schema and starting balance
+        self._init_database()
+        logging.info("Paper Trading engine initialized. Mode: Simulation.")
+
+    # ---- Database Operations ----
+
+    @contextmanager
+    def _get_db(self):
+        """Context manager for safe database access."""
         conn = sqlite3.connect(self.db_path)
-        c = conn.cursor()
-        
-        # Ensure Tables Exist
-        c.execute('''CREATE TABLE IF NOT EXISTS balance_history
-                     (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                      balance REAL, equity REAL, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
-        c.execute('''CREATE TABLE IF NOT EXISTS trades
-                     (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                      symbol TEXT, side TEXT, price REAL, amount REAL, cost REAL, fee REAL, pnl REAL, status TEXT, reason TEXT, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
-        c.execute('''CREATE TABLE IF NOT EXISTS signals
-                     (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                      symbol TEXT, signal_type TEXT, probability REAL, close_price REAL, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
-        
-        c.execute("SELECT * FROM balance_history ORDER BY id DESC LIMIT 1")
-        row = c.fetchone()
-        if not row:
-            c.execute("INSERT INTO balance_history (balance, equity) VALUES (?, ?)", 
-                      (config['initial_capital'], config['initial_capital']))
+        conn.row_factory = sqlite3.Row
+        try:
+            yield conn
             conn.commit()
-        conn.close()
+        finally:
+            conn.close()
 
-    def get_balance(self):
-        conn = sqlite3.connect(self.db_path)
-        c = conn.cursor()
-        c.execute("SELECT balance, equity FROM balance_history ORDER BY id DESC LIMIT 1")
-        row = c.fetchone()
-        conn.close()
+    def _init_database(self) -> None:
+        """Create tables if they don't exist and seed initial balance."""
+        with self._get_db() as conn:
+            c = conn.cursor()
+
+            c.execute('''CREATE TABLE IF NOT EXISTS balance_history
+                         (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                          balance REAL, equity REAL,
+                          timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
+
+            c.execute('''CREATE TABLE IF NOT EXISTS trades
+                         (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                          symbol TEXT, side TEXT, price REAL, amount REAL,
+                          cost REAL, fee REAL, pnl REAL, status TEXT,
+                          reason TEXT,
+                          timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
+
+            c.execute('''CREATE TABLE IF NOT EXISTS signals
+                         (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                          symbol TEXT, signal_type TEXT, probability REAL,
+                          close_price REAL,
+                          timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
+
+            # Seed balance if first run
+            row = c.execute(
+                "SELECT * FROM balance_history ORDER BY id DESC LIMIT 1"
+            ).fetchone()
+            if not row:
+                capital = config['initial_capital']
+                c.execute(
+                    "INSERT INTO balance_history (balance, equity) VALUES (?, ?)",
+                    (capital, capital)
+                )
+
+    def _get_balance(self) -> Tuple[float, float]:
+        """Read latest balance and equity from database."""
+        with self._get_db() as conn:
+            row = conn.execute(
+                "SELECT balance, equity FROM balance_history ORDER BY id DESC LIMIT 1"
+            ).fetchone()
         if row:
-            return row[0], row[1]
-        return config['initial_capital'], config['initial_capital']
+            return row['balance'], row['equity']
+        capital = config['initial_capital']
+        return capital, capital
 
-    def update_balance(self, balance, equity):
-        conn = sqlite3.connect(self.db_path)
-        c = conn.cursor()
-        c.execute("INSERT INTO balance_history (balance, equity) VALUES (?, ?)", (balance, equity))
-        conn.commit()
-        conn.close()
+    def _update_balance(self, balance: float, equity: float) -> None:
+        """Persist new balance snapshot."""
+        with self._get_db() as conn:
+            conn.execute(
+                "INSERT INTO balance_history (balance, equity) VALUES (?, ?)",
+                (balance, equity)
+            )
 
-    def log_trade(self, side, price, amount, pnl, reason, status=None, symbol=None):
+    def _log_trade(
+        self, side: str, price: float, amount: float,
+        pnl: float, reason: str, symbol: str,
+        status: Optional[str] = None
+    ) -> None:
+        """Record a trade execution to the database."""
         if status is None:
             status = 'OPEN' if side == 'BUY' else 'CLOSED'
-            
-        trade_symbol = symbol if symbol else self.symbol
-            
-        conn = sqlite3.connect(self.db_path)
-        c = conn.cursor()
-        c.execute("""
-            INSERT INTO trades (symbol, side, price, amount, cost, fee, pnl, status, reason)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (trade_symbol, side, price, amount, price*amount, 0, pnl, status, reason))
-        conn.commit()
-        conn.close()
-        
-    def log_signal(self, signal_type, probability, close_price, symbol=None):
-        trade_symbol = symbol if symbol else self.symbol
-        conn = sqlite3.connect(self.db_path)
-        c = conn.cursor()
-        c.execute("INSERT INTO signals (symbol, signal_type, probability, close_price) VALUES (?, ?, ?, ?)", 
-                  (trade_symbol, signal_type, probability, close_price))
-        conn.commit()
-        conn.close()
 
-    def load_portfolio(self):
-        conn = sqlite3.connect(self.db_path)
-        c = conn.cursor()
-        # Load OPEN trades
-        c.execute("SELECT symbol, amount, price FROM trades WHERE status='OPEN'")
-        rows = c.fetchall()
-        for r in rows:
-            sym, amt, price = r
-            # We don't have SL/TP in DB, so we use defaults or wide limits
-            self.portfolio[sym] = (amt, price, 0, 999999) 
-            logging.info(f"Loaded open position from DB: {sym} ({amt} units @ {price})")
-        conn.close()
+        with self._get_db() as conn:
+            conn.execute(
+                """INSERT INTO trades
+                   (symbol, side, price, amount, cost, fee, pnl, status, reason)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                (symbol, side, price, amount, price * amount, 0, pnl, status, reason)
+            )
 
-    def run(self):
-        logging.info("Bot started in Multi-Symbol Mode.")
-        
-        # Track internal state for simulation
-        current_balance, current_equity = self.get_balance()
-        
-        # Portfolio State: { "SYMBOL": (amount, entry_price, sl, tp) }
-        self.portfolio = {}
+    def _log_signal(
+        self, symbol: str, signal_type: str,
+        probability: float, close_price: float
+    ) -> None:
+        """Record a scanner signal to the database."""
+        with self._get_db() as conn:
+            conn.execute(
+                "INSERT INTO signals (symbol, signal_type, probability, close_price) "
+                "VALUES (?, ?, ?, ?)",
+                (symbol, signal_type, probability, close_price)
+            )
+
+    # ---- Portfolio Management ----
+
+    def _load_portfolio(self) -> None:
+        """Restore open positions from database on startup."""
+        with self._get_db() as conn:
+            rows = conn.execute(
+                "SELECT symbol, amount, price FROM trades WHERE status='OPEN'"
+            ).fetchall()
+
+        for row in rows:
+            sym, amt, price = row['symbol'], row['amount'], row['price']
+            # SL/TP not persisted — use wide defaults until next scan recalculates
+            self.portfolio[sym] = (amt, price, 0, 999999)
+            logging.info(f"Restored position: {sym} ({amt:.6f} units @ {price:.2f})")
+
+    def _is_paused(self) -> bool:
+        """Check if bot is paused via status file."""
         try:
-            self.load_portfolio()
+            with open("bot_status.json", "r") as f:
+                return json.load(f).get("paused", False)
+        except (FileNotFoundError, json.JSONDecodeError):
+            return False
+
+    # ---- Trading Logic ----
+
+    def _scan_market(self, symbols: List[str]) -> List[Dict[str, Any]]:
+        """
+        Scan all symbols and collect ML predictions.
+
+        Returns list of opportunities with symbol, prediction, and price.
+        """
+        from predict import predict_symbol
+
+        opportunities: List[Dict[str, Any]] = []
+
+        for symbol in symbols:
+            prediction = predict_symbol(symbol)
+            if not prediction:
+                continue
+
+            current_price = prediction['close']
+            self._log_signal(symbol, prediction['signal'],
+                             prediction['probability'], current_price)
+
+            opportunities.append({
+                "symbol": symbol,
+                "prediction": prediction,
+                "price": current_price
+            })
+
+        return opportunities
+
+    def _manage_exits(
+        self, opportunities: List[Dict[str, Any]],
+        current_balance: float
+    ) -> float:
+        """
+        Check all open positions for exit conditions.
+
+        Returns updated balance after any closed positions.
+        """
+        commission = config['commission_rate']
+
+        for symbol in list(self.portfolio.keys()):
+            opp = next((o for o in opportunities if o['symbol'] == symbol), None)
+            if not opp:
+                continue
+
+            current_price = opp['price']
+            prediction = opp['prediction']
+            amount, entry_price, sl_price, tp_price = self.portfolio[symbol]
+
+            # Determine exit reason
+            exit_reason: Optional[str] = None
+            if sl_price > 0 and current_price <= sl_price:
+                exit_reason = "SL"
+            elif tp_price < 999999 and current_price >= tp_price:
+                exit_reason = "TP"
+            elif prediction['signal'] == "SELL":
+                exit_reason = "SIGNAL_FLIP"
+
+            if exit_reason:
+                revenue = amount * current_price * (1 - commission)
+                pnl = revenue - (amount * entry_price)
+                current_balance += revenue
+                del self.portfolio[symbol]
+
+                self._log_trade("SELL", current_price, 0, pnl, exit_reason, symbol)
+                logging.info(f"SELL {symbol} ({exit_reason}). PnL: ${pnl:.4f}")
+
+        return current_balance
+
+    def _manage_entries(
+        self, buy_signals: List[Dict[str, Any]],
+        current_balance: float, max_positions: int
+    ) -> float:
+        """
+        Enter new positions from ranked BUY signals.
+
+        Returns updated balance after any new entries.
+        """
+        open_slots = max_positions - len(self.portfolio)
+        commission = config['commission_rate']
+
+        for opp in buy_signals:
+            if open_slots <= 0:
+                break
+
+            symbol = opp['symbol']
+            if symbol in self.portfolio:
+                continue
+
+            prediction = opp['prediction']
+            current_price = opp['price']
+
+            # Calculate position size
+            position_size = config['initial_capital'] / max_positions
+            if position_size > current_balance:
+                position_size = current_balance * 0.98
+
+            if position_size < MIN_TRADE_VALUE_USDT:
+                continue
+
+            amount = position_size / current_price
+            cost = amount * current_price
+            fee = cost * commission
+
+            # Adjust if insufficient balance
+            if (cost + fee) > current_balance:
+                amount = current_balance / (current_price * (1 + commission))
+                amount *= SAFETY_MARGIN
+                cost = amount * current_price
+                fee = cost * commission
+
+            if amount > 0 and cost > MIN_TRADE_VALUE_USDT:
+                current_balance -= (cost + fee)
+                sl, tp = self.strategy.calculate_sl_tp(
+                    current_price, "BUY", prediction.get('atr', 0)
+                )
+
+                self.portfolio[symbol] = (amount, current_price, sl, tp)
+                open_slots -= 1
+
+                self._log_trade("BUY", current_price, amount, 0, "SIGNAL", symbol)
+                logging.info(
+                    f"BUY {symbol} @ ${current_price:.4f} "
+                    f"(Conf: {prediction['probability']:.1%})"
+                )
+
+        return current_balance
+
+    def _calculate_equity(
+        self, balance: float,
+        opportunities: List[Dict[str, Any]]
+    ) -> float:
+        """Calculate total equity = balance + unrealized position value."""
+        equity_positions: float = 0.0
+
+        for sym, (amt, entry_price, _, _) in self.portfolio.items():
+            opp = next((o for o in opportunities if o['symbol'] == sym), None)
+            mark_price = opp['price'] if opp else entry_price
+            equity_positions += amt * mark_price
+
+        return balance + equity_positions
+
+    # ---- Main Loop ----
+
+    def run(self) -> None:
+        """
+        Main execution loop.
+
+        Runs indefinitely in 60-second cycles:
+        Scan → Rank → Exit management → Entry management → Update equity
+        """
+        logging.info("="*50)
+        logging.info("Bot started — Multi-Symbol Paper Trading Mode")
+        logging.info(f"Symbols: {config.get('symbols', [])}")
+        logging.info(f"Max positions: {config.get('max_open_positions', 3)}")
+        logging.info("="*50)
+
+        balance, equity = self._get_balance()
+
+        # Restore any open positions from previous session
+        try:
+            self._load_portfolio()
         except Exception as e:
             logging.error(f"Failed to load portfolio: {e}")
-            
-        portfolio = self.portfolio # Alias
-        
+
         while self.running:
-            if self.paused:
-                time.sleep(5)
+            # Check pause state
+            if self._is_paused():
+                time.sleep(PAUSE_CHECK_SECONDS)
                 continue
-                
+
             try:
-                symbols = config.get('symbols', [config.get('symbol')])
-                max_pos = config.get('max_open_positions', 3)
-                
-                opportunities = []
-                
-                # 1. SCANNING PHASE
-                logging.info(f"Scanning market... ({len(symbols)} pairs)")
-                
-                for symbol in symbols:
-                    from predict import predict_symbol
-                    prediction = predict_symbol(symbol)
-                    
-                    if not prediction:
-                        continue
-                        
-                    current_price = prediction['close']
-                    self.log_signal(prediction['signal'], prediction['probability'], current_price, symbol=symbol)
-                    
-                    opportunities.append({
-                        "symbol": symbol,
-                        "prediction": prediction,
-                        "price": current_price
-                    })
-                    
-                # 2. RANKING PHASE
-                buy_signals = [o for o in opportunities if o['prediction']['signal'] == "BUY"]
-                buy_signals.sort(key=lambda x: x['prediction']['probability'], reverse=True)
-                
-                logging.info(f"Found {len(buy_signals)} BUY opportunities.")
-                
-                # 3. EXECUTION PHASE
-                
-                # Manage Exits
-                for symbol in list(portfolio.keys()):
-                    opp = next((o for o in opportunities if o['symbol'] == symbol), None)
-                    if not opp: continue
-                    
-                    current_price = opp['price']
-                    prediction = opp['prediction']
-                    
-                    amount, entry_price, sl_price, tp_price = portfolio[symbol]
-                    
-                    exit_reason = None
-                    if sl_price > 0 and current_price <= sl_price: exit_reason = "SL"
-                    elif tp_price < 999999 and current_price >= tp_price: exit_reason = "TP"
-                    elif prediction['signal'] == "SELL": exit_reason = "SIGNAL_FLIP"
-                    
-                    if exit_reason:
-                        revenue = amount * current_price * (1 - config['commission_rate'])
-                        pnl = revenue - (amount * entry_price)
-                        current_balance += revenue
-                        del portfolio[symbol]
-                        
-                        self.log_trade("SELL", current_price, 0, pnl, exit_reason, symbol=symbol)
-                        logging.info(f"SELL {symbol} ({exit_reason}). PnL: {pnl:.2f}")
+                symbols: List[str] = config.get('symbols', [])
+                max_pos: int = config.get('max_open_positions', 3)
 
-                # Enter New Positions
-                open_slots = max_pos - len(portfolio)
-                
-                if open_slots > 0:
-                    for opp in buy_signals:
-                        if open_slots <= 0: break
-                        symbol = opp['symbol']
-                        if symbol in portfolio: continue
-                        
-                        prediction = opp['prediction']
-                        current_price = opp['price']
-                        
-                        # Capital Allocation
-                        position_size_usdt = config['initial_capital'] / max_pos
-                        if position_size_usdt > current_balance:
-                            position_size_usdt = current_balance * 0.98
-                        
-                        if position_size_usdt < 5: continue
-                            
-                        amount = position_size_usdt / current_price
-                        cost = amount * current_price
-                        fee = cost * config['commission_rate']
-                        
-                        if (cost + fee) > current_balance:
-                            amount = current_balance / (current_price * (1 + config['commission_rate']))
-                            amount *= 0.999 # Safety
-                            cost = amount * current_price
-                            fee = cost * config['commission_rate']
-                        
-                        if amount > 0 and cost > 5:
-                            current_balance -= (cost + fee)
-                            sl, tp = self.strategy.calculate_sl_tp(current_price, "BUY", prediction.get('atr', 0))
-                            
-                            portfolio[symbol] = (amount, current_price, sl, tp)
-                            open_slots -= 1
-                            
-                            self.log_trade("BUY", current_price, amount, 0, "SIGNAL", symbol=symbol)
-                            logging.info(f"BUY {symbol} @ {current_price:.8f}. Prob: {prediction['probability']:.2f}")
+                # Phase 1: SCAN
+                logging.info(f"Scanning {len(symbols)} pairs...")
+                opportunities = self._scan_market(symbols)
 
-                # Update Equity
-                equity_positions = 0
-                for sym, (amt, price, _, _) in portfolio.items():
-                    opp = next((o for o in opportunities if o['symbol'] == sym), None)
-                    if opp:
-                        equity_positions += amt * opp['price']
-                    else:
-                        equity_positions += amt * price
-                
-                current_equity = current_balance + equity_positions
-                self.update_balance(current_balance, current_equity)
-                
-                logging.info(f"Cycle End. Balance: {current_balance:.2f}, Equity: {current_equity:.2f}. Open Pos: {len(portfolio)}")
-                
-                time.sleep(60) 
-                
+                # Phase 2: RANK
+                buy_signals = [
+                    o for o in opportunities
+                    if o['prediction']['signal'] == "BUY"
+                ]
+                buy_signals.sort(
+                    key=lambda x: x['prediction']['probability'],
+                    reverse=True
+                )
+                logging.info(f"Found {len(buy_signals)} BUY opportunities")
+
+                # Phase 3: EXIT management
+                balance = self._manage_exits(opportunities, balance)
+
+                # Phase 4: ENTRY management
+                balance = self._manage_entries(buy_signals, balance, max_pos)
+
+                # Phase 5: UPDATE equity
+                equity = self._calculate_equity(balance, opportunities)
+                self._update_balance(balance, equity)
+
+                logging.info(
+                    f"Cycle complete. Balance: ${balance:.2f} | "
+                    f"Equity: ${equity:.2f} | "
+                    f"Positions: {len(self.portfolio)}/{max_pos}"
+                )
+
+                time.sleep(SCAN_INTERVAL_SECONDS)
+
+            except KeyboardInterrupt:
+                logging.info("Bot stopped by user.")
+                self.running = False
             except Exception as e:
                 logging.error(f"Error in main loop: {e}", exc_info=True)
                 time.sleep(10)
 
+
 if __name__ == "__main__":
+    print("\n  Starting AI Paper Trading Bot...")
+    print("  Press Ctrl+C to stop.\n")
     bot = PaperTrader()
     bot.run()

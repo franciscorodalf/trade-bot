@@ -1,14 +1,29 @@
+"""
+FastAPI REST API for the AI Trading Bot.
+
+Serves real-time trading data, scanner results, portfolio statistics,
+and bot control endpoints to the web dashboard.
+"""
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import sqlite3
 import json
+import sys
+import os
 import pandas as pd
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
+from contextlib import contextmanager
 
-app = FastAPI()
+# ---- App Setup ----
 
-# CORS
+app = FastAPI(
+    title="AI Trading Bot API",
+    description="REST API for the quantitative trading bot dashboard",
+    version="1.0.0",
+)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -17,138 +32,184 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Load config
+# ---- Configuration ----
+
 with open('config.json', 'r') as f:
     config = json.load(f)
-    
-DB_PATH = config['paths']['database']
 
-def get_db_connection():
+DB_PATH: str = config['paths']['database']
+
+# Ensure bot module is importable
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'bot'))
+
+
+# ---- Database Helper ----
+
+@contextmanager
+def get_db():
+    """Context manager for safe database connections."""
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
-    return conn
+    try:
+        yield conn
+    finally:
+        conn.close()
 
-@app.get("/balance")
-def get_balance():
-    conn = get_db_connection()
-    row = conn.execute("SELECT * FROM balance_history ORDER BY id DESC LIMIT 1").fetchone()
-    conn.close()
+
+# ---- Endpoints ----
+
+@app.get("/balance", tags=["Portfolio"])
+def get_balance() -> Dict[str, Any]:
+    """Get the latest portfolio balance and equity."""
+    with get_db() as conn:
+        row = conn.execute(
+            "SELECT * FROM balance_history ORDER BY id DESC LIMIT 1"
+        ).fetchone()
     if row:
         return dict(row)
     return {"balance": 0, "equity": 0}
 
-@app.get("/trades")
-def get_trades(limit: int = 50):
-    conn = get_db_connection()
-    rows = conn.execute("SELECT * FROM trades ORDER BY id DESC LIMIT ?", (limit,)).fetchall()
-    conn.close()
+
+@app.get("/trades", tags=["Portfolio"])
+def get_trades(limit: int = 50) -> List[Dict[str, Any]]:
+    """Get recent trade history, ordered newest first."""
+    with get_db() as conn:
+        rows = conn.execute(
+            "SELECT * FROM trades ORDER BY id DESC LIMIT ?", (limit,)
+        ).fetchall()
     return [dict(row) for row in rows]
 
-@app.get("/live-signal")
-def get_live_signal():
-    conn = get_db_connection()
-    row = conn.execute("SELECT * FROM signals ORDER BY id DESC LIMIT 1").fetchone()
-    conn.close()
+
+@app.get("/live-signal", tags=["Scanner"])
+def get_live_signal() -> Dict[str, Any]:
+    """Get the most recent ML prediction signal."""
+    with get_db() as conn:
+        row = conn.execute(
+            "SELECT * FROM signals ORDER BY id DESC LIMIT 1"
+        ).fetchone()
     if row:
         return dict(row)
     return {}
 
-@app.get("/statistics")
-def get_statistics():
-    conn = get_db_connection()
-    trades = conn.execute("SELECT * FROM trades WHERE status='CLOSED'").fetchall()
-    conn.close()
-    
+
+@app.get("/statistics", tags=["Portfolio"])
+def get_statistics() -> Dict[str, Any]:
+    """
+    Calculate portfolio performance metrics from closed trades.
+
+    Returns:
+        Dict with winrate (%), total_trades count, and cumulative pnl.
+    """
+    with get_db() as conn:
+        trades = conn.execute(
+            "SELECT * FROM trades WHERE status='CLOSED'"
+        ).fetchall()
+
     if not trades:
         return {"winrate": 0, "total_trades": 0, "pnl": 0}
-        
+
     df = pd.DataFrame([dict(t) for t in trades])
-    total_trades = len(df)
-    winning_trades = len(df[df['pnl'] > 0])
-    winrate = (winning_trades / total_trades) * 100 if total_trades > 0 else 0
-    total_pnl = df['pnl'].sum()
-    
+    total_trades: int = len(df)
+    winning_trades: int = len(df[df['pnl'] > 0])
+    winrate: float = (winning_trades / total_trades) * 100 if total_trades > 0 else 0
+    total_pnl: float = df['pnl'].sum()
+
     return {
         "winrate": round(winrate, 2),
         "total_trades": total_trades,
         "pnl": round(total_pnl, 8)
     }
 
-@app.get("/scanner")
-def get_scanner():
-    """
-    Get the latest signal for every symbol.
-    """
-    conn = get_db_connection()
-    # Get unique symbols first or just group by symbol
-    # Simple query: Get latest entry for each symbol
-    # SQLite distinct on/group by trick
-    query = """
-    SELECT * FROM signals 
-    WHERE id IN (
-        SELECT MAX(id) 
-        FROM signals 
-        GROUP BY symbol
-    )
-    ORDER BY probability DESC
-    """
-    rows = conn.execute(query).fetchall()
-    conn.close()
-    
-    # Filter by configured symbols only to avoid legacy data issues
-    valid_symbols = set(config.get('symbols', []))
-    results = [dict(row) for row in rows if row['symbol'] in valid_symbols]
-    
-    return results
 
-@app.get("/chart-data")
-def get_chart_data(symbol: Optional[str] = None, limit: int = 100):
-    import sys
-    import os
-    sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'bot'))
+@app.get("/scanner", tags=["Scanner"])
+def get_scanner() -> List[Dict[str, Any]]:
+    """
+    Get the latest ML signal for each configured symbol.
+
+    Results are sorted by prediction confidence (probability) descending.
+    Only returns symbols that are in the current config.
+    """
+    with get_db() as conn:
+        query = """
+        SELECT * FROM signals
+        WHERE id IN (
+            SELECT MAX(id) FROM signals GROUP BY symbol
+        )
+        ORDER BY probability DESC
+        """
+        rows = conn.execute(query).fetchall()
+
+    valid_symbols = set(config.get('symbols', []))
+    return [dict(row) for row in rows if row['symbol'] in valid_symbols]
+
+
+@app.get("/chart-data", tags=["Charts"])
+def get_chart_data(
+    symbol: Optional[str] = None,
+    limit: int = 100
+) -> List[Dict[str, Any]]:
+    """
+    Fetch OHLCV candlestick data formatted for TradingView Lightweight Charts.
+
+    Args:
+        symbol: Trading pair (e.g. 'BTC/USDT'). Defaults to config.
+        limit: Number of candles to return.
+    """
     from utils import fetch_data
-    
-    # Use config default if None
-    # We can load them from config here or just pass None to fetch_data which handles it
-    
+
     df = fetch_data(symbol=symbol, limit=limit)
     if df is None:
         return []
-        
-    # Format for TradingView Lightweight Charts
-    data = []
-    for index, row in df.iterrows():
-        data.append({
+
+    return [
+        {
             "time": int(index.timestamp()),
             "open": row['open'],
             "high": row['high'],
             "low": row['low'],
             "close": row['close'],
             "volume": row['volume']
-        })
-    return data
+        }
+        for index, row in df.iterrows()
+    ]
 
-@app.get("/logs")
-def get_logs(limit: int = 20):
+
+@app.get("/logs", tags=["System"])
+def get_logs(limit: int = 20) -> Dict[str, List[str]]:
+    """
+    Read the last N lines from the bot's log file.
+
+    Args:
+        limit: Number of log lines to return (default 20).
+    """
     log_path = config['paths']['logs']
     try:
         with open(log_path, "r") as f:
             lines = f.readlines()
-            # Return last N lines, reversed so newest is top (or keep chronological)
-            # Let's keep chronological for logs
-            return {"logs": [line.strip() for line in lines[-limit:]]}
+        return {"logs": [line.strip() for line in lines[-limit:]]}
+    except FileNotFoundError:
+        return {"logs": ["Log file not found. Bot may not have started yet."]}
     except Exception as e:
         return {"logs": [f"Error reading logs: {str(e)}"]}
 
-class ControlRequest(BaseModel):
-    action: str # 'pause', 'resume'
 
-@app.post("/control")
-def control_bot(req: ControlRequest):
-    # In a real app, we'd communicate with the bot process via DB or IPC.
-    # Here we can write a status file that the bot checks.
+# ---- Control ----
+
+class ControlRequest(BaseModel):
+    """Request body for bot control actions."""
+    action: str  # 'pause' or 'resume'
+
+
+@app.post("/control", tags=["System"])
+def control_bot(req: ControlRequest) -> Dict[str, str]:
+    """
+    Pause or resume the trading bot.
+
+    The bot checks bot_status.json each cycle to determine
+    whether to continue operating or sleep.
+    """
     status_file = "bot_status.json"
-    
+
     if req.action == "pause":
         with open(status_file, "w") as f:
             json.dump({"paused": True}, f)
@@ -157,8 +218,11 @@ def control_bot(req: ControlRequest):
         with open(status_file, "w") as f:
             json.dump({"paused": False}, f)
         return {"status": "running"}
-    
-    raise HTTPException(status_code=400, detail="Invalid action")
+
+    raise HTTPException(status_code=400, detail="Invalid action. Use 'pause' or 'resume'.")
+
+
+# ---- Entry Point ----
 
 if __name__ == "__main__":
     import uvicorn

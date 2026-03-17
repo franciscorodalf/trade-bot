@@ -1,9 +1,16 @@
+# Core
 fastapi
 uvicorn
-yfinance
 pandas
 numpy
 scikit-learn
 ta
 ccxt
 joblib
+
+# Optional
+yfinance
+
+# Testing
+pytest
+httpx
