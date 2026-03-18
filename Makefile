@@ -1,68 +1,43 @@
 # ============================================
-# AI Trading Bot — Makefile
-# Common commands for development & deployment
+# Polymarket BTC Prediction Bot — Makefile
 # ============================================
 
-.PHONY: help install train run run-all run-bot run-api run-web docker-up docker-down docker-logs clean test backtest retrain
+.PHONY: help install train backtest run api test lint clean docker-up docker-down
 
-# Default
-help: ## Show this help message
-	@echo ""
-	@echo "  AI Trading Bot — Available Commands"
-	@echo "  ======================================"
-	@echo ""
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}'
-	@echo ""
+help: ## Show available commands
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | \
+		awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}'
 
-# ---- Setup ----
 install: ## Install Python dependencies
-	python3 -m venv venv
-	. venv/bin/activate && pip install -r requirements.txt
-	@mkdir -p database logs bot/models
-	@echo "\n✅ Setup complete. Run 'make train' to train the ML model."
+	pip install -r requirements.txt
 
-# ---- ML Model ----
-train: ## Train the AI model on historical data
-	. venv/bin/activate && python3 bot/train_model.py
+train: ## Train XGBoost model (fetches 30 days of 1m data)
+	cd bot && python train_model.py
 
-retrain: ## Retrain model with fresh market data
-	. venv/bin/activate && python3 bot/retrain_model.py
+backtest: ## Run walk-forward backtest
+	cd bot && python backtest.py
 
-# ---- Run (Local) ----
-run: ## Start ALL services in one terminal (Bot + API + Web)
-	. venv/bin/activate && python3 run.py
+run: ## Start bot + API + dashboard
+	python run.py
 
-run-bot: ## Start the trading bot only
-	. venv/bin/activate && python3 bot/paper_trading.py
+run-train: ## Train model, then start everything
+	python run.py --train
 
-run-api: ## Start the FastAPI server
-	. venv/bin/activate && uvicorn api.main:app --reload --host 0.0.0.0 --port 8000
+api: ## Start API server only
+	uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
 
-run-web: ## Start the web dashboard (port 5500)
-	cd web && python3 -m http.server 5500
+test: ## Run all tests
+	pytest tests/ -v
 
-# ---- Docker ----
-docker-up: ## Start all services with Docker Compose
-	@test -f .env || cp .env.example .env
+lint: ## Check code with flake8
+	flake8 bot/ api/ --max-line-length=120 --ignore=E501,W503
+
+clean: ## Remove generated files
+	rm -rf database/ logs/ bot/models/*.pkl __pycache__ .pytest_cache
+	find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
+
+docker-up: ## Build and start with Docker Compose
 	docker compose up --build -d
-	@echo "\n🚀 Dashboard: http://localhost:5500"
-	@echo "📡 API:       http://localhost:8000"
 
-docker-down: ## Stop all Docker services
+docker-down: ## Stop Docker containers
 	docker compose down
-
-docker-logs: ## View logs from all services
-	docker compose logs -f
-
-# ---- Testing ----
-backtest: ## Run backtesting on historical data
-	. venv/bin/activate && python3 bot/backtest.py
-
-test: ## Run unit tests
-	. venv/bin/activate && python3 -m pytest tests/ -v
-
-# ---- Maintenance ----
-clean: ## Remove generated files (models, db, logs)
-	rm -rf database/*.db logs/*.log bot/models/*.pkl
-	rm -f backtest_trades.csv bot_status.json
-	@echo "🧹 Cleaned generated files."

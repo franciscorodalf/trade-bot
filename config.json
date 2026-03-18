@@ -1,41 +1,68 @@
 {
-    "initial_capital": 80.0,
-    "binance": {
-        "api_key": "",
-        "api_secret": "",
-        "testnet": false
+    "polymarket": {
+        "host": "https://clob.polymarket.com",
+        "gamma_host": "https://gamma-api.polymarket.com",
+        "ws_url": "wss://ws-subscriptions-clob.polymarket.com/ws/market",
+        "chain_id": 137,
+        "private_key": "",
+        "funder_address": ""
     },
-    "risk_per_trade": 0.02,
-    "buy_threshold": 0.55,
-    "sell_threshold": 0.40,
-    "commission_rate": 0.0005,
-    "slippage": 0.0003,
-    "volatility_threshold": 0.002,
-    "symbols": [
-        "BTC/USDT",
-        "ETH/USDT",
-        "SOL/USDT",
-        "BNB/USDT",
-        "ADA/USDT",
-        "XRP/USDT",
-        "DOGE/USDT",
-        "1000PEPE/USDT",
-        "1000SHIB/USDT",
-        "LTC/USDT",
-        "AVAX/USDT",
-        "LINK/USDT"
-    ],
-    "max_open_positions": 3,
-    "timeframe": "1h",
-    "model_params": {
-        "n_estimators": 100,
-        "max_depth": 10,
-        "min_samples_leaf": 5,
-        "random_state": 42
+    "binance": {
+        "ws_base": "wss://stream.binance.com:9443/ws",
+        "rest_base": "https://fapi.binance.com",
+        "symbol": "BTCUSDT",
+        "ccxt_symbol": "BTC/USDT"
+    },
+    "trading": {
+        "initial_capital": 100.0,
+        "currency": "USDC",
+        "kelly_fraction": 0.25,
+        "min_edge": 0.03,
+        "min_bet": 1.0,
+        "max_bet": 25.0,
+        "max_open_bets": 3,
+        "prediction_interval_seconds": 300,
+        "cooldown_after_loss_seconds": 600
+    },
+    "model": {
+        "type": "xgboost",
+        "params": {
+            "n_estimators": 500,
+            "max_depth": 6,
+            "learning_rate": 0.05,
+            "subsample": 0.8,
+            "colsample_bytree": 0.8,
+            "min_child_weight": 10,
+            "reg_alpha": 0.1,
+            "reg_lambda": 1.0,
+            "random_state": 42,
+            "eval_metric": "logloss",
+            "early_stopping_rounds": 50
+        },
+        "walk_forward": {
+            "train_days": 14,
+            "test_days": 2,
+            "retrain_interval_hours": 24,
+            "purge_gap_hours": 1
+        },
+        "calibration": "isotonic",
+        "buy_threshold": 0.55,
+        "sell_threshold": 0.45
+    },
+    "features": {
+        "candle_timeframe": "1m",
+        "candle_buffer_size": 500,
+        "orderbook_depth": 20,
+        "trade_buffer_size": 10000,
+        "funding_poll_seconds": 60,
+        "fear_greed_poll_seconds": 900
     },
     "paths": {
         "model": "bot/models/model.pkl",
-        "database": "database/bot.db",
-        "logs": "logs/bot.log"
+        "calibrator": "bot/models/calibrator.pkl",
+        "scaler": "bot/models/scaler.pkl",
+        "database": "database/polymarket_bot.db",
+        "logs": "logs/bot.log",
+        "backtest_results": "logs/backtest_results.json"
     }
 }

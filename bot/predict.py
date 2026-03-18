@@ -1,134 +1,123 @@
 """
-Real-time prediction engine.
+Real-time prediction engine with calibrated probabilities.
 
-Loads the trained Random Forest model and generates BUY/SELL/HOLD signals
-for any given trading pair, with volatility filtering.
+Loads the trained XGBoost model, scaler, and isotonic calibrator
+to generate calibrated UP/DOWN probabilities from live market features.
 """
 
-import joblib
-import pandas as pd
 import json
 import logging
 import os
 from typing import Optional, Dict, Any
 
-# Load config
-with open('config.json', 'r') as f:
+import joblib
+import numpy as np
+import pandas as pd
+
+from features import FEATURE_COLUMNS
+
+logger = logging.getLogger(__name__)
+
+_project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_config_path = os.path.join(_project_root, "config.json")
+with open(_config_path, "r") as f:
     config = json.load(f)
 
-logging.basicConfig(
-    filename=config['paths']['logs'],
-    level=logging.INFO,
-    format='%(asctime)s [%(levelname)s] %(message)s'
-)
+
+def _resolve_path(relative_path: str) -> str:
+    return os.path.join(_project_root, relative_path)
 
 
-def load_model():
+class Predictor:
     """
-    Load the trained ML model from disk.
+    Generates calibrated probability predictions for BTC price direction.
 
-    Returns:
-        Trained sklearn model, or None if file doesn't exist.
+    The prediction pipeline:
+    1. Receive raw features from FeatureEngine
+    2. Scale features using the trained scaler
+    3. Run XGBoost inference → raw probability
+    4. Calibrate via isotonic regression → calibrated probability
+    5. Return signal with confidence and metadata
     """
-    model_path = config['paths']['model']
-    if not os.path.exists(model_path):
-        logging.error("Model file not found. Run 'python bot/train_model.py' first.")
-        return None
-    return joblib.load(model_path)
 
+    def __init__(self) -> None:
+        self.model = None
+        self.scaler = None
+        self.calibrator = None
+        self._loaded = False
 
-def predict(symbol: Optional[str] = None) -> Optional[Dict[str, Any]]:
-    """Backward-compatible alias for predict_symbol."""
-    return predict_symbol(symbol)
+    def load(self) -> bool:
+        """Load model, scaler, and calibrator from disk."""
+        paths = config["paths"]
 
+        for name, key in [("model", "model"), ("scaler", "scaler"), ("calibrator", "calibrator")]:
+            path = _resolve_path(paths[key])
+            if not os.path.exists(path):
+                logger.error(f"{name} not found at {path}. Run train_model.py first.")
+                return False
 
-def predict_symbol(symbol: Optional[str] = None) -> Optional[Dict[str, Any]]:
-    """
-    Generate a trading signal for a specific symbol.
+        self.model = joblib.load(_resolve_path(paths["model"]))
+        self.scaler = joblib.load(_resolve_path(paths["scaler"]))
+        self.calibrator = joblib.load(_resolve_path(paths["calibrator"]))
+        self._loaded = True
+        logger.info("Predictor loaded: model + scaler + calibrator")
+        return True
 
-    Pipeline:
-    1. Load trained model
-    2. Fetch latest 100 candles + compute indicators
-    3. Apply volatility filter (skip flat markets)
-    4. Run ML inference → probability of price going up
-    5. Map probability to signal (BUY/SELL/HOLD) via thresholds
+    def predict(self, features: Dict[str, float]) -> Optional[Dict[str, Any]]:
+        """
+        Generate a calibrated prediction from live features.
 
-    Args:
-        symbol: Trading pair (e.g. 'BTC/USDT'). Defaults to config.
+        Args:
+            features: Dict of feature_name → value from FeatureEngine.
 
-    Returns:
-        Dict with keys: signal, probability, volatility, atr, close, reason.
-        None if data fetching or model loading fails.
-    """
-    model = load_model()
-    if model is None:
-        return None
+        Returns:
+            Dict with:
+                - signal: "UP" or "DOWN"
+                - raw_probability: Uncalibrated model output
+                - calibrated_probability: Isotonic-calibrated probability
+                - confidence: How far from 50% (0 = no confidence, 0.5 = max)
+                - features_used: Number of non-zero features
+        """
+        if not self._loaded:
+            if not self.load():
+                return None
 
-    from utils import fetch_data, add_indicators, FEATURE_COLUMNS
+        # Build feature vector in correct order
+        feature_values = [features.get(col, 0.0) for col in FEATURE_COLUMNS]
+        X = np.array([feature_values])
 
-    # Fetch recent data for the target symbol
-    df = fetch_data(symbol=symbol, limit=100)
-    if df is not None:
-        df = add_indicators(df)
+        # Handle NaN/inf
+        X = np.nan_to_num(X, nan=0.0, posinf=0.0, neginf=0.0)
 
-    if df is None or df.empty:
-        logging.error(f"No data available for prediction on {symbol}.")
-        return None
+        # Scale
+        X_scaled = self.scaler.transform(X)
 
-    # Use the most recent completed candle
-    last_row = df.iloc[-1]
+        # Raw prediction
+        raw_prob = float(self.model.predict_proba(X_scaled)[0][1])
 
-    # Volatility filter: skip flat/dead markets
-    volatility: float = last_row['volatility']
-    vol_threshold: float = config['volatility_threshold']
+        # Calibrate
+        calibrated_prob = float(self.calibrator.predict([raw_prob])[0])
 
-    if volatility < vol_threshold:
-        logging.info(
-            f"[{symbol}] Low volatility ({volatility:.4f} < {vol_threshold}). Skipping."
-        )
-        return {
-            "signal": "HOLD",
-            "probability": 0.0,
-            "volatility": volatility,
-            "close": last_row['close'],
-            "reason": "Low Volatility"
+        # Signal
+        signal = "UP" if calibrated_prob >= 0.5 else "DOWN"
+        confidence = abs(calibrated_prob - 0.5)
+
+        # Count non-zero features (data quality check)
+        non_zero = sum(1 for v in feature_values if v != 0)
+
+        result = {
+            "signal": signal,
+            "raw_probability": round(raw_prob, 4),
+            "calibrated_probability": round(calibrated_prob, 4),
+            "confidence": round(confidence, 4),
+            "features_used": non_zero,
+            "total_features": len(FEATURE_COLUMNS),
         }
 
-    # Prepare feature vector
-    features = FEATURE_COLUMNS
-    X_new = pd.DataFrame([last_row[features]])
+        logger.info(
+            f"Prediction: {signal} (cal={calibrated_prob:.3f}, "
+            f"raw={raw_prob:.3f}, conf={confidence:.3f}, "
+            f"features={non_zero}/{len(FEATURE_COLUMNS)})"
+        )
 
-    # ML inference: probability of next candle going up
-    prob: float = model.predict_proba(X_new)[0][1]
-
-    # Map probability to signal via thresholds
-    buy_threshold: float = config['buy_threshold']
-    sell_threshold: float = config['sell_threshold']
-
-    signal = "HOLD"
-    if prob > buy_threshold:
-        signal = "BUY"
-    elif prob < sell_threshold:
-        signal = "SELL"
-
-    logging.info(
-        f"[{symbol}] Prediction: {signal} "
-        f"(Prob: {prob:.4f}, Close: {last_row['close']:.8f})"
-    )
-
-    return {
-        "signal": signal,
-        "probability": prob,
-        "volatility": volatility,
-        "atr": last_row['atr'],
-        "close": last_row['close'],
-        "reason": "Model Signal"
-    }
-
-
-if __name__ == "__main__":
-    result = predict()
-    if result:
-        print(f"Signal: {result['signal']} | Prob: {result['probability']:.4f}")
-    else:
-        print("Prediction failed. Check logs.")
+        return result

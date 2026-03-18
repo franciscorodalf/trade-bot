@@ -1,170 +1,169 @@
 """
-Trading strategy and risk management engine.
+Betting strategy with edge detection for Polymarket BTC predictions.
 
-Implements ATR-based dynamic stop loss / take profit calculation,
-position management, and trade signal generation.
+Decides WHEN to bet (edge threshold), WHICH SIDE (UP/DOWN),
+and HOW MUCH (via Kelly criterion), with risk management rules.
 """
 
 import json
 import logging
-from typing import Dict, Optional, Tuple, Any
+import os
+import time
+from typing import Dict, Optional, Any, List
 
-# Load config
-with open('config.json', 'r') as f:
+from bet_sizing import size_bet, calculate_edge
+
+logger = logging.getLogger(__name__)
+
+_config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config.json")
+with open(_config_path, "r") as f:
     config = json.load(f)
-
-# ATR multipliers for SL/TP (Risk:Reward = 1.5:2.5)
-SL_ATR_MULTIPLIER: float = 1.5
-TP_ATR_MULTIPLIER: float = 2.5
-
-# Fallback percentages when ATR is unavailable
-FALLBACK_SL_PCT: float = 0.02  # 2%
-FALLBACK_TP_PCT: float = 0.03  # 3%
 
 
 class Strategy:
     """
-    Manages trade lifecycle: entry signals, exit conditions, and position state.
+    Edge-based betting strategy for Polymarket BTC 5-minute markets.
 
-    The strategy uses ATR-based dynamic stops that adapt to market volatility.
-    Wider stops in volatile markets (to avoid premature exits) and tighter
-    stops in calm markets (to protect capital).
+    Decision flow:
+    1. Get model prediction (calibrated probability of BTC going UP)
+    2. Get market price (implied probability)
+    3. Calculate edge = model_prob - market_prob
+    4. If edge > min_threshold → bet using Kelly sizing
+    5. Apply risk limits (max bets, cooldowns, bankroll protection)
     """
 
     def __init__(self) -> None:
-        self.position: str = "NONE"  # NONE or LONG
-        self.entry_price: float = 0.0
-        self.sl_price: float = 0.0
-        self.tp_price: float = 0.0
-        self.risk_per_trade: float = config['risk_per_trade']
-        self.commission_rate: float = config['commission_rate']
-        self.slippage: float = config['slippage']
+        self.min_edge: float = config["trading"]["min_edge"]
+        self.max_open_bets: int = config["trading"]["max_open_bets"]
+        self.cooldown_seconds: float = config["trading"]["cooldown_after_loss_seconds"]
+        self.min_confidence: float = 0.05  # Minimum |prob - 0.5|
 
-    def calculate_sl_tp(
-        self,
-        entry_price: float,
-        signal_type: str,
-        atr: Optional[float]
-    ) -> Tuple[float, float]:
-        """
-        Calculate Stop Loss and Take Profit using ATR multiples.
+        # State
+        self.open_bets: List[Dict[str, Any]] = []
+        self.last_loss_time: float = 0
+        self.consecutive_losses: int = 0
+        self.total_bets: int = 0
+        self.total_wins: int = 0
 
-        Args:
-            entry_price: The price at which the position is entered.
-            signal_type: 'BUY' for long entries.
-            atr: Average True Range value. Falls back to % if None/0.
-
-        Returns:
-            Tuple of (stop_loss_price, take_profit_price).
-            Returns (0.0, 0.0) for non-BUY signals.
-        """
-        # Fallback to percentage-based stops if ATR unavailable
-        if not atr or atr == 0:
-            if signal_type == "BUY":
-                return entry_price * (1 - FALLBACK_SL_PCT), entry_price * (1 + FALLBACK_TP_PCT)
-
-        if signal_type == "BUY":
-            sl = entry_price - (atr * SL_ATR_MULTIPLIER)
-            tp = entry_price + (atr * TP_ATR_MULTIPLIER)
-            return sl, tp
-        return 0.0, 0.0
-
-    def check_exit(self, current_price: float) -> Optional[str]:
-        """
-        Check if current price triggers a stop loss or take profit exit.
-
-        Args:
-            current_price: The current market price.
-
-        Returns:
-            'SL' if stop loss hit, 'TP' if take profit hit, None otherwise.
-        """
-        if self.position == "LONG":
-            if current_price <= self.sl_price:
-                return "SL"
-            if current_price >= self.tp_price:
-                return "TP"
-        return None
-
-    def get_signal(
+    def evaluate(
         self,
         prediction: Dict[str, Any],
-        current_price: float
-    ) -> Dict[str, Any]:
+        market_yes_price: float,
+        bankroll: float,
+    ) -> Optional[Dict[str, Any]]:
         """
-        Generate a trade action based on ML prediction and current state.
-
-        Priority order:
-        1. SL/TP exits (risk management overrides everything)
-        2. Signal-based exit (model flips to SELL while in LONG)
-        3. New entry (model signals BUY while no position)
-        4. HOLD (no action)
+        Evaluate whether to place a bet given current prediction and market.
 
         Args:
-            prediction: Dict with keys 'signal', 'probability', 'atr'.
-            current_price: Current market price.
+            prediction: Output from Predictor.predict() with calibrated_probability.
+            market_yes_price: Current YES (UP) price on Polymarket (0-1).
+            bankroll: Available capital in USDC.
 
         Returns:
-            Dict with 'action' ('BUY'/'SELL'/'HOLD') and optional metadata.
+            Bet decision dict if we should bet, None otherwise.
         """
-        signal_type: str = prediction['signal']
-        atr: float = prediction.get('atr', 0.0)
+        cal_prob = prediction["calibrated_probability"]
+        confidence = prediction["confidence"]
 
-        # Priority 1: Check SL/TP exits
-        exit_reason = self.check_exit(current_price)
-        if exit_reason:
-            return {
-                "action": "SELL",
-                "reason": exit_reason,
-                "price": current_price
-            }
+        # ---- Risk Management Checks ----
 
-        # Priority 2: New entry when flat
-        if self.position == "NONE":
-            if signal_type == "BUY":
-                sl, tp = self.calculate_sl_tp(current_price, "BUY", atr)
-                return {
-                    "action": "BUY",
-                    "reason": "SIGNAL",
-                    "price": current_price,
-                    "sl": sl,
-                    "tp": tp
-                }
+        # 1. Maximum open bets
+        if len(self.open_bets) >= self.max_open_bets:
+            logger.debug("Max open bets reached. Skipping.")
+            return None
 
-        # Priority 3: Signal-based exit
-        elif self.position == "LONG":
-            if signal_type == "SELL":
-                return {
-                    "action": "SELL",
-                    "reason": "SIGNAL_FLIP",
-                    "price": current_price
-                }
+        # 2. Cooldown after losses
+        if self._in_cooldown():
+            remaining = self.cooldown_seconds - (time.time() - self.last_loss_time)
+            logger.debug(f"In cooldown. {remaining:.0f}s remaining.")
+            return None
 
-        return {"action": "HOLD"}
+        # 3. Minimum confidence (model must be somewhat sure)
+        if confidence < self.min_confidence:
+            logger.debug(f"Low confidence ({confidence:.3f}). Skipping.")
+            return None
 
-    def update_position(
-        self,
-        action: str,
-        price: float,
-        sl: float = 0.0,
-        tp: float = 0.0
-    ) -> None:
-        """
-        Update internal position state after trade execution.
+        # 4. Bankroll protection
+        if bankroll < config["trading"]["min_bet"]:
+            logger.warning(f"Bankroll too low (${bankroll:.2f}). Cannot bet.")
+            return None
 
-        Args:
-            action: 'BUY' to open, 'SELL' to close.
-            price: Execution price.
-            sl: Stop loss price (only for BUY).
-            tp: Take profit price (only for BUY).
-        """
-        if action == "BUY":
-            self.position = "LONG"
-            self.entry_price = price
-            self.sl_price = sl
-            self.tp_price = tp
-        elif action == "SELL":
-            self.position = "NONE"
-            self.entry_price = 0.0
-            self.sl_price = 0.0
-            self.tp_price = 0.0
+        # ---- Edge Detection ----
+
+        # Evaluate both sides and pick the one with more edge
+        up_edge = calculate_edge(cal_prob, market_yes_price)
+        down_edge = calculate_edge(1 - cal_prob, 1 - market_yes_price)
+
+        # Pick the side with more edge
+        if up_edge > down_edge and up_edge >= self.min_edge:
+            bet = size_bet(cal_prob, market_yes_price, bankroll, "UP")
+        elif down_edge > up_edge and down_edge >= self.min_edge:
+            bet = size_bet(cal_prob, market_yes_price, bankroll, "DOWN")
+        else:
+            logger.debug(
+                f"No sufficient edge. UP={up_edge:.3f}, DOWN={down_edge:.3f} "
+                f"(min={self.min_edge})"
+            )
+            return None
+
+        if bet is None:
+            return None
+
+        # Enrich with prediction metadata
+        bet["model_probability_up"] = cal_prob
+        bet["market_price_yes"] = market_yes_price
+        bet["raw_probability"] = prediction.get("raw_probability", 0)
+        bet["features_used"] = prediction.get("features_used", 0)
+
+        logger.info(
+            f"BET SIGNAL: {bet['side']} ${bet['bet_amount']:.2f} | "
+            f"Edge={bet['edge']:.1%} | Kelly={bet['kelly_fraction']:.3f} | "
+            f"EV=${bet['expected_value']:.2f}"
+        )
+
+        return bet
+
+    def record_result(self, bet_id: str, won: bool, pnl: float) -> None:
+        """Record the result of a resolved bet."""
+        self.total_bets += 1
+        if won:
+            self.total_wins += 1
+            self.consecutive_losses = 0
+        else:
+            self.consecutive_losses += 1
+            self.last_loss_time = time.time()
+
+        # Remove from open bets
+        self.open_bets = [b for b in self.open_bets if b.get("id") != bet_id]
+
+        logger.info(
+            f"Bet resolved: {'WIN' if won else 'LOSS'} ${pnl:+.2f} | "
+            f"Record: {self.total_wins}/{self.total_bets} "
+            f"({self.win_rate:.1%})"
+        )
+
+    def add_open_bet(self, bet: Dict[str, Any]) -> None:
+        """Track a new open bet."""
+        self.open_bets.append(bet)
+
+    @property
+    def win_rate(self) -> float:
+        """Current win rate."""
+        return self.total_wins / self.total_bets if self.total_bets > 0 else 0
+
+    def _in_cooldown(self) -> bool:
+        """Check if we're in a cooldown period after consecutive losses."""
+        if self.consecutive_losses < 3:
+            return False
+        return (time.time() - self.last_loss_time) < self.cooldown_seconds
+
+    def get_stats(self) -> Dict[str, Any]:
+        """Return current strategy statistics."""
+        return {
+            "total_bets": self.total_bets,
+            "total_wins": self.total_wins,
+            "win_rate": round(self.win_rate, 4),
+            "open_bets": len(self.open_bets),
+            "consecutive_losses": self.consecutive_losses,
+            "in_cooldown": self._in_cooldown(),
+        }
