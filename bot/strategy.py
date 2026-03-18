@@ -7,6 +7,7 @@ and HOW MUCH (via Kelly criterion), with risk management rules.
 
 import json
 import logging
+import os
 import time
 from typing import Dict, Optional, Any, List
 
@@ -14,7 +15,8 @@ from bet_sizing import size_bet, calculate_edge
 
 logger = logging.getLogger(__name__)
 
-with open("config.json", "r") as f:
+_config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config.json")
+with open(_config_path, "r") as f:
     config = json.load(f)
 
 

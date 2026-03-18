@@ -30,8 +30,14 @@ from bet_sizing import calculate_edge
 
 logger = logging.getLogger(__name__)
 
-with open("config.json", "r") as f:
+_project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_config_path = os.path.join(_project_root, "config.json")
+with open(_config_path, "r") as f:
     config = json.load(f)
+
+
+def _resolve_path(relative_path: str) -> str:
+    return os.path.join(_project_root, relative_path)
 
 PREDICTION_INTERVAL = config["trading"]["prediction_interval_seconds"]
 
@@ -59,7 +65,7 @@ class PaperTrader:
         self.polymarket = PolymarketClient(paper_mode=True)
         self.strategy = Strategy()
 
-        self.db_path = config["paths"]["database"]
+        self.db_path = _resolve_path(config["paths"]["database"])
         self.bankroll = config["trading"]["initial_capital"]
         self.peak_bankroll = self.bankroll
 
@@ -405,12 +411,14 @@ class PaperTrader:
 
 
 if __name__ == "__main__":
+    _log_path = _resolve_path(config["paths"]["logs"])
+    os.makedirs(os.path.dirname(_log_path), exist_ok=True)
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
         handlers=[
             logging.StreamHandler(),
-            logging.FileHandler(config["paths"]["logs"]),
+            logging.FileHandler(_log_path),
         ],
     )
 

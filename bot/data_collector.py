@@ -14,13 +14,16 @@ from collections import deque
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Any
 
+import os
+
 import aiohttp
 import websockets
 
 logger = logging.getLogger(__name__)
 
 # Load config
-with open("config.json", "r") as f:
+_config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config.json")
+with open(_config_path, "r") as f:
     config = json.load(f)
 
 WS_BASE = config["binance"]["ws_base"]

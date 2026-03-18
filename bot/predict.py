@@ -18,8 +18,14 @@ from features import FEATURE_COLUMNS
 
 logger = logging.getLogger(__name__)
 
-with open("config.json", "r") as f:
+_project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_config_path = os.path.join(_project_root, "config.json")
+with open(_config_path, "r") as f:
     config = json.load(f)
+
+
+def _resolve_path(relative_path: str) -> str:
+    return os.path.join(_project_root, relative_path)
 
 
 class Predictor:
@@ -44,16 +50,15 @@ class Predictor:
         """Load model, scaler, and calibrator from disk."""
         paths = config["paths"]
 
-        for name, path in [("model", paths["model"]),
-                           ("scaler", paths["scaler"]),
-                           ("calibrator", paths["calibrator"])]:
+        for name, key in [("model", "model"), ("scaler", "scaler"), ("calibrator", "calibrator")]:
+            path = _resolve_path(paths[key])
             if not os.path.exists(path):
                 logger.error(f"{name} not found at {path}. Run train_model.py first.")
                 return False
 
-        self.model = joblib.load(paths["model"])
-        self.scaler = joblib.load(paths["scaler"])
-        self.calibrator = joblib.load(paths["calibrator"])
+        self.model = joblib.load(_resolve_path(paths["model"]))
+        self.scaler = joblib.load(_resolve_path(paths["scaler"]))
+        self.calibrator = joblib.load(_resolve_path(paths["calibrator"]))
         self._loaded = True
         logger.info("Predictor loaded: model + scaler + calibrator")
         return True

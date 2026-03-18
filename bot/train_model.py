@@ -30,8 +30,15 @@ from features import FEATURE_COLUMNS
 logger = logging.getLogger(__name__)
 
 # Load config
-with open("config.json", "r") as f:
+_project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_config_path = os.path.join(_project_root, "config.json")
+with open(_config_path, "r") as f:
     config = json.load(f)
+
+
+def _resolve_path(relative_path: str) -> str:
+    """Resolve a config path relative to project root."""
+    return os.path.join(_project_root, relative_path)
 
 
 def fetch_training_data(days: int = 30) -> Optional[pd.DataFrame]:
@@ -366,13 +373,17 @@ def save_model(result: Dict[str, Any]) -> None:
     """Save trained model, scaler, and calibrator to disk."""
     paths = config["paths"]
 
-    os.makedirs(os.path.dirname(paths["model"]), exist_ok=True)
-    joblib.dump(result["model"], paths["model"])
-    joblib.dump(result["scaler"], paths["scaler"])
-    joblib.dump(result["calibrator"], paths["calibrator"])
+    model_path = _resolve_path(paths["model"])
+    scaler_path = _resolve_path(paths["scaler"])
+    calibrator_path = _resolve_path(paths["calibrator"])
+
+    os.makedirs(os.path.dirname(model_path), exist_ok=True)
+    joblib.dump(result["model"], model_path)
+    joblib.dump(result["scaler"], scaler_path)
+    joblib.dump(result["calibrator"], calibrator_path)
 
     # Save metrics
-    metrics_path = paths.get("backtest_results", "logs/train_metrics.json")
+    metrics_path = _resolve_path(paths.get("backtest_results", "logs/train_metrics.json"))
     os.makedirs(os.path.dirname(metrics_path), exist_ok=True)
     with open(metrics_path, "w") as f:
         json.dump({
@@ -381,9 +392,9 @@ def save_model(result: Dict[str, Any]) -> None:
             "feature_importance": result["feature_importance"],
         }, f, indent=2, default=str)
 
-    print(f"\n  Model saved to: {paths['model']}")
-    print(f"  Scaler saved to: {paths['scaler']}")
-    print(f"  Calibrator saved to: {paths['calibrator']}")
+    print(f"\n  Model saved to: {model_path}")
+    print(f"  Scaler saved to: {scaler_path}")
+    print(f"  Calibrator saved to: {calibrator_path}")
     print(f"  Metrics saved to: {metrics_path}")
 
 

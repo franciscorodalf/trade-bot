@@ -20,8 +20,14 @@ from bet_sizing import size_bet, calculate_edge
 
 logger = logging.getLogger(__name__)
 
-with open("config.json", "r") as f:
+_project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_config_path = os.path.join(_project_root, "config.json")
+with open(_config_path, "r") as f:
     config = json.load(f)
+
+
+def _resolve_path(relative_path: str) -> str:
+    return os.path.join(_project_root, relative_path)
 
 
 class Backtester:
@@ -60,9 +66,9 @@ class Backtester:
         print(f"  Kelly fraction: {self.kelly_fraction}")
         print(f"  Initial capital: ${self.initial_capital}")
 
-        model = joblib.load(config["paths"]["model"])
-        scaler = joblib.load(config["paths"]["scaler"])
-        calibrator = joblib.load(config["paths"]["calibrator"])
+        model = joblib.load(_resolve_path(config["paths"]["model"]))
+        scaler = joblib.load(_resolve_path(config["paths"]["scaler"]))
+        calibrator = joblib.load(_resolve_path(config["paths"]["calibrator"]))
 
         X = df[FEATURE_COLUMNS].values
         y = df["target"].values
@@ -247,7 +253,7 @@ def run_backtest(days: int = 30):
     bt = Backtester(market_price=0.50)
     results = bt.run(df)
 
-    results_path = config["paths"]["backtest_results"]
+    results_path = _resolve_path(config["paths"]["backtest_results"])
     os.makedirs(os.path.dirname(results_path), exist_ok=True)
 
     def convert(obj):
