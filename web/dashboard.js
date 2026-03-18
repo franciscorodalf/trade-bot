@@ -1,381 +1,279 @@
 /* ============================================
-   AI Trading Bot — Dashboard Controller
-   Real-time data polling & UI management
+   Polymarket BTC Prediction Bot — Dashboard
+   Real-time data polling & chart rendering
    ============================================ */
 
-const API_URL = 'http://localhost:8000';
+const API_BASE = window.location.origin;
+const POLL_INTERVAL = 5000; // 5 seconds
 
-// ---- State ----
-let isPaused = false;
-let currentSymbol = null;
-let previousBalance = null;
-let chart = null;
-let candleSeries = null;
+let equityChart = null;
+let calibrationChart = null;
 
-// ---- Clock ----
-function updateClock() {
-    const now = new Date();
-    const h = String(now.getHours()).padStart(2, '0');
-    const m = String(now.getMinutes()).padStart(2, '0');
-    const s = String(now.getSeconds()).padStart(2, '0');
-    document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+// ---- Initialization ----
+
+document.addEventListener("DOMContentLoaded", () => {
+    initCharts();
+    fetchAll();
+    setInterval(fetchAll, POLL_INTERVAL);
+});
+
+function fetchAll() {
+    fetchStatus();
+    fetchBetStats();
+    fetchBalanceHistory();
+    fetchBets();
+    fetchPredictions();
+    fetchModelMetrics();
+    document.getElementById("last-update").textContent = new Date().toLocaleTimeString();
 }
-setInterval(updateClock, 1000);
-updateClock();
+
+// ---- API Calls ----
+
+async function fetchJSON(endpoint) {
+    try {
+        const res = await fetch(`${API_BASE}${endpoint}`);
+        if (!res.ok) return null;
+        return await res.json();
+    } catch {
+        return null;
+    }
+}
+
+async function fetchStatus() {
+    const data = await fetchJSON("/api/status");
+    if (!data) return;
+
+    const badge = document.getElementById("bot-status");
+    badge.textContent = data.status.toUpperCase();
+    badge.className = `badge ${data.status}`;
+
+    document.getElementById("bankroll").textContent = `$${data.bankroll.toFixed(2)}`;
+    const pnl = data.total_pnl || 0;
+    const changeEl = document.getElementById("bankroll-change");
+    changeEl.textContent = `${pnl >= 0 ? "+" : ""}$${pnl.toFixed(2)}`;
+    changeEl.className = `stat-sub ${pnl >= 0 ? "positive" : "negative"}`;
+
+    document.getElementById("total-pnl").textContent = `${pnl >= 0 ? "+" : ""}$${pnl.toFixed(2)}`;
+    document.getElementById("total-pnl").style.color = pnl >= 0 ? "var(--green)" : "var(--red)";
+
+    const returnPct = data.bankroll > 0 ? ((data.bankroll - 100) / 100 * 100) : 0;
+    const returnEl = document.getElementById("return-pct");
+    returnEl.textContent = `${returnPct >= 0 ? "+" : ""}${returnPct.toFixed(1)}%`;
+    returnEl.className = `stat-sub ${returnPct >= 0 ? "positive" : "negative"}`;
+
+    document.getElementById("win-rate").textContent = `${(data.win_rate * 100).toFixed(1)}%`;
+    document.getElementById("total-bets").textContent = data.total_bets;
+    document.getElementById("pending-bets").textContent = `${data.pending_bets} pending`;
+}
+
+async function fetchBetStats() {
+    const data = await fetchJSON("/api/bets/stats");
+    if (!data) return;
+
+    document.getElementById("win-loss").textContent = `${data.wins}W / ${data.losses}L`;
+    document.getElementById("avg-edge").textContent = `${(data.avg_edge * 100).toFixed(1)}%`;
+    document.getElementById("avg-bet").textContent = `Avg bet: $${data.avg_bet_size.toFixed(2)}`;
+}
+
+async function fetchBalanceHistory() {
+    const data = await fetchJSON("/api/balance?limit=200");
+    if (!data || data.length === 0) return;
+    updateEquityChart(data);
+}
+
+async function fetchBets() {
+    const data = await fetchJSON("/api/bets?limit=20");
+    if (!data) return;
+    updateBetsTable(data);
+}
+
+async function fetchPredictions() {
+    const data = await fetchJSON("/api/predictions?limit=1");
+    if (!data || data.length === 0) return;
+    updatePrediction(data[0]);
+}
+
+async function fetchModelMetrics() {
+    const data = await fetchJSON("/api/model/metrics");
+    if (!data || data.error) return;
+    if (data.calibration) updateCalibrationChart(data.calibration);
+}
 
 // ---- Chart Initialization ----
-function initChart() {
-    const container = document.getElementById('chart');
-    if (!container || chart) return;
 
-    chart = LightweightCharts.createChart(container, {
-        width: container.clientWidth,
-        height: container.clientHeight || 460,
-        layout: {
-            background: { type: 'solid', color: '#131b2b' },
-            textColor: '#8b949e',
-            fontFamily: "'Inter', sans-serif",
-            fontSize: 11,
+function initCharts() {
+    const chartDefaults = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
         },
-        grid: {
-            vertLines: { color: 'rgba(255,255,255,0.03)' },
-            horzLines: { color: 'rgba(255,255,255,0.03)' },
-        },
-        crosshair: {
-            mode: LightweightCharts.CrosshairMode.Normal,
-            vertLine: {
-                color: 'rgba(99, 148, 255, 0.3)',
-                width: 1,
-                style: LightweightCharts.LineStyle.Dashed,
-                labelBackgroundColor: '#6394ff',
+        scales: {
+            x: {
+                ticks: { color: "#64748b", font: { size: 10 } },
+                grid: { color: "rgba(42,58,78,0.3)" },
             },
-            horzLine: {
-                color: 'rgba(99, 148, 255, 0.3)',
-                width: 1,
-                style: LightweightCharts.LineStyle.Dashed,
-                labelBackgroundColor: '#6394ff',
+            y: {
+                ticks: { color: "#64748b", font: { size: 10 } },
+                grid: { color: "rgba(42,58,78,0.3)" },
             },
         },
-        timeScale: {
-            timeVisible: true,
-            secondsVisible: false,
-            borderColor: 'rgba(255,255,255,0.06)',
-            rightOffset: 5,
+    };
+
+    // Equity chart
+    const eqCtx = document.getElementById("equity-chart").getContext("2d");
+    equityChart = new Chart(eqCtx, {
+        type: "line",
+        data: {
+            labels: [],
+            datasets: [{
+                data: [],
+                borderColor: "#3b82f6",
+                backgroundColor: "rgba(59,130,246,0.1)",
+                fill: true,
+                tension: 0.3,
+                pointRadius: 0,
+                borderWidth: 2,
+            }],
         },
-        rightPriceScale: {
-            borderColor: 'rgba(255,255,255,0.06)',
+        options: {
+            ...chartDefaults,
+            scales: {
+                ...chartDefaults.scales,
+                y: {
+                    ...chartDefaults.scales.y,
+                    ticks: {
+                        ...chartDefaults.scales.y.ticks,
+                        callback: (v) => `$${v.toFixed(0)}`,
+                    },
+                },
+            },
         },
     });
 
-    candleSeries = chart.addCandlestickSeries({
-        upColor: '#00d68f',
-        downColor: '#ff5c5c',
-        borderDownColor: '#ff5c5c',
-        borderUpColor: '#00d68f',
-        wickDownColor: '#ff5c5c',
-        wickUpColor: '#00d68f',
+    // Calibration chart
+    const calCtx = document.getElementById("calibration-chart").getContext("2d");
+    calibrationChart = new Chart(calCtx, {
+        type: "scatter",
+        data: {
+            datasets: [
+                {
+                    label: "Calibration",
+                    data: [],
+                    backgroundColor: "#a855f7",
+                    pointRadius: 6,
+                },
+                {
+                    label: "Perfect",
+                    data: Array.from({ length: 11 }, (_, i) => ({ x: i / 10, y: i / 10 })),
+                    borderColor: "rgba(255,255,255,0.2)",
+                    borderDash: [5, 5],
+                    pointRadius: 0,
+                    type: "line",
+                    fill: false,
+                },
+            ],
+        },
+        options: {
+            ...chartDefaults,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: {
+                    ...chartDefaults.scales.x,
+                    title: { display: true, text: "Predicted", color: "#64748b" },
+                    min: 0, max: 1,
+                },
+                y: {
+                    ...chartDefaults.scales.y,
+                    title: { display: true, text: "Actual", color: "#64748b" },
+                    min: 0, max: 1,
+                },
+            },
+        },
     });
-
-    // Responsive resize
-    new ResizeObserver(entries => {
-        if (entries.length === 0 || entries[0].target !== container) return;
-        const rect = entries[0].contentRect;
-        chart.applyOptions({ width: rect.width, height: rect.height });
-    }).observe(container);
 }
 
-// ---- Utility Functions ----
-function formatPrice(price) {
-    if (price == null) return '--';
-    if (price < 0.01) return price.toFixed(6);
-    if (price < 1) return price.toFixed(4);
-    if (price < 1000) return price.toFixed(2);
-    return price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+// ---- UI Updates ----
+
+function updateEquityChart(data) {
+    const labels = data.map((d) => {
+        const date = new Date(d.timestamp);
+        return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    });
+    const values = data.map((d) => d.bankroll);
+
+    equityChart.data.labels = labels;
+    equityChart.data.datasets[0].data = values;
+
+    // Color based on performance
+    const last = values[values.length - 1];
+    const first = values[0];
+    const color = last >= first ? "#22c55e" : "#ef4444";
+    const bgColor = last >= first ? "rgba(34,197,94,0.1)" : "rgba(239,68,68,0.1)";
+    equityChart.data.datasets[0].borderColor = color;
+    equityChart.data.datasets[0].backgroundColor = bgColor;
+
+    equityChart.update("none");
 }
 
-function formatPnl(pnl) {
-    if (pnl == null) return '--';
-    const prefix = pnl >= 0 ? '+' : '';
-    if (Math.abs(pnl) < 0.01 && pnl !== 0) return prefix + pnl.toFixed(6);
-    return prefix + pnl.toFixed(2);
+function updateCalibrationChart(cal) {
+    if (!cal.bin_centers) return;
+    const points = cal.bin_centers.map((c, i) => ({ x: c, y: cal.bin_actuals[i] }));
+    calibrationChart.data.datasets[0].data = points;
+    calibrationChart.update("none");
 }
 
-function getSignalClass(signal) {
-    if (!signal) return '';
-    const s = signal.toUpperCase();
-    if (s === 'BUY') return 'signal-buy';
-    if (s === 'SELL') return 'signal-sell';
-    return 'signal-hold';
-}
+function updatePrediction(pred) {
+    const signalEl = document.getElementById("pred-signal");
+    signalEl.textContent = pred.signal;
+    signalEl.className = `pred-value signal ${pred.signal.toLowerCase()}`;
 
-function getConfidenceLevel(prob) {
-    if (prob >= 0.6) return 'high';
-    if (prob >= 0.5) return 'medium';
-    return 'low';
-}
+    document.getElementById("pred-prob").textContent =
+        `${(pred.calibrated_probability * 100).toFixed(1)}%`;
 
-function flashElement(el, className) {
-    el.classList.remove(className);
-    void el.offsetWidth; // trigger reflow
-    el.classList.add(className);
-    setTimeout(() => el.classList.remove(className), 800);
-}
+    const conf = pred.confidence || 0;
+    document.getElementById("confidence-fill").style.width = `${conf * 200}%`;
 
-// ---- Main Data Fetch ----
-async function fetchData() {
-    try {
-        // Parallel fetch for performance
-        const [scannerRes, balanceRes, statsRes, tradesRes, logsRes] = await Promise.all([
-            fetch(`${API_URL}/scanner`).catch(() => null),
-            fetch(`${API_URL}/balance`).catch(() => null),
-            fetch(`${API_URL}/statistics`).catch(() => null),
-            fetch(`${API_URL}/trades`).catch(() => null),
-            fetch(`${API_URL}/logs`).catch(() => null),
-        ]);
+    const edgeUpEl = document.getElementById("pred-edge-up");
+    edgeUpEl.textContent = `${(pred.edge_up * 100).toFixed(1)}%`;
+    edgeUpEl.style.color = pred.edge_up > 0 ? "var(--green)" : "var(--text-muted)";
 
-        // ========== SCANNER ==========
-        if (scannerRes && scannerRes.ok) {
-            const scannerData = await scannerRes.json();
-            renderScanner(scannerData);
-        }
+    const edgeDownEl = document.getElementById("pred-edge-down");
+    edgeDownEl.textContent = `${(pred.edge_down * 100).toFixed(1)}%`;
+    edgeDownEl.style.color = pred.edge_down > 0 ? "var(--green)" : "var(--text-muted)";
 
-        // ========== BALANCE ==========
-        if (balanceRes && balanceRes.ok) {
-            const data = await balanceRes.json();
-            const balanceEl = document.getElementById('balance-display');
-            const newBalance = Number(data.balance);
+    document.getElementById("pred-action").textContent = pred.action_taken;
+    document.getElementById("pred-action").style.color =
+        pred.action_taken === "BET" ? "var(--green)" : "var(--text-muted)";
 
-            balanceEl.textContent = `$${formatPrice(newBalance)}`;
-
-            // Flash on change
-            if (previousBalance !== null && newBalance !== previousBalance) {
-                flashElement(balanceEl, newBalance > previousBalance ? 'flash-green' : 'flash-red');
-            }
-            previousBalance = newBalance;
-
-            document.getElementById('equity-display').textContent = `Equity: $${formatPrice(Number(data.equity))}`;
-        }
-
-        // ========== STATISTICS ==========
-        if (statsRes && statsRes.ok) {
-            const stats = await statsRes.json();
-            const pnlEl = document.getElementById('pnl-display');
-            const pnlValue = stats.pnl || 0;
-
-            pnlEl.textContent = `$${formatPnl(pnlValue)}`;
-            pnlEl.style.color = pnlValue >= 0 ? 'var(--green)' : 'var(--red)';
-
-            document.getElementById('winrate-display').textContent =
-                `Win Rate: ${stats.winrate || 0}% | Trades: ${stats.total_trades || 0}`;
-        }
-
-        // ========== TRADES ==========
-        if (tradesRes && tradesRes.ok) {
-            const trades = await tradesRes.json();
-            renderTrades(trades);
-        }
-
-        // ========== CHART ==========
-        if (currentSymbol) {
-            try {
-                const chartRes = await fetch(`${API_URL}/chart-data?symbol=${encodeURIComponent(currentSymbol)}`);
-                if (chartRes.ok) {
-                    const chartData = await chartRes.json();
-                    if (chartData.length > 0 && candleSeries) {
-                        candleSeries.setData(chartData);
-                    }
-                }
-            } catch (e) { /* silent */ }
-
-            document.getElementById('chart-symbol-label').textContent = currentSymbol;
-        }
-
-        // ========== LOGS ==========
-        if (logsRes && logsRes.ok) {
-            const logsData = await logsRes.json();
-            renderLogs(logsData.logs || []);
-        }
-
-        // Update timestamp
-        const now = new Date();
-        document.getElementById('last-update').textContent =
-            `Last update: ${now.toLocaleTimeString()}`;
-
-    } catch (e) {
-        console.error('Dashboard fetch error:', e);
-        document.getElementById('balance-display').textContent = 'Error';
-        document.getElementById('balance-display').style.color = 'var(--red)';
+    if (pred.btc_price) {
+        document.getElementById("btc-price").textContent =
+            `BTC $${pred.btc_price.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
     }
 }
 
-// ---- Render: Scanner Table ----
-function renderScanner(data) {
-    const tbody = document.querySelector('#scanner-table tbody');
-    if (!data || data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" class="table-empty">No scanner data available</td></tr>';
+function updateBetsTable(bets) {
+    const tbody = document.getElementById("bets-table");
+    if (!bets.length) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty">No bets yet</td></tr>';
         return;
     }
 
-    // Auto-select first symbol
-    if (!currentSymbol) currentSymbol = data[0].symbol;
+    tbody.innerHTML = bets.map((bet) => {
+        const time = new Date(bet.timestamp).toLocaleTimeString();
+        const sideClass = bet.side === "UP" ? "side-up" : "side-down";
+        const resultClass = bet.result === "WIN" ? "result-win" :
+            bet.result === "LOSS" ? "result-loss" : "result-pending";
+        const pnlClass = bet.pnl > 0 ? "pnl-positive" : bet.pnl < 0 ? "pnl-negative" : "";
 
-    // Update badge count
-    document.getElementById('scanner-count').textContent = `${data.length} pairs`;
-
-    // Count open positions (BUY signals can approximate this)
-    const openCount = data.filter(d => d.signal_type === 'BUY').length;
-    document.getElementById('positions-display').textContent = `${Math.min(openCount, 3)} / 3`;
-
-    let html = '';
-    data.forEach(item => {
-        const isActive = currentSymbol === item.symbol;
-        const prob = item.probability || 0;
-        const pct = (prob * 100).toFixed(1);
-        const level = getConfidenceLevel(prob);
-        const signalClass = getSignalClass(item.signal_type);
-
-        html += `
-            <tr class="scanner-row${isActive ? ' active' : ''}"
-                onclick="selectSymbol('${item.symbol}')">
-                <td><span class="symbol-name">${item.symbol}</span></td>
-                <td><span class="signal-badge ${signalClass}">${item.signal_type}</span></td>
-                <td>
-                    <div class="confidence-wrapper">
-                        <div class="confidence-bar">
-                            <div class="confidence-fill ${level}" style="width: ${pct}%"></div>
-                        </div>
-                        <span class="confidence-value">${pct}%</span>
-                    </div>
-                </td>
-                <td class="hide-mobile" style="font-family: var(--font-mono); font-size: 0.82rem;">
-                    $${formatPrice(item.close_price)}
-                </td>
-                <td>
-                    <button class="btn-chart" onclick="event.stopPropagation(); selectSymbol('${item.symbol}')">
-                        View
-                    </button>
-                </td>
-            </tr>
-        `;
-    });
-
-    tbody.innerHTML = html;
-
-    // Update active signal card
-    const selected = data.find(d => d.symbol === currentSymbol);
-    if (selected) {
-        const sigEl = document.getElementById('signal-display');
-        sigEl.textContent = `${selected.signal_type}`;
-        sigEl.style.color = selected.signal_type === 'BUY' ? 'var(--green)' :
-                            selected.signal_type === 'SELL' ? 'var(--red)' : 'var(--yellow)';
-
-        document.getElementById('signal-prob').textContent =
-            `Confidence: ${(selected.probability * 100).toFixed(1)}%`;
-        document.getElementById('signal-reason').textContent =
-            `${selected.symbol} @ $${formatPrice(selected.close_price)}`;
-    }
+        return `<tr>
+            <td>${time}</td>
+            <td class="${sideClass}">${bet.side}</td>
+            <td>$${bet.amount.toFixed(2)}</td>
+            <td>${(bet.edge * 100).toFixed(1)}%</td>
+            <td>$${(bet.btc_price_at_bet || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
+            <td class="${resultClass}">${bet.result}</td>
+            <td class="${pnlClass}">${bet.pnl >= 0 ? "+" : ""}$${bet.pnl.toFixed(2)}</td>
+        </tr>`;
+    }).join("");
 }
-
-// ---- Render: Trades Table ----
-function renderTrades(trades) {
-    const tbody = document.querySelector('#trades-table tbody');
-    if (!trades || trades.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" class="table-empty">No trades recorded yet</td></tr>';
-        return;
-    }
-
-    document.getElementById('trades-count').textContent = `${trades.length} trades`;
-
-    let html = '';
-    trades.forEach(trade => {
-        const time = new Date(trade.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const sideClass = trade.side.toUpperCase() === 'BUY' ? 'side-buy' : 'side-sell';
-        const pnl = trade.pnl;
-        const pnlClass = pnl != null ? (pnl >= 0 ? 'pnl-positive' : 'pnl-negative') : '';
-        const pnlText = pnl != null ? formatPnl(pnl) : '--';
-
-        html += `
-            <tr>
-                <td style="color: var(--text-muted); font-family: var(--font-mono); font-size: 0.78rem;">${time}</td>
-                <td><span class="symbol-name">${trade.symbol}</span></td>
-                <td><span class="${sideClass}">${trade.side}</span></td>
-                <td style="font-family: var(--font-mono); font-size: 0.82rem;">$${formatPrice(trade.price)}</td>
-                <td class="${pnlClass}" style="font-size: 0.82rem;">${pnlText}</td>
-            </tr>
-        `;
-    });
-
-    tbody.innerHTML = html;
-}
-
-// ---- Render: Logs ----
-function renderLogs(logs) {
-    const container = document.getElementById('logs-container');
-    if (!logs || logs.length === 0) {
-        container.innerHTML = '<span class="log-line log-dim">No logs available</span>';
-        return;
-    }
-
-    let html = '';
-    logs.forEach(line => {
-        // Colorize keywords
-        let styledLine = line
-            .replace(/BUY/g, '<span class="log-buy">BUY</span>')
-            .replace(/SELL/g, '<span class="log-sell">SELL</span>')
-            .replace(/ERROR/gi, '<span style="color: var(--red)">ERROR</span>')
-            .replace(/WARNING/gi, '<span style="color: var(--yellow)">WARNING</span>');
-
-        html += `<span class="log-line">${styledLine}</span>`;
-    });
-
-    container.innerHTML = html;
-    container.scrollTop = container.scrollHeight;
-}
-
-// ---- Actions ----
-function selectSymbol(symbol) {
-    currentSymbol = symbol;
-    fetchData();
-}
-
-async function toggleBot() {
-    const action = isPaused ? 'resume' : 'pause';
-    try {
-        const res = await fetch(`${API_URL}/control`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action })
-        });
-        const data = await res.json();
-
-        const indicator = document.getElementById('connection-status');
-        const statusText = document.getElementById('bot-status-text');
-        const btnText = document.getElementById('btn-pause-text');
-        const btnIcon = document.getElementById('pause-icon');
-
-        if (data.status === 'paused') {
-            isPaused = true;
-            indicator.classList.add('paused');
-            statusText.textContent = 'PAUSED';
-            btnText.textContent = 'RESUME';
-            btnIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
-        } else {
-            isPaused = false;
-            indicator.classList.remove('paused');
-            statusText.textContent = 'LIVE';
-            btnText.textContent = 'PAUSE';
-            btnIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>';
-        }
-    } catch (e) {
-        console.error('Error toggling bot:', e);
-    }
-}
-
-// ---- Initialize ----
-document.addEventListener('DOMContentLoaded', () => {
-    initChart();
-    fetchData();
-
-    // Poll every 3 seconds
-    setInterval(fetchData, 3000);
-});

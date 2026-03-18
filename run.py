@@ -1,180 +1,134 @@
 #!/usr/bin/env python3
 """
-Unified launcher for the AI Trading Bot system.
+Unified launcher for the Polymarket BTC Prediction Bot.
 
-Starts all three services (Bot, API, Web) in a single terminal
-using multiprocessing. Press Ctrl+C to gracefully stop all services.
+Starts the prediction bot, API server, and web dashboard
+in a single process using asyncio and subprocesses.
 
 Usage:
     python run.py              # Start all services
-    python run.py --no-bot     # Start API + Web only (for development)
-    python run.py --no-web     # Start Bot + API only
+    python run.py --train      # Train model first, then start
+    python run.py --backtest   # Run backtest only
 """
 
-import subprocess
-import sys
+import argparse
+import asyncio
 import os
 import signal
-import time
-import argparse
-from typing import List, Optional
-
-# ANSI colors for terminal output
-class Colors:
-    BLUE = '\033[94m'
-    GREEN = '\033[92m'
-    YELLOW = '\033[93m'
-    RED = '\033[91m'
-    CYAN = '\033[96m'
-    BOLD = '\033[1m'
-    DIM = '\033[2m'
-    RESET = '\033[0m'
+import subprocess
+import sys
 
 
-BANNER = f"""
-{Colors.CYAN}{Colors.BOLD}
-    ╔═══════════════════════════════════════╗
-    ║     AI Quantitative Trading Bot       ║
-    ║         Command Center                ║
-    ╚═══════════════════════════════════════╝
-{Colors.RESET}"""
-
-processes: List[subprocess.Popen] = []
+def ensure_dirs():
+    """Create required directories."""
+    for d in ["database", "logs", "bot/models"]:
+        os.makedirs(d, exist_ok=True)
 
 
-def log(service: str, message: str, color: str = Colors.DIM) -> None:
-    """Print a formatted log message."""
-    print(f"  {color}[{service}]{Colors.RESET} {message}")
+def run_training():
+    """Run model training pipeline."""
+    print("\n  [1/2] Training XGBoost model...\n")
+    result = subprocess.run(
+        [sys.executable, "bot/train_model.py"],
+        cwd=os.path.dirname(os.path.abspath(__file__)),
+    )
+    if result.returncode != 0:
+        print("  [ERROR] Training failed.")
+        sys.exit(1)
+    print("  [OK] Model trained successfully.\n")
 
 
-def start_service(
-    name: str,
-    command: List[str],
-    color: str,
-    cwd: Optional[str] = None
-) -> Optional[subprocess.Popen]:
-    """Start a service as a subprocess."""
+def run_backtest():
+    """Run backtesting pipeline."""
+    print("\n  Running backtest...\n")
+    subprocess.run(
+        [sys.executable, "bot/backtest.py"],
+        cwd=os.path.dirname(os.path.abspath(__file__)),
+    )
+
+
+async def start_all():
+    """Start bot, API, and web server concurrently."""
+    project_root = os.path.dirname(os.path.abspath(__file__))
+    bot_dir = os.path.join(project_root, "bot")
+    procs = []
+
+    print("\n  Starting Polymarket BTC Prediction Bot")
+    print("  " + "=" * 45)
+
+    # API server
+    api_proc = await asyncio.create_subprocess_exec(
+        sys.executable, "-m", "uvicorn", "api.main:app",
+        "--host", "0.0.0.0", "--port", "8000", "--reload",
+        cwd=project_root,
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE,
+    )
+    procs.append(("API", api_proc))
+    print("  [OK] API server     → http://localhost:8000")
+    print("  [OK] Dashboard      → http://localhost:8000/")
+
+    # Bot (paper trading)
+    bot_proc = await asyncio.create_subprocess_exec(
+        sys.executable, "paper_trading.py",
+        cwd=bot_dir,
+        stdout=None,  # Let bot print to console
+        stderr=None,
+    )
+    procs.append(("Bot", bot_proc))
+    print("  [OK] Prediction bot → started")
+    print("  " + "=" * 45)
+    print("  Press Ctrl+C to stop all services.\n")
+
+    # Wait for any process to exit
     try:
-        proc = subprocess.Popen(
-            command,
-            cwd=cwd or os.path.dirname(os.path.abspath(__file__)),
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
+        done, _ = await asyncio.wait(
+            [asyncio.create_task(p.wait()) for _, p in procs],
+            return_when=asyncio.FIRST_COMPLETED,
         )
-        processes.append(proc)
-        log(name, f"Started (PID: {proc.pid})", color)
-        return proc
-    except Exception as e:
-        log(name, f"Failed to start: {e}", Colors.RED)
-        return None
+    except asyncio.CancelledError:
+        pass
+    finally:
+        for name, proc in procs:
+            if proc.returncode is None:
+                proc.terminate()
+                try:
+                    await asyncio.wait_for(proc.wait(), timeout=5)
+                except asyncio.TimeoutError:
+                    proc.kill()
+        print("\n  All services stopped.")
 
 
-def shutdown(signum=None, frame=None) -> None:
-    """Gracefully terminate all services."""
-    print(f"\n\n  {Colors.YELLOW}Shutting down all services...{Colors.RESET}")
-
-    for proc in processes:
-        try:
-            proc.terminate()
-        except Exception:
-            pass
-
-    # Wait up to 5 seconds for graceful exit
-    deadline = time.time() + 5
-    for proc in processes:
-        remaining = max(0, deadline - time.time())
-        try:
-            proc.wait(timeout=remaining)
-        except subprocess.TimeoutExpired:
-            proc.kill()
-
-    print(f"  {Colors.GREEN}All services stopped.{Colors.RESET}\n")
-    sys.exit(0)
-
-
-def main() -> None:
-    parser = argparse.ArgumentParser(description="AI Trading Bot Launcher")
-    parser.add_argument('--no-bot', action='store_true', help='Skip starting the trading bot')
-    parser.add_argument('--no-web', action='store_true', help='Skip starting the web server')
-    parser.add_argument('--no-api', action='store_true', help='Skip starting the API server')
-    parser.add_argument('--api-port', type=int, default=8000, help='API server port (default: 8000)')
-    parser.add_argument('--web-port', type=int, default=5500, help='Web server port (default: 5500)')
+def main():
+    parser = argparse.ArgumentParser(description="Polymarket BTC Prediction Bot")
+    parser.add_argument("--train", action="store_true", help="Train model before starting")
+    parser.add_argument("--backtest", action="store_true", help="Run backtest only")
     args = parser.parse_args()
 
-    # Register signal handlers for graceful shutdown
-    signal.signal(signal.SIGINT, shutdown)
-    signal.signal(signal.SIGTERM, shutdown)
+    ensure_dirs()
 
-    print(BANNER)
-
-    python = sys.executable
-    project_root = os.path.dirname(os.path.abspath(__file__))
-
-    # Ensure required directories exist
-    for d in ['database', 'logs', 'bot/models']:
-        os.makedirs(os.path.join(project_root, d), exist_ok=True)
-
-    # Check if model exists
-    model_path = os.path.join(project_root, 'bot', 'models', 'model.pkl')
-    if not os.path.exists(model_path):
-        print(f"  {Colors.YELLOW}[!] No trained model found.{Colors.RESET}")
-        print(f"      Run: {Colors.BOLD}python bot/train_model.py{Colors.RESET}\n")
-
-    services_started = 0
-
-    # Start API Server
-    if not args.no_api:
-        start_service(
-            "API",
-            [python, "-m", "uvicorn", "api.main:app",
-             "--host", "0.0.0.0", "--port", str(args.api_port)],
-            Colors.BLUE
-        )
-        services_started += 1
-        time.sleep(1)  # Let API initialize first
-
-    # Start Trading Bot
-    if not args.no_bot:
-        start_service(
-            "BOT",
-            [python, "bot/paper_trading.py"],
-            Colors.GREEN
-        )
-        services_started += 1
-
-    # Start Web Dashboard
-    if not args.no_web:
-        start_service(
-            "WEB",
-            [python, "-m", "http.server", str(args.web_port)],
-            Colors.CYAN,
-            cwd=os.path.join(project_root, "web")
-        )
-        services_started += 1
-
-    if services_started == 0:
-        print(f"  {Colors.RED}No services to start!{Colors.RESET}")
+    if args.backtest:
+        run_backtest()
         return
 
-    # Print status
-    print(f"\n  {Colors.GREEN}{Colors.BOLD}All services running!{Colors.RESET}\n")
+    if args.train:
+        run_training()
 
-    if not args.no_web:
-        print(f"  {Colors.CYAN}Dashboard:{Colors.RESET}  http://localhost:{args.web_port}")
-    if not args.no_api:
-        print(f"  {Colors.BLUE}API Docs:{Colors.RESET}   http://localhost:{args.api_port}/docs")
+    # Check if model exists
+    if not os.path.exists("bot/models/model.pkl"):
+        print("\n  [!] No trained model found.")
+        print("  Run: python run.py --train")
+        print("  Or:  cd bot && python train_model.py\n")
+        sys.exit(1)
 
-    print(f"\n  {Colors.DIM}Press Ctrl+C to stop all services{Colors.RESET}\n")
+    # Handle Ctrl+C gracefully
+    def shutdown(sig, frame):
+        print("\n  Shutting down...")
+        sys.exit(0)
 
-    # Keep main process alive, watching for child exits
-    try:
-        while True:
-            for proc in processes:
-                if proc.poll() is not None:
-                    log("SYSTEM", f"Process {proc.pid} exited unexpectedly", Colors.RED)
-            time.sleep(2)
-    except KeyboardInterrupt:
-        shutdown()
+    signal.signal(signal.SIGINT, shutdown)
+
+    asyncio.run(start_all())
 
 
 if __name__ == "__main__":

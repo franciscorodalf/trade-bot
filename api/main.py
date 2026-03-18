@@ -1,27 +1,35 @@
 """
-FastAPI REST API for the AI Trading Bot.
+FastAPI REST API for the Polymarket BTC Prediction Bot.
 
-Serves real-time trading data, scanner results, portfolio statistics,
+Serves prediction data, bet history, performance metrics,
 and bot control endpoints to the web dashboard.
 """
 
+import json
+import logging
+import os
+import sqlite3
+from contextlib import contextmanager
+from typing import Any, Dict, List, Optional
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-import sqlite3
-import json
-import sys
-import os
-import pandas as pd
-from pydantic import BaseModel
-from typing import List, Optional, Dict, Any
-from contextlib import contextmanager
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
-# ---- App Setup ----
+logger = logging.getLogger(__name__)
+
+# Load config
+config_path = os.path.join(os.path.dirname(__file__), "..", "config.json")
+with open(config_path, "r") as f:
+    config = json.load(f)
+
+DB_PATH = os.path.join(os.path.dirname(__file__), "..", config["paths"]["database"])
 
 app = FastAPI(
-    title="AI Trading Bot API",
-    description="REST API for the quantitative trading bot dashboard",
-    version="1.0.0",
+    title="Polymarket BTC Prediction Bot API",
+    description="Real-time prediction data and bet tracking for BTC 5-min markets",
+    version="2.0.0",
 )
 
 app.add_middleware(
@@ -32,22 +40,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ---- Configuration ----
-
-with open('config.json', 'r') as f:
-    config = json.load(f)
-
-DB_PATH: str = config['paths']['database']
-
-# Ensure bot module is importable
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'bot'))
-
-
-# ---- Database Helper ----
 
 @contextmanager
 def get_db():
-    """Context manager for safe database connections."""
+    """Context manager for database access."""
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     try:
@@ -56,173 +52,189 @@ def get_db():
         conn.close()
 
 
-# ---- Endpoints ----
-
-@app.get("/balance", tags=["Portfolio"])
-def get_balance() -> Dict[str, Any]:
-    """Get the latest portfolio balance and equity."""
-    with get_db() as conn:
-        row = conn.execute(
-            "SELECT * FROM balance_history ORDER BY id DESC LIMIT 1"
-        ).fetchone()
-    if row:
-        return dict(row)
-    return {"balance": 0, "equity": 0}
+def row_to_dict(row) -> Dict[str, Any]:
+    """Convert sqlite3.Row to dict."""
+    return dict(row) if row else {}
 
 
-@app.get("/trades", tags=["Portfolio"])
-def get_trades(limit: int = 50) -> List[Dict[str, Any]]:
-    """Get recent trade history, ordered newest first."""
-    with get_db() as conn:
-        rows = conn.execute(
-            "SELECT * FROM trades ORDER BY id DESC LIMIT ?", (limit,)
-        ).fetchall()
-    return [dict(row) for row in rows]
+# ---- Status ----
+
+@app.get("/api/status")
+def get_status():
+    """Get bot status and current balance."""
+    try:
+        with get_db() as conn:
+            row = conn.execute(
+                "SELECT * FROM balance_history ORDER BY id DESC LIMIT 1"
+            ).fetchone()
+
+            total_bets = conn.execute("SELECT COUNT(*) as c FROM bets").fetchone()
+            pending = conn.execute(
+                "SELECT COUNT(*) as c FROM bets WHERE result='PENDING'"
+            ).fetchone()
+
+        return {
+            "status": "running",
+            "bankroll": row["bankroll"] if row else config["trading"]["initial_capital"],
+            "equity": row["equity"] if row else config["trading"]["initial_capital"],
+            "total_pnl": row["total_pnl"] if row else 0,
+            "win_rate": row["win_rate"] if row else 0,
+            "total_bets": total_bets["c"] if total_bets else 0,
+            "pending_bets": pending["c"] if pending else 0,
+        }
+    except Exception:
+        return {
+            "status": "idle",
+            "bankroll": config["trading"]["initial_capital"],
+            "equity": config["trading"]["initial_capital"],
+            "total_pnl": 0,
+            "win_rate": 0,
+            "total_bets": 0,
+            "pending_bets": 0,
+        }
 
 
-@app.get("/live-signal", tags=["Scanner"])
-def get_live_signal() -> Dict[str, Any]:
-    """Get the most recent ML prediction signal."""
-    with get_db() as conn:
-        row = conn.execute(
-            "SELECT * FROM signals ORDER BY id DESC LIMIT 1"
-        ).fetchone()
-    if row:
-        return dict(row)
-    return {}
+# ---- Balance History ----
 
-
-@app.get("/statistics", tags=["Portfolio"])
-def get_statistics() -> Dict[str, Any]:
-    """
-    Calculate portfolio performance metrics from closed trades.
-
-    Returns:
-        Dict with winrate (%), total_trades count, and cumulative pnl.
-    """
-    with get_db() as conn:
-        trades = conn.execute(
-            "SELECT * FROM trades WHERE status='CLOSED'"
-        ).fetchall()
-
-    if not trades:
-        return {"winrate": 0, "total_trades": 0, "pnl": 0}
-
-    df = pd.DataFrame([dict(t) for t in trades])
-    total_trades: int = len(df)
-    winning_trades: int = len(df[df['pnl'] > 0])
-    winrate: float = (winning_trades / total_trades) * 100 if total_trades > 0 else 0
-    total_pnl: float = df['pnl'].sum()
-
-    return {
-        "winrate": round(winrate, 2),
-        "total_trades": total_trades,
-        "pnl": round(total_pnl, 8)
-    }
-
-
-@app.get("/scanner", tags=["Scanner"])
-def get_scanner() -> List[Dict[str, Any]]:
-    """
-    Get the latest ML signal for each configured symbol.
-
-    Results are sorted by prediction confidence (probability) descending.
-    Only returns symbols that are in the current config.
-    """
-    with get_db() as conn:
-        query = """
-        SELECT * FROM signals
-        WHERE id IN (
-            SELECT MAX(id) FROM signals GROUP BY symbol
-        )
-        ORDER BY probability DESC
-        """
-        rows = conn.execute(query).fetchall()
-
-    valid_symbols = set(config.get('symbols', []))
-    return [dict(row) for row in rows if row['symbol'] in valid_symbols]
-
-
-@app.get("/chart-data", tags=["Charts"])
-def get_chart_data(
-    symbol: Optional[str] = None,
-    limit: int = 100
-) -> List[Dict[str, Any]]:
-    """
-    Fetch OHLCV candlestick data formatted for TradingView Lightweight Charts.
-
-    Args:
-        symbol: Trading pair (e.g. 'BTC/USDT'). Defaults to config.
-        limit: Number of candles to return.
-    """
-    from utils import fetch_data
-
-    df = fetch_data(symbol=symbol, limit=limit)
-    if df is None:
+@app.get("/api/balance")
+def get_balance_history(limit: int = 200):
+    """Get balance history for equity curve chart."""
+    try:
+        with get_db() as conn:
+            rows = conn.execute(
+                "SELECT bankroll, equity, total_pnl, win_rate, total_bets, timestamp "
+                "FROM balance_history ORDER BY id DESC LIMIT ?",
+                (limit,),
+            ).fetchall()
+        return [row_to_dict(r) for r in reversed(rows)]
+    except Exception:
         return []
 
-    return [
-        {
-            "time": int(index.timestamp()),
-            "open": row['open'],
-            "high": row['high'],
-            "low": row['low'],
-            "close": row['close'],
-            "volume": row['volume']
-        }
-        for index, row in df.iterrows()
-    ]
 
+# ---- Bets ----
 
-@app.get("/logs", tags=["System"])
-def get_logs(limit: int = 20) -> Dict[str, List[str]]:
-    """
-    Read the last N lines from the bot's log file.
-
-    Args:
-        limit: Number of log lines to return (default 20).
-    """
-    log_path = config['paths']['logs']
+@app.get("/api/bets")
+def get_bets(limit: int = 50, status: Optional[str] = None):
+    """Get bet history, optionally filtered by status."""
     try:
-        with open(log_path, "r") as f:
-            lines = f.readlines()
-        return {"logs": [line.strip() for line in lines[-limit:]]}
+        with get_db() as conn:
+            if status:
+                rows = conn.execute(
+                    "SELECT * FROM bets WHERE result=? ORDER BY timestamp DESC LIMIT ?",
+                    (status.upper(), limit),
+                ).fetchall()
+            else:
+                rows = conn.execute(
+                    "SELECT * FROM bets ORDER BY timestamp DESC LIMIT ?",
+                    (limit,),
+                ).fetchall()
+        return [row_to_dict(r) for r in rows]
+    except Exception:
+        return []
+
+
+@app.get("/api/bets/stats")
+def get_bet_stats():
+    """Get aggregated bet statistics."""
+    try:
+        with get_db() as conn:
+            total = conn.execute("SELECT COUNT(*) as c FROM bets").fetchone()["c"]
+            wins = conn.execute(
+                "SELECT COUNT(*) as c FROM bets WHERE result='WIN'"
+            ).fetchone()["c"]
+            losses = conn.execute(
+                "SELECT COUNT(*) as c FROM bets WHERE result='LOSS'"
+            ).fetchone()["c"]
+            pending = conn.execute(
+                "SELECT COUNT(*) as c FROM bets WHERE result='PENDING'"
+            ).fetchone()["c"]
+            total_pnl = conn.execute(
+                "SELECT COALESCE(SUM(pnl), 0) as s FROM bets WHERE result != 'PENDING'"
+            ).fetchone()["s"]
+            avg_edge = conn.execute(
+                "SELECT COALESCE(AVG(edge), 0) as a FROM bets"
+            ).fetchone()["a"]
+            avg_bet = conn.execute(
+                "SELECT COALESCE(AVG(amount), 0) as a FROM bets"
+            ).fetchone()["a"]
+
+        return {
+            "total": total,
+            "wins": wins,
+            "losses": losses,
+            "pending": pending,
+            "win_rate": wins / total if total > 0 else 0,
+            "total_pnl": total_pnl,
+            "avg_edge": avg_edge,
+            "avg_bet_size": avg_bet,
+        }
+    except Exception:
+        return {"total": 0, "wins": 0, "losses": 0, "pending": 0,
+                "win_rate": 0, "total_pnl": 0, "avg_edge": 0, "avg_bet_size": 0}
+
+
+# ---- Predictions ----
+
+@app.get("/api/predictions")
+def get_predictions(limit: int = 50):
+    """Get recent prediction history."""
+    try:
+        with get_db() as conn:
+            rows = conn.execute(
+                "SELECT * FROM predictions ORDER BY id DESC LIMIT ?",
+                (limit,),
+            ).fetchall()
+        return [row_to_dict(r) for r in rows]
+    except Exception:
+        return []
+
+
+# ---- Model Metrics ----
+
+@app.get("/api/model/metrics")
+def get_model_metrics():
+    """Get latest model training/backtest metrics."""
+    metrics_path = os.path.join(
+        os.path.dirname(__file__), "..", config["paths"]["backtest_results"]
+    )
+    try:
+        with open(metrics_path, "r") as f:
+            return json.load(f)
     except FileNotFoundError:
-        return {"logs": ["Log file not found. Bot may not have started yet."]}
-    except Exception as e:
-        return {"logs": [f"Error reading logs: {str(e)}"]}
+        return {"error": "No metrics available. Run training or backtest first."}
 
 
-# ---- Control ----
+# ---- Config ----
 
-class ControlRequest(BaseModel):
-    """Request body for bot control actions."""
-    action: str  # 'pause' or 'resume'
-
-
-@app.post("/control", tags=["System"])
-def control_bot(req: ControlRequest) -> Dict[str, str]:
-    """
-    Pause or resume the trading bot.
-
-    The bot checks bot_status.json each cycle to determine
-    whether to continue operating or sleep.
-    """
-    status_file = "bot_status.json"
-
-    if req.action == "pause":
-        with open(status_file, "w") as f:
-            json.dump({"paused": True}, f)
-        return {"status": "paused"}
-    elif req.action == "resume":
-        with open(status_file, "w") as f:
-            json.dump({"paused": False}, f)
-        return {"status": "running"}
-
-    raise HTTPException(status_code=400, detail="Invalid action. Use 'pause' or 'resume'.")
+@app.get("/api/config")
+def get_config():
+    """Get trading configuration (excluding secrets)."""
+    safe_config = {
+        "trading": config["trading"],
+        "model": {
+            "type": config["model"]["type"],
+            "buy_threshold": config["model"]["buy_threshold"],
+            "sell_threshold": config["model"]["sell_threshold"],
+            "calibration": config["model"]["calibration"],
+        },
+        "features": config["features"],
+    }
+    return safe_config
 
 
-# ---- Entry Point ----
+# ---- Static Files (Dashboard) ----
+
+web_path = os.path.join(os.path.dirname(__file__), "..", "web")
+if os.path.exists(web_path):
+    app.mount("/static", StaticFiles(directory=web_path), name="static")
+
+    @app.get("/")
+    def serve_dashboard():
+        index_path = os.path.join(web_path, "index.html")
+        if os.path.exists(index_path):
+            return FileResponse(index_path)
+        raise HTTPException(status_code=404, detail="Dashboard not found")
+
 
 if __name__ == "__main__":
     import uvicorn

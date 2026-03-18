@@ -1,53 +1,24 @@
-# ============================================
-# AI Trading Bot — Docker Compose
-# Run the entire system with: docker compose up
-# ============================================
-
 services:
-  # ---- Trading Bot (Brain) ----
   bot:
     build: .
-    container_name: quantbot-engine
-    command: python bot/paper_trading.py
+    container_name: polymarket-bot
+    command: python run.py
     volumes:
       - ./database:/app/database
       - ./logs:/app/logs
       - ./bot/models:/app/bot/models
-      - ./config.json:/app/config.json:ro
-    env_file:
-      - .env
+    env_file: .env
     restart: unless-stopped
-    depends_on:
-      - api
 
-  # ---- FastAPI Backend ----
   api:
     build: .
-    container_name: quantbot-api
+    container_name: polymarket-api
     command: uvicorn api.main:app --host 0.0.0.0 --port 8000
     ports:
-      - "${API_PORT:-8000}:8000"
+      - "8000:8000"
     volumes:
       - ./database:/app/database
       - ./logs:/app/logs
-      - ./config.json:/app/config.json:ro
-    env_file:
-      - .env
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/balance')"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  # ---- Web Dashboard ----
-  web:
-    image: nginx:alpine
-    container_name: quantbot-dashboard
-    ports:
-      - "${WEB_PORT:-5500}:80"
-    volumes:
-      - ./web:/usr/share/nginx/html:ro
-    restart: unless-stopped
     depends_on:
-      - api
+      - bot
+    restart: unless-stopped

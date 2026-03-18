@@ -1,69 +1,83 @@
 """
-Paper trading engine — the main execution loop.
+Paper trading engine for Polymarket BTC 5-minute predictions.
 
-Continuously scans configured cryptocurrency pairs, generates ML predictions,
-manages a simulated portfolio with position entries/exits, and persists
-all state to SQLite for the dashboard to display.
+Main async loop that orchestrates:
+1. Real-time data collection via Binance WebSocket
+2. Feature computation every 5 minutes
+3. ML prediction with calibrated probabilities
+4. Edge detection against Polymarket prices
+5. Simulated bet placement and tracking
+6. P&L calculation and persistence to SQLite
 """
 
-import time
+import asyncio
 import json
 import logging
 import sqlite3
+import time
 import os
-from datetime import datetime
-from typing import Dict, List, Optional, Tuple, Any
 from contextlib import contextmanager
+from datetime import datetime
+from typing import Dict, List, Optional, Any
+import uuid
 
+from data_collector import DataCollector
+from features import compute_features
+from predict import Predictor
+from polymarket_client import PolymarketClient
 from strategy import Strategy
+from bet_sizing import calculate_edge
 
-# Load config
-with open('config.json', 'r') as f:
+logger = logging.getLogger(__name__)
+
+with open("config.json", "r") as f:
     config = json.load(f)
 
-logging.basicConfig(
-    filename=config['paths']['logs'],
-    level=logging.INFO,
-    format='%(asctime)s [%(levelname)s] %(message)s'
-)
-
-# Constants
-MIN_TRADE_VALUE_USDT: float = 5.0
-SAFETY_MARGIN: float = 0.999
-SCAN_INTERVAL_SECONDS: int = 60
-PAUSE_CHECK_SECONDS: int = 5
-
-# Type alias for portfolio positions
-# (amount, entry_price, stop_loss, take_profit)
-Position = Tuple[float, float, float, float]
+PREDICTION_INTERVAL = config["trading"]["prediction_interval_seconds"]
 
 
 class PaperTrader:
     """
-    Simulated trading engine with real market data.
+    Async paper trading engine for Polymarket BTC predictions.
 
-    Executes a scan → rank → trade cycle every 60 seconds:
-    1. Fetch ML predictions for all configured symbols
-    2. Manage exits on open positions (SL/TP/signal flip)
-    3. Enter new positions on highest-confidence BUY signals
-    4. Update portfolio equity and persist to database
+    Lifecycle:
+    1. Start data collector (WebSocket streams)
+    2. Wait for sufficient data (~60 candles)
+    3. Every 5 minutes:
+       a. Compute features from live data
+       b. Generate calibrated prediction
+       c. Find BTC 5-min market on Polymarket
+       d. Evaluate edge and size bet
+       e. Place simulated bet
+       f. Track and resolve bets
+    4. Persist all state to SQLite for dashboard
     """
 
     def __init__(self) -> None:
+        self.collector = DataCollector()
+        self.predictor = Predictor()
+        self.polymarket = PolymarketClient(paper_mode=True)
         self.strategy = Strategy()
-        self.db_path: str = config['paths']['database']
-        self.running: bool = True
-        self.portfolio: Dict[str, Position] = {}
 
-        # Initialize database schema and starting balance
+        self.db_path = config["paths"]["database"]
+        self.bankroll = config["trading"]["initial_capital"]
+        self.peak_bankroll = self.bankroll
+
+        # Active bets waiting for resolution
+        self.pending_bets: List[Dict[str, Any]] = []
+
+        # Stats
+        self.cycles = 0
+        self.total_pnl = 0.0
+
         self._init_database()
-        logging.info("Paper Trading engine initialized. Mode: Simulation.")
 
-    # ---- Database Operations ----
+    # ---- Database ----
 
     @contextmanager
     def _get_db(self):
         """Context manager for safe database access."""
+        os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
         conn = sqlite3.connect(self.db_path)
         conn.row_factory = sqlite3.Row
         try:
@@ -73,328 +87,335 @@ class PaperTrader:
             conn.close()
 
     def _init_database(self) -> None:
-        """Create tables if they don't exist and seed initial balance."""
+        """Create tables for the Polymarket bot."""
         with self._get_db() as conn:
             c = conn.cursor()
 
-            c.execute('''CREATE TABLE IF NOT EXISTS balance_history
-                         (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                          balance REAL, equity REAL,
-                          timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
+            c.execute("""CREATE TABLE IF NOT EXISTS bets (
+                id TEXT PRIMARY KEY,
+                side TEXT,
+                amount REAL,
+                price REAL,
+                edge REAL,
+                kelly_fraction REAL,
+                predicted_prob REAL,
+                market_price REAL,
+                expected_value REAL,
+                result TEXT DEFAULT 'PENDING',
+                pnl REAL DEFAULT 0,
+                btc_price_at_bet REAL,
+                btc_price_at_resolve REAL,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                resolved_at DATETIME
+            )""")
 
-            c.execute('''CREATE TABLE IF NOT EXISTS trades
-                         (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                          symbol TEXT, side TEXT, price REAL, amount REAL,
-                          cost REAL, fee REAL, pnl REAL, status TEXT,
-                          reason TEXT,
-                          timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
+            c.execute("""CREATE TABLE IF NOT EXISTS balance_history (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                bankroll REAL,
+                equity REAL,
+                total_pnl REAL,
+                win_rate REAL,
+                total_bets INTEGER,
+                open_bets INTEGER,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+            )""")
 
-            c.execute('''CREATE TABLE IF NOT EXISTS signals
-                         (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                          symbol TEXT, signal_type TEXT, probability REAL,
-                          close_price REAL,
-                          timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
+            c.execute("""CREATE TABLE IF NOT EXISTS predictions (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                signal TEXT,
+                raw_probability REAL,
+                calibrated_probability REAL,
+                confidence REAL,
+                features_used INTEGER,
+                btc_price REAL,
+                market_yes_price REAL,
+                edge_up REAL,
+                edge_down REAL,
+                action_taken TEXT,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+            )""")
 
             # Seed balance if first run
             row = c.execute(
                 "SELECT * FROM balance_history ORDER BY id DESC LIMIT 1"
             ).fetchone()
             if not row:
-                capital = config['initial_capital']
                 c.execute(
-                    "INSERT INTO balance_history (balance, equity) VALUES (?, ?)",
-                    (capital, capital)
+                    "INSERT INTO balance_history (bankroll, equity, total_pnl, win_rate, total_bets, open_bets) "
+                    "VALUES (?, ?, 0, 0, 0, 0)",
+                    (self.bankroll, self.bankroll),
                 )
 
-    def _get_balance(self) -> Tuple[float, float]:
-        """Read latest balance and equity from database."""
-        with self._get_db() as conn:
-            row = conn.execute(
-                "SELECT balance, equity FROM balance_history ORDER BY id DESC LIMIT 1"
-            ).fetchone()
-        if row:
-            return row['balance'], row['equity']
-        capital = config['initial_capital']
-        return capital, capital
-
-    def _update_balance(self, balance: float, equity: float) -> None:
-        """Persist new balance snapshot."""
+    def _log_bet(self, bet: Dict[str, Any], btc_price: float) -> None:
+        """Record a new bet in the database."""
         with self._get_db() as conn:
             conn.execute(
-                "INSERT INTO balance_history (balance, equity) VALUES (?, ?)",
-                (balance, equity)
+                """INSERT INTO bets
+                   (id, side, amount, price, edge, kelly_fraction,
+                    predicted_prob, market_price, expected_value, btc_price_at_bet)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                (
+                    bet["id"], bet["side"], bet["bet_amount"],
+                    bet["market_price"], bet["edge"], bet["kelly_fraction"],
+                    bet["predicted_prob"], bet["market_price"],
+                    bet["expected_value"], btc_price,
+                ),
             )
 
-    def _log_trade(
-        self, side: str, price: float, amount: float,
-        pnl: float, reason: str, symbol: str,
-        status: Optional[str] = None
-    ) -> None:
-        """Record a trade execution to the database."""
-        if status is None:
-            status = 'OPEN' if side == 'BUY' else 'CLOSED'
-
+    def _resolve_bet(self, bet_id: str, won: bool, pnl: float, btc_price: float) -> None:
+        """Update bet result in database."""
         with self._get_db() as conn:
             conn.execute(
-                """INSERT INTO trades
-                   (symbol, side, price, amount, cost, fee, pnl, status, reason)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                (symbol, side, price, amount, price * amount, 0, pnl, status, reason)
+                """UPDATE bets SET result=?, pnl=?, btc_price_at_resolve=?,
+                   resolved_at=CURRENT_TIMESTAMP WHERE id=?""",
+                ("WIN" if won else "LOSS", pnl, btc_price, bet_id),
             )
 
-    def _log_signal(
-        self, symbol: str, signal_type: str,
-        probability: float, close_price: float
-    ) -> None:
-        """Record a scanner signal to the database."""
+    def _log_prediction(self, prediction: Dict, market_price: float,
+                        edge_up: float, edge_down: float, action: str,
+                        btc_price: float) -> None:
+        """Record prediction for analysis."""
         with self._get_db() as conn:
             conn.execute(
-                "INSERT INTO signals (symbol, signal_type, probability, close_price) "
-                "VALUES (?, ?, ?, ?)",
-                (symbol, signal_type, probability, close_price)
+                """INSERT INTO predictions
+                   (signal, raw_probability, calibrated_probability, confidence,
+                    features_used, btc_price, market_yes_price, edge_up, edge_down,
+                    action_taken)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                (
+                    prediction["signal"],
+                    prediction["raw_probability"],
+                    prediction["calibrated_probability"],
+                    prediction["confidence"],
+                    prediction["features_used"],
+                    btc_price, market_price, edge_up, edge_down, action,
+                ),
             )
 
-    # ---- Portfolio Management ----
-
-    def _load_portfolio(self) -> None:
-        """Restore open positions from database on startup."""
+    def _update_balance(self) -> None:
+        """Persist current balance snapshot."""
+        stats = self.strategy.get_stats()
         with self._get_db() as conn:
-            rows = conn.execute(
-                "SELECT symbol, amount, price FROM trades WHERE status='OPEN'"
-            ).fetchall()
+            conn.execute(
+                """INSERT INTO balance_history
+                   (bankroll, equity, total_pnl, win_rate, total_bets, open_bets)
+                   VALUES (?, ?, ?, ?, ?, ?)""",
+                (
+                    self.bankroll, self.bankroll, self.total_pnl,
+                    stats["win_rate"], stats["total_bets"], stats["open_bets"],
+                ),
+            )
 
-        for row in rows:
-            sym, amt, price = row['symbol'], row['amount'], row['price']
-            # SL/TP not persisted — use wide defaults until next scan recalculates
-            self.portfolio[sym] = (amt, price, 0, 999999)
-            logging.info(f"Restored position: {sym} ({amt:.6f} units @ {price:.2f})")
+    # ---- Bet Resolution ----
 
-    def _is_paused(self) -> bool:
-        """Check if bot is paused via status file."""
-        try:
-            with open("bot_status.json", "r") as f:
-                return json.load(f).get("paused", False)
-        except (FileNotFoundError, json.JSONDecodeError):
-            return False
-
-    # ---- Trading Logic ----
-
-    def _scan_market(self, symbols: List[str]) -> List[Dict[str, Any]]:
+    def _resolve_pending_bets(self, current_btc_price: float) -> None:
         """
-        Scan all symbols and collect ML predictions.
+        Resolve bets that have passed their 5-minute window.
 
-        Returns list of opportunities with symbol, prediction, and price.
+        A bet wins if:
+        - Side=UP and BTC price went up
+        - Side=DOWN and BTC price went down
         """
-        from predict import predict_symbol
+        now = time.time()
+        still_pending = []
 
-        opportunities: List[Dict[str, Any]] = []
+        for bet in self.pending_bets:
+            elapsed = now - bet["placed_at"]
 
-        for symbol in symbols:
-            prediction = predict_symbol(symbol)
-            if not prediction:
+            # Wait 5 minutes + 10s buffer for price settlement
+            if elapsed < 310:
+                still_pending.append(bet)
                 continue
 
-            current_price = prediction['close']
-            self._log_signal(symbol, prediction['signal'],
-                             prediction['probability'], current_price)
+            # Resolve
+            entry_price = bet["btc_price"]
+            price_went_up = current_btc_price > entry_price
 
-            opportunities.append({
-                "symbol": symbol,
-                "prediction": prediction,
-                "price": current_price
-            })
+            won = (bet["side"] == "UP" and price_went_up) or \
+                  (bet["side"] == "DOWN" and not price_went_up)
 
-        return opportunities
+            # P&L calculation
+            if won:
+                pnl = bet["shares"] * 1.0 - bet["bet_amount"]
+            else:
+                pnl = -bet["bet_amount"]
 
-    def _manage_exits(
-        self, opportunities: List[Dict[str, Any]],
-        current_balance: float
-    ) -> float:
-        """
-        Check all open positions for exit conditions.
+            self.bankroll += bet["bet_amount"] + pnl
+            self.total_pnl += pnl
+            self.peak_bankroll = max(self.peak_bankroll, self.bankroll)
 
-        Returns updated balance after any closed positions.
-        """
-        commission = config['commission_rate']
+            self._resolve_bet(bet["id"], won, pnl, current_btc_price)
+            self.strategy.record_result(bet["id"], won, pnl)
 
-        for symbol in list(self.portfolio.keys()):
-            opp = next((o for o in opportunities if o['symbol'] == symbol), None)
-            if not opp:
-                continue
+            result_str = "WIN" if won else "LOSS"
+            logger.info(
+                f"Bet {bet['id'][:8]} resolved: {result_str} "
+                f"({bet['side']}) PnL: ${pnl:+.2f} | "
+                f"BTC: ${entry_price:.0f} -> ${current_btc_price:.0f} | "
+                f"Bankroll: ${self.bankroll:.2f}"
+            )
 
-            current_price = opp['price']
-            prediction = opp['prediction']
-            amount, entry_price, sl_price, tp_price = self.portfolio[symbol]
-
-            # Determine exit reason
-            exit_reason: Optional[str] = None
-            if sl_price > 0 and current_price <= sl_price:
-                exit_reason = "SL"
-            elif tp_price < 999999 and current_price >= tp_price:
-                exit_reason = "TP"
-            elif prediction['signal'] == "SELL":
-                exit_reason = "SIGNAL_FLIP"
-
-            if exit_reason:
-                revenue = amount * current_price * (1 - commission)
-                pnl = revenue - (amount * entry_price)
-                current_balance += revenue
-                del self.portfolio[symbol]
-
-                self._log_trade("SELL", current_price, 0, pnl, exit_reason, symbol)
-                logging.info(f"SELL {symbol} ({exit_reason}). PnL: ${pnl:.4f}")
-
-        return current_balance
-
-    def _manage_entries(
-        self, buy_signals: List[Dict[str, Any]],
-        current_balance: float, max_positions: int
-    ) -> float:
-        """
-        Enter new positions from ranked BUY signals.
-
-        Returns updated balance after any new entries.
-        """
-        open_slots = max_positions - len(self.portfolio)
-        commission = config['commission_rate']
-
-        for opp in buy_signals:
-            if open_slots <= 0:
-                break
-
-            symbol = opp['symbol']
-            if symbol in self.portfolio:
-                continue
-
-            prediction = opp['prediction']
-            current_price = opp['price']
-
-            # Calculate position size
-            position_size = config['initial_capital'] / max_positions
-            if position_size > current_balance:
-                position_size = current_balance * 0.98
-
-            if position_size < MIN_TRADE_VALUE_USDT:
-                continue
-
-            amount = position_size / current_price
-            cost = amount * current_price
-            fee = cost * commission
-
-            # Adjust if insufficient balance
-            if (cost + fee) > current_balance:
-                amount = current_balance / (current_price * (1 + commission))
-                amount *= SAFETY_MARGIN
-                cost = amount * current_price
-                fee = cost * commission
-
-            if amount > 0 and cost > MIN_TRADE_VALUE_USDT:
-                current_balance -= (cost + fee)
-                sl, tp = self.strategy.calculate_sl_tp(
-                    current_price, "BUY", prediction.get('atr', 0)
-                )
-
-                self.portfolio[symbol] = (amount, current_price, sl, tp)
-                open_slots -= 1
-
-                self._log_trade("BUY", current_price, amount, 0, "SIGNAL", symbol)
-                logging.info(
-                    f"BUY {symbol} @ ${current_price:.4f} "
-                    f"(Conf: {prediction['probability']:.1%})"
-                )
-
-        return current_balance
-
-    def _calculate_equity(
-        self, balance: float,
-        opportunities: List[Dict[str, Any]]
-    ) -> float:
-        """Calculate total equity = balance + unrealized position value."""
-        equity_positions: float = 0.0
-
-        for sym, (amt, entry_price, _, _) in self.portfolio.items():
-            opp = next((o for o in opportunities if o['symbol'] == sym), None)
-            mark_price = opp['price'] if opp else entry_price
-            equity_positions += amt * mark_price
-
-        return balance + equity_positions
+        self.pending_bets = still_pending
 
     # ---- Main Loop ----
 
-    def run(self) -> None:
-        """
-        Main execution loop.
+    async def run(self) -> None:
+        """Main async execution loop."""
+        print("\n" + "=" * 60)
+        print("  Polymarket BTC Prediction Bot — Paper Trading")
+        print("=" * 60)
+        print(f"  Capital: ${self.bankroll:.2f} USDC")
+        print(f"  Kelly fraction: {config['trading']['kelly_fraction']}")
+        print(f"  Min edge: {config['trading']['min_edge']:.0%}")
+        print(f"  Prediction interval: {PREDICTION_INTERVAL}s")
+        print("=" * 60 + "\n")
 
-        Runs indefinitely in 60-second cycles:
-        Scan → Rank → Exit management → Entry management → Update equity
-        """
-        logging.info("="*50)
-        logging.info("Bot started — Multi-Symbol Paper Trading Mode")
-        logging.info(f"Symbols: {config.get('symbols', [])}")
-        logging.info(f"Max positions: {config.get('max_open_positions', 3)}")
-        logging.info("="*50)
+        # Load ML model
+        if not self.predictor.load():
+            print("  [ERROR] Model not found. Run: python bot/train_model.py")
+            return
 
-        balance, equity = self._get_balance()
+        # Start data collection
+        await self.collector.start()
+        await self.polymarket.initialize()
 
-        # Restore any open positions from previous session
+        # Wait for data to be ready
+        print("  Waiting for market data (need ~60 candles)...")
+        while not self.collector.state.is_ready:
+            await asyncio.sleep(5)
+            candles = len(self.collector.state.candles)
+            trades = len(self.collector.state.trades)
+            print(f"  Collecting... Candles: {candles}/60 | Trades: {trades}", end="\r")
+
+        print("\n  Data ready. Starting prediction loop.\n")
+
         try:
-            self._load_portfolio()
-        except Exception as e:
-            logging.error(f"Failed to load portfolio: {e}")
+            while True:
+                await self._cycle()
+                await asyncio.sleep(PREDICTION_INTERVAL)
+        except KeyboardInterrupt:
+            print("\n\n  Bot stopped by user.")
+        finally:
+            await self.collector.stop()
+            self._print_summary()
 
-        while self.running:
-            # Check pause state
-            if self._is_paused():
-                time.sleep(PAUSE_CHECK_SECONDS)
-                continue
+    async def _cycle(self) -> None:
+        """Single prediction-bet cycle."""
+        self.cycles += 1
+        state = self.collector.get_state()
 
-            try:
-                symbols: List[str] = config.get('symbols', [])
-                max_pos: int = config.get('max_open_positions', 3)
+        candles = list(state.candles)
+        if not candles:
+            return
+        btc_price = candles[-1].close
 
-                # Phase 1: SCAN
-                logging.info(f"Scanning {len(symbols)} pairs...")
-                opportunities = self._scan_market(symbols)
+        # Resolve any pending bets
+        self._resolve_pending_bets(btc_price)
 
-                # Phase 2: RANK
-                buy_signals = [
-                    o for o in opportunities
-                    if o['prediction']['signal'] == "BUY"
-                ]
-                buy_signals.sort(
-                    key=lambda x: x['prediction']['probability'],
-                    reverse=True
-                )
-                logging.info(f"Found {len(buy_signals)} BUY opportunities")
+        # Compute features
+        features = compute_features(state)
+        if features is None:
+            logger.warning("Feature computation failed. Skipping cycle.")
+            return
 
-                # Phase 3: EXIT management
-                balance = self._manage_exits(opportunities, balance)
+        # Generate prediction
+        prediction = self.predictor.predict(features)
+        if prediction is None:
+            logger.warning("Prediction failed. Skipping cycle.")
+            return
 
-                # Phase 4: ENTRY management
-                balance = self._manage_entries(buy_signals, balance, max_pos)
+        # Get Polymarket market price
+        market_yes_price = await self._get_market_price()
 
-                # Phase 5: UPDATE equity
-                equity = self._calculate_equity(balance, opportunities)
-                self._update_balance(balance, equity)
+        # Calculate edges
+        edge_up = calculate_edge(prediction["calibrated_probability"], market_yes_price)
+        edge_down = calculate_edge(1 - prediction["calibrated_probability"], 1 - market_yes_price)
 
-                logging.info(
-                    f"Cycle complete. Balance: ${balance:.2f} | "
-                    f"Equity: ${equity:.2f} | "
-                    f"Positions: {len(self.portfolio)}/{max_pos}"
-                )
+        # Strategy evaluation
+        bet_decision = self.strategy.evaluate(prediction, market_yes_price, self.bankroll)
 
-                time.sleep(SCAN_INTERVAL_SECONDS)
+        action = "BET" if bet_decision else "SKIP"
+        self._log_prediction(
+            prediction, market_yes_price, edge_up, edge_down, action, btc_price
+        )
 
-            except KeyboardInterrupt:
-                logging.info("Bot stopped by user.")
-                self.running = False
-            except Exception as e:
-                logging.error(f"Error in main loop: {e}", exc_info=True)
-                time.sleep(10)
+        if bet_decision:
+            bet_id = str(uuid.uuid4())[:12]
+            bet_decision["id"] = bet_id
+            bet_decision["btc_price"] = btc_price
+            bet_decision["placed_at"] = time.time()
+            bet_decision["shares"] = bet_decision["bet_amount"] / bet_decision["market_price"]
+
+            self.bankroll -= bet_decision["bet_amount"]
+
+            self.pending_bets.append(bet_decision)
+            self.strategy.add_open_bet(bet_decision)
+            self._log_bet(bet_decision, btc_price)
+
+            print(
+                f"  [{datetime.now().strftime('%H:%M:%S')}] "
+                f"BET {bet_decision['side']} ${bet_decision['bet_amount']:.2f} | "
+                f"Edge: {bet_decision['edge']:.1%} | "
+                f"BTC: ${btc_price:,.0f} | "
+                f"Bankroll: ${self.bankroll:.2f}"
+            )
+        else:
+            print(
+                f"  [{datetime.now().strftime('%H:%M:%S')}] "
+                f"SKIP | {prediction['signal']} ({prediction['calibrated_probability']:.1%}) | "
+                f"Edge UP={edge_up:+.1%} DOWN={edge_down:+.1%} | "
+                f"BTC: ${btc_price:,.0f} | "
+                f"Bankroll: ${self.bankroll:.2f}"
+            )
+
+        self._update_balance()
+
+    async def _get_market_price(self) -> float:
+        """Get current Polymarket YES price for BTC 5-min UP market."""
+        if self.polymarket.paper_mode:
+            return 0.50
+
+        markets = await self.polymarket.find_btc_5min_markets()
+        if markets:
+            market = markets[0]
+            price = await self.polymarket.get_market_price(market["yes_token_id"])
+            if price is not None:
+                return price
+
+        return 0.50
+
+    def _print_summary(self) -> None:
+        """Print final trading session summary."""
+        stats = self.strategy.get_stats()
+        drawdown = (self.peak_bankroll - self.bankroll) / self.peak_bankroll if self.peak_bankroll > 0 else 0
+
+        print("\n" + "=" * 60)
+        print("  SESSION SUMMARY")
+        print("=" * 60)
+        print(f"  Cycles:          {self.cycles}")
+        print(f"  Total bets:      {stats['total_bets']}")
+        print(f"  Wins:            {stats['total_wins']}")
+        print(f"  Win rate:        {stats['win_rate']:.1%}")
+        print(f"  Total P&L:       ${self.total_pnl:+.2f}")
+        print(f"  Final bankroll:  ${self.bankroll:.2f}")
+        print(f"  Peak bankroll:   ${self.peak_bankroll:.2f}")
+        print(f"  Max drawdown:    {drawdown:.1%}")
+        print(f"  Pending bets:    {len(self.pending_bets)}")
+        print("=" * 60 + "\n")
 
 
 if __name__ == "__main__":
-    print("\n  Starting AI Paper Trading Bot...")
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[
+            logging.StreamHandler(),
+            logging.FileHandler(config["paths"]["logs"]),
+        ],
+    )
+
+    print("\n  Starting Polymarket BTC Prediction Bot...")
     print("  Press Ctrl+C to stop.\n")
+
     bot = PaperTrader()
-    bot.run()
+    asyncio.run(bot.run())
